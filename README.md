@@ -1,6 +1,6 @@
 # MULTI AUTH SYSTEM
 
-Foobar is a Python library for dealing with word pluralization.
+User has different dashboard from a single login form.
 
 ## Installation
 Use composer
