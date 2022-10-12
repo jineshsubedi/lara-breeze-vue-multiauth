@@ -47,9 +47,6 @@ class Imagetool
                 }
             }
 
-
-
-
 			$path = '';
 
 			$directories = explode('/', dirname(str_replace('../', '', $new_image)));

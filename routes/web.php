@@ -27,3 +27,11 @@ Route::get('/', function () {
 });
 
 require __DIR__.'/auth.php';
+
+Route::prefix('file-manager')->controller(FilemanagerController::class)->group(function () {
+    Route::get('/directory', 'getFolderDirectory')->name('filemanager.index');
+    Route::post('/upload-file', 'storeFile')->name('filemanager.upload_file');
+    Route::post('/upload-folder', 'storeFolder')->name('filemanager.upload_folder');
+    Route::post('/delete-file', 'deleteFile')->name('filemanager.delete_file');
+    Route::post('/delete-folder', 'deleteFolder')->name('filemanager.delete_folder');
+});

@@ -22,6 +22,7 @@ class RouteServiceProvider extends ServiceProvider
     public const STAFF_HOME = '/staffs/dashboard';
     public const SUPERVISOR_HOME = '/supervisor/dashboard';
 
+    protected $namespace = 'App\\Http\\Controllers';
     protected $adminnamespace = 'App\\Http\\Controllers\\Admin';
     protected $staffnamespace = 'App\\Http\\Controllers\\Staff';
     protected $supervisornamespace = 'App\\Http\\Controllers\\Supervisor';
@@ -41,6 +42,7 @@ class RouteServiceProvider extends ServiceProvider
                 ->group(base_path('routes/api.php'));
 
             Route::middleware('web')
+                ->namespace($this->namespace)
                 ->group(base_path('routes/web.php'));
 
             Route::middleware(['web', 'auth', 'isAdmin'])
