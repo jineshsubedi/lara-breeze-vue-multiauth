@@ -1,5 +1,6 @@
 <?php
 
+use App\Enums\StaffType;
 use Illuminate\Foundation\Application;
 use Illuminate\Routing\RouteGroup;
 use Illuminate\Support\Facades\Route;

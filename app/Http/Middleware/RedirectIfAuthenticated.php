@@ -2,6 +2,7 @@
 
 namespace App\Http\Middleware;
 
+use App\Enums\StaffType;
 use App\Providers\RouteServiceProvider;
 use Closure;
 use Illuminate\Http\Request;
@@ -20,15 +21,16 @@ class RedirectIfAuthenticated
     public function handle(Request $request, Closure $next, ...$guards)
     {
         $guards = empty($guards) ? [null] : $guards;
-
         foreach ($guards as $guard) {
             if (Auth::guard($guard)->check()) {
-                if(Auth::user()->staff_type == 1)
+                if(Auth::user()->staff_type == StaffType::ADMIN->value)
                 {
                     return redirect(RouteServiceProvider::ADMIN_HOME);
-                }elseif (Auth::user()->staff_type == 2) {
+                }elseif (Auth::user()->staff_type == StaffType::STAFF->value) 
+                {
                     return redirect(RouteServiceProvider::STAFF_HOME);
-                }elseif (Auth::user()->staff_type == 3) {
+                }elseif (Auth::user()->staff_type == StaffType::SUPERVISOR->value) 
+                {
                     return redirect(RouteServiceProvider::SUPERVISOR_HOME);
                 }else{
                     return redirect(RouteServiceProvider::STAFF_HOME);

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Auth;
 
+use App\Enums\StaffType;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Auth\LoginRequest;
 use App\Providers\RouteServiceProvider;
@@ -36,15 +37,15 @@ class AuthenticatedSessionController extends Controller
         $request->authenticate();
 
         $request->session()->regenerate();
-        if(request()->user()->staff_type == 2)
+        if(request()->user()->staff_type == StaffType::STAFF->value)
         {
             return redirect()->intended(RouteServiceProvider::STAFF_HOME);
         }
-        if(request()->user()->staff_type == 1)
+        if(request()->user()->staff_type == StaffType::ADMIN->value)
         {
             return redirect()->intended(RouteServiceProvider::ADMIN_HOME);
         }
-        if(request()->user()->staff_type == 3)
+        if(request()->user()->staff_type == StaffType::SUPERVISOR->value)
         {
             return redirect()->intended(RouteServiceProvider::SUPERVISOR_HOME);
         }
@@ -64,6 +65,6 @@ class AuthenticatedSessionController extends Controller
 
         $request->session()->regenerateToken();
 
-        return redirect('/');
+        return redirect('/login');
     }
 }

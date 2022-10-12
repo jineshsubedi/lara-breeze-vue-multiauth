@@ -4,6 +4,7 @@ namespace App\Http\Middleware;
 
 use Closure;
 use Inertia\Inertia;
+use App\Enums\StaffType;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
@@ -26,7 +27,7 @@ class IsSupervisor
                 'status' => session('status'),
             ]);
         }else{
-            if(Auth::user()->staff_type == 3)
+            if(Auth::user()->staff_type == StaffType::SUPERVISOR->value)
             {
                 return $next($request);
             }else{

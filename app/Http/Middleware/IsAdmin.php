@@ -4,6 +4,7 @@ namespace App\Http\Middleware;
 
 use Closure;
 use Inertia\Inertia;
+use App\Enums\StaffType;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
@@ -26,7 +27,7 @@ class IsAdmin
                 'status' => session('status'),
             ]);
         }else{
-            if(Auth::user()->staff_type == 1)
+            if(Auth::user()->staff_type == StaffType::ADMIN->value)
             {
                 return $next($request);
             }else{
