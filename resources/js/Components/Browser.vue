@@ -43,7 +43,6 @@ export default {
             const response = await axios.get(route("filemanager.index"), {
                 params: param,
             });
-            console.log(response);
             this.files = response.data.data.files;
             this.folders = response.data.data.folders;
             this.directory = response.data.data.directory;
@@ -77,7 +76,6 @@ export default {
             this.showUploadModal = !this.showUploadModal;
         },
         handleImages(files) {
-            console.log(files);
             this.upload_files = files;
         },
         async submitFileUploader() {
@@ -151,17 +149,14 @@ export default {
                     await axios
                         .post(route("filemanager.delete_folder"), formData)
                         .then(function (response) {
-                            console.log(response);
                             _this.backDirectory();
                             alert("Directory Deleted Successfully!");
                         })
                         .catch(function (error) {
-                            console.log(error);
                             alert(error);
                         });
                 }
             } catch (ex) {
-                console.log(ex);
                 alert("something is wrong");
             }
         },
@@ -179,7 +174,6 @@ export default {
                         alert(err);
                     });
             } catch (ex) {
-                console.log(ex);
                 alert(ex);
             }
         },

@@ -26,5 +26,6 @@
         <script src="{{asset('theme/plugins/bootstrap/js/bootstrap.bundle.min.js')}}"></script>
         <!-- AdminLTE App -->
         <script src="{{asset('theme/dist/js/adminlte.min.js')}}"></script>
+        <!-- AdminLTE for demo purposes -->
     </body>
 </html>

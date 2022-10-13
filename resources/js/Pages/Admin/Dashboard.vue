@@ -9,8 +9,15 @@ import { Head } from '@inertiajs/inertia-vue3';
     <AdminLayout>
         <template #header>
             <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-                Admin Dashboard
+                Dashboard
             </h2>
+        </template>
+        <template #breadcrum>
+            <ol class="breadcrumb float-sm-right">
+                <li class="breadcrumb-item">
+                    <Link :href="route('admin.dashboard')"> Home </Link>
+                </li>
+            </ol>
         </template>
 
         <div class="py-12">

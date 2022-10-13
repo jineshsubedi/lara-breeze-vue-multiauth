@@ -152,7 +152,7 @@ class SettingController extends Controller
                 }
             }
         }
-        return redirect()->route('setting.index')->with('success', 'Setting Updated Successfully');
+        return redirect()->route('admin.setting.index')->with('success', 'Setting Updated Successfully');
     }
 
     /**

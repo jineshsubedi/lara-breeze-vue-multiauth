@@ -81,14 +81,14 @@ function openModel(path) {
         <template #breadcrum>
             <ol class="breadcrumb float-sm-right">
                 <li class="breadcrumb-item">
-                    <Link :href="route('dashboard')"> Home </Link>
+                    <Link :href="route('admin.dashboard')"> Home </Link>
                 </li>
                 <li class="breadcrumb-item">
-                    <Link :href="route('setting.index')"> Setting </Link>
+                    <Link :href="route('admin.setting.index')"> Setting </Link>
                 </li>
             </ol>
         </template>
-        <div class="">
+        <div class="container">
             <div class="row">
                 <div class="col-md-12">
                     <div class="card">
@@ -140,7 +140,7 @@ function openModel(path) {
                             class="form-horizontal"
                             @submit.prevent="
                                 form.put(
-                                    route('setting.update', setting.id)
+                                    route('admin.setting.update', setting.id)
                                 )
                             "
                         >
