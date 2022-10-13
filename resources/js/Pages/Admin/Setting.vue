@@ -102,7 +102,7 @@ function openModel(path) {
                                     <a
                                         class="nav-link active"
                                         id="custom-tabs-four-home-tab"
-                                        data-toggle="pill"
+                                        data-bs-toggle="pill"
                                         href="#custom-tabs-four-home"
                                         role="tab"
                                         aria-controls="custom-tabs-four-home"
@@ -114,7 +114,7 @@ function openModel(path) {
                                     <a
                                         class="nav-link"
                                         id="custom-tabs-four-profile-tab"
-                                        data-toggle="pill"
+                                        data-bs-toggle="pill"
                                         href="#custom-tabs-four-profile"
                                         role="tab"
                                         aria-controls="custom-tabs-four-profile"
@@ -126,7 +126,7 @@ function openModel(path) {
                                     <a
                                         class="nav-link"
                                         id="custom-tabs-four-messages-tab"
-                                        data-toggle="pill"
+                                        data-bs-toggle="pill"
                                         href="#custom-tabs-four-messages"
                                         role="tab"
                                         aria-controls="custom-tabs-four-messages"
@@ -650,7 +650,7 @@ function openModel(path) {
                                                             required
                                                         />
                                                     </td>
-                                                    <td><button type="button" class="btn bg-red" @click="removeSocial(index)"><i class="fa fa-trash"></i></button></td>
+                                                    <td><button type="button" class="btn btn-outline-danger" @click="removeSocial(index)"><i class="bi bi-trash-fill"></i></button></td>
                                                 </tr>
                                             </tbody>
                                             <tfoot>

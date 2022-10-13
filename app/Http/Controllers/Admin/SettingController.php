@@ -2,12 +2,14 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Http\Requests\Admin\SettingRequest;
 use App\Http\Controllers\Controller;
 use App\Models\SettingSocial;
 use Illuminate\Http\Request;
 use App\Models\SettingEmail;
 use App\Models\Setting;
 use Inertia\Inertia;
+
 
 class SettingController extends Controller
 {
@@ -74,36 +76,8 @@ class SettingController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Setting $setting)
+    public function update(SettingRequest $request, Setting $setting)
     {
-        $this->validate($request, [
-            'name' => 'required|string',
-            'email' => 'required|email',
-            'phone' => 'sometimes|nullable|string',
-            'logo' => 'sometimes|nullable|string',
-            'icon' => 'sometimes|nullable|string',
-            'address' => 'sometimes|nullable|string',
-            'item_perpage' => 'sometimes|nullable|integer',
-            'description_limit' => 'sometimes|nullable|integer',
-            'latitude' => 'sometimes|nullable|string',
-            'longitude' => 'sometimes|nullable|string',
-            'meta_title' => 'sometimes|nullable|string',
-            'meta_keyword' => 'sometimes|nullable|string',
-            'meta_description' => 'sometimes|nullable|string',
-            'google_analytics' => 'sometimes|nullable|string',
-
-            'protocal' => 'sometimes|nullable|string',
-            'parameter' => 'sometimes|nullable|string',
-            'host_name' => 'sometimes|nullable|string',
-            'username' => 'sometimes|nullable|string',
-            'password' => 'sometimes|nullable|string',
-            'smtp_port' => 'sometimes|nullable|string',
-            'encryption' => 'sometimes|nullable|string',
-
-            'socials.*.name' => 'sometimes|nullable|string',
-            'socials.*.icon' => 'sometimes|nullable|string',
-            'socials.*.url' => 'sometimes|nullable|string',
-        ]);
         $detail = [
             'name' => $request->name,
             'email' => $request->email,
