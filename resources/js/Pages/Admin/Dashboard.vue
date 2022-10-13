@@ -13,8 +13,8 @@ import { Head } from '@inertiajs/inertia-vue3';
             </h2>
         </template>
         <template #breadcrum>
-            <ol class="breadcrumb float-sm-right">
-                <li class="breadcrumb-item">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item active">
                     <Link :href="route('admin.dashboard')"> Home </Link>
                 </li>
             </ol>

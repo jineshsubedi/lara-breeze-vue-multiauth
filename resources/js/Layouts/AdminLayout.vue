@@ -6,48 +6,35 @@ import AdminSidebar from "@/Layouts/Sidebar/AdminSidebar.vue"
 
 <template>
     <div class="">
-        <body class="hold-transition sidebar-mini">
-            <div class="wrapper">
-                <!-- Navbar -->
-                <AdminNav />
-                <!-- /.navbar -->
-                <!-- Main Sidebar Container -->
-                <AdminSidebar />
-                <!-- Content Wrapper. Contains page content -->
-                <div class="content-wrapper">
-                    <!-- Content Header (Page header) -->
-                    <div class="content-header">
-                    <div class="container-fluid">
-                        <div class="row mb-2">
-                        <div class="col-sm-6">
-                            <slot name="header" />
-                        </div><!-- /.col -->
-                        <div class="col-sm-6">
-                            <slot name="breadcrum" />
-                        </div><!-- /.col -->
-                        </div><!-- /.row -->
-                    </div><!-- /.container-fluid -->
-                    </div>
-                    <!-- /.content-header -->
+        <!-- ======= Header ======= -->
+        <AdminNav />
+        <!-- End Header -->
+        <!-- ======= Sidebar ======= -->
+        <AdminSidebar />
+        <!-- End Sidebar-->
 
-                    <!-- Main content -->
-                    <div class="content">
-                        <slot />
-                    <!-- /.container-fluid -->
-                    </div>
-                    <!-- /.content -->
-                </div>
-                <!-- /.content-wrapper -->
+        <main id="main" class="main">
 
-                <!-- Main Footer -->
-                <footer class="main-footer">
-                    <strong>Copyright &copy; 2014-2021 <a href="https://adminlte.io">AdminLTE.io</a>.</strong>
-                    All rights reserved.
-                    <div class="float-right d-none d-sm-inline-block">
-                    <b>Version</b> 3.2.0
-                    </div>
-                </footer>
+        <div class="pagetitle">
+            <slot name="header" />
+            <slot name="breadcrum" />
+        </div><!-- End Page Title -->
+
+        <section class="section dashboard">
+        <slot />
+        </section>
+
+        </main><!-- End #main -->
+        <!-- ======= Footer ======= -->
+        <footer id="footer" class="footer">
+            <div class="copyright">
+            &copy; Copyright <strong><span>NiceAdmin</span></strong>. All Rights Reserved
             </div>
-        </body>
+            <div class="credits">
+            Designed by <a href="https://bootstrapmade.com/">BootstrapMade</a>
+            </div>
+        </footer><!-- End Footer -->
+
+        <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
     </div>
 </template>

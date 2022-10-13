@@ -5,13 +5,20 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
         <title inertia>{{ config('app.name', 'Laravel') }}</title>
-        <!-- Font Awesome -->
-        <link rel="stylesheet" href="{{asset('theme/plugins/fontawesome-free/css/all.min.css')}}">
-        <!-- Theme style -->
-        <link rel="stylesheet" href="{{asset('theme/dist/css/adminlte.min.css')}}">
 
         <!-- Fonts -->
         <link rel="stylesheet" href="https://fonts.bunny.net/css2?family=Nunito:wght@400;600;700&display=swap">
+        <!-- Vendor CSS Files -->
+        <link href="{{asset('assets/vendor/bootstrap/css/bootstrap.min.css')}}" rel="stylesheet">
+        <link href="{{asset('assets/vendor/bootstrap-icons/bootstrap-icons.css')}}" rel="stylesheet">
+        <link href="{{asset('assets/vendor/boxicons/css/boxicons.min.css')}}" rel="stylesheet">
+        <link href="{{asset('assets/vendor/quill/quill.snow.css')}}" rel="stylesheet">
+        <link href="{{asset('assets/vendor/quill/quill.bubble.css')}}" rel="stylesheet">
+        <link href="{{asset('assets/vendor/remixicon/remixicon.css')}}" rel="stylesheet">
+        <link href="{{asset('assets/vendor/simple-datatables/style.css')}}" rel="stylesheet">
+
+        <!-- Template Main CSS File -->
+        <link href="{{asset('assets/css/style.css')}}" rel="stylesheet">
 
         <!-- Scripts -->
         @routes
@@ -20,12 +27,16 @@
     </head>
     <body class="font-sans antialiased">
         @inertia
-        <!-- jQuery -->
-        <script src="{{asset('theme/plugins/jquery/jquery.min.js')}}"></script>
-        <!-- Bootstrap 4 -->
-        <script src="{{asset('theme/plugins/bootstrap/js/bootstrap.bundle.min.js')}}"></script>
-        <!-- AdminLTE App -->
-        <script src="{{asset('theme/dist/js/adminlte.min.js')}}"></script>
-        <!-- AdminLTE for demo purposes -->
+        <script src="{{asset('assets/vendor/apexcharts/apexcharts.min.js')}}"></script>
+        <script src="{{asset('assets/vendor/bootstrap/js/bootstrap.bundle.min.js')}}"></script>
+        <script src="{{asset('assets/vendor/chart.js/chart.min.js')}}"></script>
+        <script src="{{asset('assets/vendor/echarts/echarts.min.js')}}"></script>
+        <script src="{{asset('assets/vendor/quill/quill.min.js')}}"></script>
+        <script src="{{asset('assets/vendor/simple-datatables/simple-datatables.js')}}"></script>
+        <script src="{{asset('assets/vendor/tinymce/tinymce.min.js')}}"></script>
+        <script src="{{asset('assets/vendor/php-email-form/validate.js')}}"></script>
+
+        <!-- Template Main JS File -->
+        <script src="{{asset('assets/js/main.js')}}"></script>
     </body>
 </html>

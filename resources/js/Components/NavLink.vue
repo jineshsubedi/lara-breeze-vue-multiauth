@@ -6,7 +6,7 @@ const props = defineProps(['href', 'active']);
 
 const classes = computed(() => props.active
     ? 'nav-link'
-    : 'nav-link active'
+    : 'nav-link collapsed'
 );
 </script>
 

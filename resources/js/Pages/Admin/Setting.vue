@@ -79,11 +79,11 @@ function openModel(path) {
             </h2>
         </template>
         <template #breadcrum>
-            <ol class="breadcrumb float-sm-right">
+            <ol class="breadcrumb">
                 <li class="breadcrumb-item">
                     <Link :href="route('admin.dashboard')"> Home </Link>
                 </li>
-                <li class="breadcrumb-item">
+                <li class="breadcrumb-item active">
                     <Link :href="route('admin.setting.index')"> Setting </Link>
                 </li>
             </ol>

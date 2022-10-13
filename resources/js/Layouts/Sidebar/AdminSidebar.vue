@@ -4,68 +4,117 @@
     import SidebarBrand from "@/Layouts/Common/SidebarBrand.vue"
 </script>
 <template>
-    <aside class="main-sidebar sidebar-dark-primary elevation-4">
-        <SidebarBrand />
+    <aside id="sidebar" class="sidebar">
+        <ul class="sidebar-nav" id="sidebar-nav">
 
-        <!-- Sidebar -->
-        <div class="sidebar">
-            <SidebarHead />
+            <li class="nav-item">
+                <NavLink
+                    :href="route('admin.dashboard')"
+                    :active="route().current('admin.dashboard')"
+                >
+                    <i class="bi bi-grid"></i>
+                    Dashboard
+                </NavLink>
+            </li>
+            <li class="nav-item">
+                <NavLink
+                    :href="route('admin.setting.index')"
+                    :active="route().current('admin.setting.index')"
+                >
+                    <i class="bi bi-gear-fill"></i>
+                    Setting
+                </NavLink>
+            </li>
 
-            <!-- Sidebar Menu -->
-            <nav class="mt-2">
-                <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
-                    <li class="nav-item">
-                        <NavLink
-                            :href="route('admin.dashboard')"
-                            :active="route().current('admin.dashboard')"
-                        >
-                            <i class="nav-icon fas fa-tachometer-alt"></i>
-                            Dashboard
-                        </NavLink>
-                    </li>
-                    <li class="nav-item">
-                        <NavLink
-                            :href="route('admin.setting.index')"
-                            :active="route().current('admin.setting.index')"
-                        >
-                            <i class="nav-icon fas fa-tachometer-alt"></i>
-                            Setting
-                        </NavLink>
-                        
-                    </li>
-                    <li class="nav-item">
-                        <a href="#" class="nav-link">
-                        <i class="nav-icon far fa-envelope"></i>
-                        <p>
-                            Mailbox
-                            <i class="fas fa-angle-left right"></i>
-                        </p>
-                        </a>
-                        <ul class="nav nav-treeview">
-                        <li class="nav-item">
-                            <a href="pages/mailbox/mailbox.html" class="nav-link">
-                            <i class="far fa-circle nav-icon"></i>
-                            <p>Inbox</p>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="pages/mailbox/compose.html" class="nav-link">
-                            <i class="far fa-circle nav-icon"></i>
-                            <p>Compose</p>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="pages/mailbox/read-mail.html" class="nav-link">
-                            <i class="far fa-circle nav-icon"></i>
-                            <p>Read</p>
-                            </a>
-                        </li>
-                        </ul>
-                    </li>
+            <li class="nav-item">
+                <a class="nav-link collapsed" data-bs-target="#components-nav" data-bs-toggle="collapse" href="#">
+                <i class="bi bi-menu-button-wide"></i><span>Components</span><i class="bi bi-chevron-down ms-auto"></i>
+                </a>
+                <ul id="components-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
+                <li>
+                    <a href="components-alerts.html">
+                    <i class="bi bi-circle"></i><span>Alerts</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="components-accordion.html">
+                    <i class="bi bi-circle"></i><span>Accordion</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="components-badges.html">
+                    <i class="bi bi-circle"></i><span>Badges</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="components-breadcrumbs.html">
+                    <i class="bi bi-circle"></i><span>Breadcrumbs</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="components-buttons.html">
+                    <i class="bi bi-circle"></i><span>Buttons</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="components-cards.html">
+                    <i class="bi bi-circle"></i><span>Cards</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="components-carousel.html">
+                    <i class="bi bi-circle"></i><span>Carousel</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="components-list-group.html">
+                    <i class="bi bi-circle"></i><span>List group</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="components-modal.html">
+                    <i class="bi bi-circle"></i><span>Modal</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="components-tabs.html">
+                    <i class="bi bi-circle"></i><span>Tabs</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="components-pagination.html">
+                    <i class="bi bi-circle"></i><span>Pagination</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="components-progress.html">
+                    <i class="bi bi-circle"></i><span>Progress</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="components-spinners.html">
+                    <i class="bi bi-circle"></i><span>Spinners</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="components-tooltips.html">
+                    <i class="bi bi-circle"></i><span>Tooltips</span>
+                    </a>
+                </li>
                 </ul>
-            </nav>
-            <!-- /.sidebar-menu -->
-        </div>
-        <!-- /.sidebar -->
+            </li><!-- End Components Nav -->
+
+
+            <li class="nav-heading">Pages</li>
+
+            <li class="nav-item">
+                <a class="nav-link collapsed" href="users-profile.html">
+                <i class="bi bi-person"></i>
+                <span>Profile</span>
+                </a>
+            </li><!-- End Profile Page Nav -->
+
+
+        </ul>
     </aside>
 </template>
