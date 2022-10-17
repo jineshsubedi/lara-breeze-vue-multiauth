@@ -25,7 +25,7 @@
         @vite('resources/js/app.js')
         @inertiaHead
     </head>
-    <body class="font-sans antialiased">
+    <body class="font-sans antialiased" id="mainBody">
         @inertia
         <script src="{{asset('theme/plugins/jquery/jquery.min.js')}}"></script>
         <script src="{{asset('assets/vendor/apexcharts/apexcharts.min.js')}}"></script>
