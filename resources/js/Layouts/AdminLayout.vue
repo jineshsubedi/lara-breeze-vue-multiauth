@@ -1,22 +1,23 @@
 <script setup>
-    import AdminNav from "@/Layouts/Nav/Admin.vue"
-    import AdminSidebar from "@/Layouts/Sidebar/AdminSidebar.vue"
-    import Footer from "@/Layouts/Common/Footer.vue"
+import AdminNav from "@/Layouts/Nav/Admin.vue"
+import AdminSidebar from "@/Layouts/Sidebar/AdminSidebar.vue"
+import Footer from "@/Layouts/Common/Footer.vue"
+import FlashMessasge from "@/Layouts/Common/FlashMessasge.vue"
 
     function toggleClassSidebar()
     {
-        $('#jinesh-nav').toggleClass('toggle-sidebar')
+        $('#jinesh').toggleClass('toggle-sidebar')
     }
 </script>
 
 <template>
-    <div class="" id="jinesh-nav">
+    <div class="" id="jinesh">
         <!-- ======= Header ======= -->
         <header id="header" class="header fixed-top d-flex align-items-center">
             <div class="d-flex align-items-center justify-content-between">
             <Link :href="route('admin.dashboard')" class="logo d-flex align-items-center">
                 <img :src="$page.props.logo_path" alt="">
-                <span class="d-none d-lg-block">{{$page.props.auth.user.name}}</span>
+                <span class="d-none d-lg-block">{{$page.props.site.name}}</span>
             </Link>
             <i class="bi bi-list toggle-sidebar-btn" @click="toggleClassSidebar"></i>
             </div><!-- End Logo -->
@@ -42,7 +43,8 @@
         </div><!-- End Page Title -->
 
         <section class="section dashboard">
-        <slot />
+            <FlashMessasge />
+            <slot />
         </section>
 
         </main><!-- End #main -->

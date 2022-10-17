@@ -21,6 +21,7 @@
         <link href="{{asset('assets/css/style.css')}}" rel="stylesheet">
 
         <!-- Scripts -->
+        <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
         @routes
         @vite('resources/js/app.js')
         @inertiaHead

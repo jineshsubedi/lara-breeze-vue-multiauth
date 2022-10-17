@@ -34,7 +34,7 @@ class ProfileController extends Controller
             'email' => $request->email,
             'password' => $request->password != '' ? bcrypt($request->password) : auth()->user()->password,
         ]);
-        return Redirect::route('admin.profile');
+        return Redirect::route('admin.profile')->with('success', 'Profile Updated Successfully');
     }
 
     public function updateAvatar(Request $request)

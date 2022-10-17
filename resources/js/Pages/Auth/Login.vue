@@ -33,17 +33,23 @@ const submit = () => {
             {{ status }}
         </div>
 
-        <form @submit.prevent="submit">
-            <div>
-                <InputLabel for="email" value="Email" />
-                <TextInput id="email" type="email" class="mt-1 block w-full" v-model="form.email" required autofocus autocomplete="username" />
-                <InputError class="mt-2" :message="form.errors.email" />
+        <form @submit.prevent="submit" class="row g-3 needs-validation">
+            
+            <div class="col-12">
+                <InputLabel for="email" class="form-label" value="Email" />
+                <div class="input-group has-validation">
+                    <span class="input-group-text" id="inputGroupPrepend"><i class="bi bi-at"></i></span>
+                    <TextInput id="email" type="email" v-model="form.email" required autofocus autocomplete="username" class="form-control" />
+                    <InputError class="mt-2 invalid-feedback" :message="form.errors.email" />
+                </div>
             </div>
-
-            <div class="mt-4">
-                <InputLabel for="password" value="Password" />
-                <TextInput id="password" type="password" class="mt-1 block w-full" v-model="form.password" required autocomplete="current-password" />
-                <InputError class="mt-2" :message="form.errors.password" />
+            <div class="col-12">
+                <InputLabel for="password" class="form-label" value="Password" />
+                <div class="input-group has-validation">
+                    <span class="input-group-text" id="inputGroupPrepend"><i class="bi bi-key"></i></span>
+                    <TextInput id="password" type="password" v-model="form.password" required autocomplete="username" class="form-control" />
+                    <InputError class="mt-2 invalid-feedback" :message="form.errors.password" />
+                </div>
             </div>
 
             <div class="block mt-4">
