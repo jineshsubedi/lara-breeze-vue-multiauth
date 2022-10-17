@@ -43,7 +43,6 @@ export default {
             const response = await axios.get(route("filemanager.index"), {
                 params: param,
             });
-            console.log(response);
             this.files = response.data.data.files;
             this.folders = response.data.data.folders;
             this.directory = response.data.data.directory;
@@ -77,7 +76,6 @@ export default {
             this.showUploadModal = !this.showUploadModal;
         },
         handleImages(files) {
-            console.log(files);
             this.upload_files = files;
         },
         async submitFileUploader() {
@@ -151,17 +149,14 @@ export default {
                     await axios
                         .post(route("filemanager.delete_folder"), formData)
                         .then(function (response) {
-                            console.log(response);
                             _this.backDirectory();
                             alert("Directory Deleted Successfully!");
                         })
                         .catch(function (error) {
-                            console.log(error);
                             alert(error);
                         });
                 }
             } catch (ex) {
-                console.log(ex);
                 alert("something is wrong");
             }
         },
@@ -179,7 +174,6 @@ export default {
                         alert(err);
                     });
             } catch (ex) {
-                console.log(ex);
                 alert(ex);
             }
         },
@@ -236,7 +230,7 @@ export default {
                         <button
                             type="button"
                             class="close"
-                            data-dismiss="modal"
+                            data-bs-dismiss="modal"
                             aria-label="Close"
                         >
                             <span aria-hidden="true">×</span>
@@ -248,29 +242,29 @@ export default {
                                 <button
                                     type="button"
                                     title="Back"
-                                    class="btn bg-blue"
+                                    class="btn btn-outline-info"
                                     @click="backDirectory"
                                 >
                                     <i
-                                        class="fas fa-step-backward"
+                                        class="bi bi-skip-backward-fill"
                                         disbaled="disbaled"
                                     ></i>
                                 </button>
                                 <button
                                     type="button"
                                     title="Home"
-                                    class="btn bg-blue"
+                                    class="btn btn-outline-info"
                                     @click="homeDirectory"
                                 >
-                                    <i class="fas fa-home"></i>
+                                    <i class="bi bi-house-fill"></i>
                                 </button>
                                 <button
                                     type="button"
                                     title="Refresh"
-                                    class="btn bg-blue"
+                                    class="btn btn-outline-info"
                                     @click="refreshDirectory"
                                 >
-                                    <i class="fas fa-sync-alt"></i>
+                                    <i class="bi bi-arrow-repeat"></i>
                                 </button>
                             </div>
                             <div role="group" class="btn-group">
@@ -278,29 +272,29 @@ export default {
                                 <button
                                     type="button"
                                     title="New folder"
-                                    class="btn bg-blue"
+                                    class="btn btn-outline-info"
                                     v-if="createFolder"
                                     @click="newFolder"
                                 >
-                                    <i class="far fa-folder"></i>
+                                    <i class="bi bi-folder-plus"></i>
                                 </button>
                                 <button
                                     type="button"
                                     title="Upload"
-                                    class="btn bg-blue"
+                                    class="btn btn-outline-info"
                                     v-if="createFiles"
                                     @click.prevent="toggleUploadBrowser"
                                 >
-                                    <i class="fas fa-upload"></i>
+                                    <i class="bi bi-folder-symlink"></i>
                                 </button>
                                 <button
                                     type="button"
                                     title="Delete Directory"
-                                    class="btn bg-blue"
+                                    class="btn btn-outline-info"
                                     v-if="deleteFolder"
                                     @click.prevent="deleteDirectory"
                                 >
-                                    <i class="fas fa-trash-alt"></i>
+                                    <i class="bi bi-folder-x"></i>
                                 </button>
                             </div>
                         </div>
@@ -310,28 +304,26 @@ export default {
                                     class="input-group mb-3"
                                     v-if="new_folder_toggler"
                                 >
-                                    <div class="input-group-prepend">
+                                
+                                    <div class="input-group mb-3">
                                         <span
-                                            class="input-group-text btn-danger"
+                                            class="input-group-text btn btn-outline-danger"
                                             id="basic-addon1"
                                             @click="closeAddFolder"
-                                            ><i class="fas fa-times"></i
+                                            ><i class="bi bi-trash"></i
                                         ></span>
-                                    </div>
-                                    <input
-                                        type="text"
-                                        v-model="folder_name"
-                                        class="form-control"
-                                        placeholder="Folder Name"
-                                        aria-label="Folder Name"
-                                        aria-describedby="basic-addon2"
-                                    />
-                                    <div class="input-group-append">
+                                        <input
+                                            type="text"
+                                            v-model="folder_name"
+                                            class="form-control"
+                                            placeholder="Folder Name"
+                                            aria-label="Folder Name"
+                                        />
                                         <span
-                                            class="input-group-text btn-success"
+                                            class="input-group-text btn btn-outline-success"
                                             id="basic-addon2"
                                             @click="saveFolderName"
-                                            ><i class="fas fa-check"></i
+                                            ><i class="bi bi-patch-check"></i
                                         ></span>
                                     </div>
                                 </div>
@@ -361,6 +353,7 @@ export default {
                                         class="col-md-2"
                                         v-for="(file, findex) in files"
                                         :key="findex"
+                                        style="position:relative"
                                     >
                                         <img
                                             alt=""
@@ -376,7 +369,7 @@ export default {
                                             :src="file.image"
                                             @click="selectedImage(file, findex)"
                                         />
-                                        <span v-if="deleteFiles">
+                                        <span v-if="deleteFiles" >
                                         <a
                                             v-if="findex == file_select_index"
                                             class="trash_file text-danger"
@@ -387,7 +380,7 @@ export default {
                                                 )
                                             "
                                         >
-                                            <i class="far fa-trash-alt"></i>
+                                            <i class="bi bi-trash-fill"></i>
                                         </a>
                                         </span>
                                     </div>
@@ -404,7 +397,7 @@ export default {
                         <button
                             type="button"
                             class="btn btn-default"
-                            data-dismiss="modal"
+                            data-bs-dismiss="modal"
                         >
                             Close
                         </button>
@@ -426,7 +419,7 @@ export default {
                         <button
                             type="button"
                             class="close"
-                            data-dismiss="modal"
+                            data-bs-dismiss="modal"
                             aria-label="Close"
                             @click.prevent="toggleUploadBrowser"
                         >
@@ -447,14 +440,14 @@ export default {
                         <button
                             type="button"
                             class="btn btn-default"
-                            data-dismiss="modal"
+                            data-bs-dismiss="modal"
                             @click.prevent="toggleUploadBrowser"
                         >
                             Close
                         </button>
                         <button
                             type="button"
-                            class="btn bg-blue btn-primary"
+                            class="btn btn-outline-primary"
                             @click="submitFileUploader"
                         >
                             Upload

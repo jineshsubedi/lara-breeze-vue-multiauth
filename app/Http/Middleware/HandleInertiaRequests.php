@@ -2,6 +2,7 @@
 
 namespace App\Http\Middleware;
 
+use App\Models\Setting;
 use Illuminate\Http\Request;
 use Inertia\Middleware;
 use Tightenco\Ziggy\Ziggy;
@@ -34,15 +35,26 @@ class HandleInertiaRequests extends Middleware
      */
     public function share(Request $request)
     {
+        $setting = Setting::with(['socials'])->select('id', 'name', 'email', 'phone', 'address', 'meta_title', 'meta_keyword', 'meta_description', 'google_analytics', 'logo', 'icon')->first();
         return array_merge(parent::share($request), [
             'auth' => [
                 'user' => $request->user(),
+                'avatar' => $request->user() ? $request->user()->avatar_path : ''
             ],
             'ziggy' => function () use ($request) {
                 return array_merge((new Ziggy)->toArray(), [
                     'location' => $request->url(),
                 ]);
             },
+            'flash' => [
+                'success' => fn () => session()->get('success'),
+                'danger' => fn () => session()->get('danger'),
+                'warning' => fn () => session()->get('warning'),
+                'info' => fn () => session()->get('info')
+            ],
+            'site' => $setting,
+            'logo_path' => $setting->logo_path,
+            'icon_path' => $setting->icon_path,
         ]);
     }
 }
