@@ -44,7 +44,7 @@ const submit = () => {
                 </div>
             </div>
             <div class="col-12">
-                <InputLabel for="password" class="form-label" value="Password" />
+                <InputLabel for="password" class="form-label border-info" value="Password" />
                 <div class="input-group has-validation">
                     <span class="input-group-text" id="inputGroupPrepend"><i class="bi bi-key"></i></span>
                     <TextInput id="password" type="password" v-model="form.password" required autocomplete="username" class="form-control" />
@@ -71,3 +71,16 @@ const submit = () => {
         </form>
     </LoginLayout>
 </template>
+<style>
+    .input-group-text{
+        color: #fff;
+        background-color: cadetblue;
+        font-size: large;
+        border: cadetblue;
+    }
+    .form-label{
+        color: cadetblue;
+        font-size: medium;
+    }
+
+</style>
