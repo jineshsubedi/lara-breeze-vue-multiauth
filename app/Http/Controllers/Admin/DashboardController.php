@@ -8,7 +8,7 @@ use Inertia\Inertia;
 
 class DashboardController extends Controller
 {
-    public function index(Request $reqeust)
+    public function index(Request $request)
     {
         return Inertia::render('Admin/Dashboard');
     }

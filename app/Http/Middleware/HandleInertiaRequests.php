@@ -52,6 +52,7 @@ class HandleInertiaRequests extends Middleware
                 'warning' => fn () => session()->get('warning'),
                 'info' => fn () => session()->get('info')
             ],
+            'can' => $request->user() ? $request->user()->roles->pluck('name') : [],
             'site' => $setting,
             'logo_path' => $setting->logo_path,
             'icon_path' => $setting->icon_path,
