@@ -1,19 +1,22 @@
 <script setup>
-import SuccessToast from "./SuccessToast.vue";
-
-
+    import ToastNotification from "@/Components/ToastNotification.vue";
+    let success = 'success';
+    let danger = 'danger';
+    let warning = 'warning';
+    let info = 'info';
 </script>
 
 <template>
     <div  v-if="$page.props.flash.success">
-        <SuccessToast :message = "xgvsbchvbdvhbkdjfvhkabjh"/>
+        <ToastNotification :message = "$page.props.flash.success" :type="success"   />
     </div>
-    <div class="alert alert-danger alert-dismissible fade show" role="alert" v-if="$page.props.flash.danger">
-        {{ $page.props.flash.danger }}
-        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    <div  v-if="$page.props.flash.danger">
+        <ToastNotification :message = "$page.props.flash.danger" :type="danger"   />
     </div>
-    <div class="alert alert-warning alert-dismissible fade show" role="alert" v-if="$page.props.flash.warning">
-        {{ $page.props.flash.warning }}
-        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    <div  v-if="$page.props.flash.warning">
+        <ToastNotification :message = "$page.props.flash.warning" :type="warning"   />
+    </div>
+    <div  v-if="$page.props.flash.info">
+        <ToastNotification :message = "$page.props.flash.info" :type="info"   />
     </div>
 </template>

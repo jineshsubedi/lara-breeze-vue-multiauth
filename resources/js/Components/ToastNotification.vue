@@ -1,7 +1,8 @@
 <script setup>
 
     const props = defineProps({
-        message: String
+        message: String,
+        type: String
     });
 
     const Toast = Swal.mixin({
@@ -15,12 +16,10 @@
             toast.addEventListener('mouseleave', Swal.resumeTimer)
         }
     })
+    console.log(props.type)
 
     Toast.fire({
-        icon: 'success',
-        title: 'sdasdas dasd asd a'
+        icon: props.type,
+        title: props.message
     })
 </script>
-<template>
-
-</template>

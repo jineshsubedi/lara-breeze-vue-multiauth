@@ -49,7 +49,8 @@ class HandleInertiaRequests extends Middleware
             'flash' => [
                 'success' => fn () => session()->get('success'),
                 'danger' => fn () => session()->get('danger'),
-                'warning' => fn () => session()->get('warning')
+                'warning' => fn () => session()->get('warning'),
+                'info' => fn () => session()->get('info')
             ],
             'site' => $setting,
             'logo_path' => $setting->logo_path,

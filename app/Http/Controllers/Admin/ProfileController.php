@@ -18,7 +18,6 @@ class ProfileController extends Controller
     {
         $user = auth()->user();
         $user->avatarpath = $user->avatar_path;
-        // return $user;
         return Inertia::render('Admin/Profile', ['user' => $user]);
     }
     public function updateProfile(Request $request)
