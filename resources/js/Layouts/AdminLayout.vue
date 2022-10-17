@@ -3,6 +3,7 @@ import AdminNav from "@/Layouts/Nav/Admin.vue"
 import AdminSidebar from "@/Layouts/Sidebar/AdminSidebar.vue"
 import Footer from "@/Layouts/Common/Footer.vue"
 import FlashMessasge from "@/Layouts/Common/FlashMessasge.vue"
+import {Link} from "@inertiajs/inertia-vue3"
 
     function toggleClassSidebar()
     {

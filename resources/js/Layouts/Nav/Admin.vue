@@ -9,9 +9,9 @@
         <ul class="d-flex align-items-center">
 
             <li class="nav-item d-block d-lg-none">
-            <a class="nav-link nav-icon search-bar-toggle " href="#">
-                <i class="bi bi-search"></i>
-            </a>
+                <a class="nav-link nav-icon search-bar-toggle " href="#">
+                    <i class="bi bi-search"></i>
+                </a>
             </li><!-- End Search Icon-->
 
             <li class="nav-item dropdown">
@@ -95,13 +95,12 @@
 
                 <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow profile">
                     <li class="dropdown-header">
-                    <h6>Kevin Anderson</h6>
-                    <span>Web Designer</span>
+                        <h6>{{$page.props.auth.user.name}}</h6>
+                        <span>Designation</span>
                     </li>
                     <li>
-                    <hr class="dropdown-divider">
+                        <hr class="dropdown-divider">
                     </li>
-
                     <li>
                         <NavLink
                             class="dropdown-item d-flex align-items-center"
