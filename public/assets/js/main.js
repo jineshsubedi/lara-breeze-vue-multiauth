@@ -5,7 +5,6 @@
 * License: https://bootstrapmade.com/license/
 */
 (function() {
-  "use strict";
 
   /**
    * Easy selector helper function
@@ -42,7 +41,6 @@
    */
   if (select('.toggle-sidebar-btn')) {
     on('click', '.toggle-sidebar-btn', function(e) {
-      alert('test')
       select('body').classList.toggle('toggle-sidebar')
     })
   }
