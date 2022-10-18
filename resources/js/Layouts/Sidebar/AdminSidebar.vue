@@ -29,6 +29,54 @@
                             <i class="bi bi-gear-fill"></i><span>Setting</span>
                         </NavLink>
                     </li>
+                    <li v-if="$page.props.can.includes('SuperAdmin')">
+                        <NavLink 
+                            :href="route('admin.roles.index')" 
+                            :active="route().current('admin.roles.index')"
+                        >
+                            <i class="bi bi-bootstrap-reboot"></i><span>Roles</span>
+                        </NavLink>
+                    </li>
+                    <li v-if="$page.props.can.includes('SuperAdmin')">
+                        <NavLink 
+                            :href="route('admin.roles.index')" 
+                            :active="route().current('admin.roles.index')"
+                        >
+                            <i class="bi bi-bootstrap-reboot"></i><span>Roles</span>
+                        </NavLink>
+                    </li>
+                </ul>
+            </li>
+
+            <li class="nav-item">
+                <a class="nav-link collapsed" data-bs-target="#hrm-nav" data-bs-toggle="collapse" href="#">
+                    <i class="bi bi-gear"></i><span>HRM</span><i class="bi bi-chevron-down ms-auto"></i>
+                </a>
+                <ul id="hrm-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
+                    <li>
+                        <NavLink 
+                            :href="route('admin.setting.index')" 
+                            :active="route().current('admin.setting.index')"
+                        >
+                            <i class="bi bi-person-fill"></i><span>Staffs</span>
+                        </NavLink>
+                    </li>
+                    <li>
+                        <NavLink 
+                            :href="route('admin.setting.index')" 
+                            :active="route().current('admin.setting.index')"
+                        >
+                            <i class="bi bi-card-text"></i><span>Report</span>
+                        </NavLink>
+                    </li>
+                    <li>
+                        <NavLink 
+                            :href="route('admin.setting.index')" 
+                            :active="route().current('admin.setting.index')"
+                        >
+                            <i class="bi bi-calendar2-check"></i><span>Attendance</span>
+                        </NavLink>
+                    </li>
                 </ul>
             </li>
 
