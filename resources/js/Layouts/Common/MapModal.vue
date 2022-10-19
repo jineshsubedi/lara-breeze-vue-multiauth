@@ -10,7 +10,6 @@
         lat: parseFloat(data[0]),
         lng: parseFloat(data[1])
     }
-    console.log(location)
 </script>
 <template>
     <div class="modal fade" :id="path" tabindex="-1" style="display: none;" aria-hidden="true">
@@ -23,11 +22,11 @@
                 <div class="modal-body">
                     <GMapMap
                         :center="location"
-                        :zoom="10"
+                        :zoom="16"
                         style="width: 100%; height: 20rem"
                     >
                         <GMapMarker
-                            :key="index"
+                            :key="path"
                             :icon="'https://img.icons8.com/plasticine/50/000000/user-location.png'"
                             :position="location"
                         />

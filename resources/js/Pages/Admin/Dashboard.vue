@@ -1,13 +1,12 @@
 <script setup>
 import AdminLayout from '@/Layouts/AdminLayout.vue';
-import { Head, useForm } from '@inertiajs/inertia-vue3';
+import { Head, Link, useForm } from '@inertiajs/inertia-vue3';
 import { Inertia } from "@inertiajs/inertia";
 import MapModal from "@/Layouts/Common/MapModal.vue";
+import AddTodayTask from "@/Layouts/Common/AddTodayTask.vue"
 
 const props = defineProps({
-    datas: {
-        type: Array,
-    },
+    datas: Object,
 });
 const form1 = useForm({
     location: null,
@@ -38,14 +37,11 @@ function submitIntime(type)
     );
 }
 
-let position = {
-    lat: 51.093048, 
-    lng: 6.842120
-}
+
 const form2 = useForm({
     position: {lat: 51.093048, lng: 6.842120},
 });
-function showModal(path, title, location)
+function showModal(path, location)
 {
     var data = location.split(',');
     form2.position.lat = data[0];
@@ -79,13 +75,13 @@ function showModal(path, title, location)
                     <div class="card-body">
                         <h5 class="card-title">Attendance <span>| {{datas.today}}</span></h5>
                         <table class="table">
-                            <tr v-for="(attendance, index) in datas.attendances">
+                            <tr v-for="(attendance, index) in datas.attendances" :key="index">
                                 <td>        
                                     <div class="d-flex align-items-center" v-if="attendance.in_time">
                                         <div class="ps-3"> 
                                             <div 
                                                 class="card-icon rounded-circle d-flex align-items-center justify-content-center" 
-                                                @click="showModal('duty-In'+index, 'Duty Start At: '+attendance.in_time, attendance.in_location)"
+                                                @click="showModal('duty-In'+index, attendance.in_location)"
                                             > 
                                                 <i class="bi bi-geo-alt"></i>
                                             </div>
@@ -104,7 +100,7 @@ function showModal(path, title, location)
                                             <div class="ps-3"> 
                                                 <div 
                                                     class="card-icon rounded-circle d-flex align-items-center justify-content-center" 
-                                                    @click="showModal('lunch-In'+index, 'Lunch Start At: '+attendance.lunch_start, attendance.lunch_start_location)"
+                                                    @click="showModal('lunch-In'+index, attendance.lunch_start_location)"
                                                 > 
                                                     <i class="bi bi-geo-alt"></i>
                                                 </div>
@@ -124,7 +120,7 @@ function showModal(path, title, location)
                                             <div class="ps-3"> 
                                                 <div 
                                                     class="card-icon rounded-circle d-flex align-items-center justify-content-center" 
-                                                    @click="showModal('lunch-Out'+index, 'Lunch End At: '+attendance.lunch_end, attendance.lunch_end_location)"
+                                                    @click="showModal('lunch-Out'+index, attendance.lunch_end_location)"
                                                 > 
                                                     <i class="bi bi-geo-alt"></i>
                                                 </div>
@@ -144,7 +140,7 @@ function showModal(path, title, location)
                                             <div class="ps-3"> 
                                                 <div 
                                                     class="card-icon rounded-circle d-flex align-items-center justify-content-center" 
-                                                    @click="showModal('Duty-Out'+index, 'Duty End At: '+attendance.out_time, attendance.out_location)"
+                                                    @click="showModal('Duty-Out'+index, attendance.out_location)"
                                                 > 
                                                     <i class="bi bi-geo-alt"></i>
                                                 </div>
@@ -167,7 +163,8 @@ function showModal(path, title, location)
                 <div class="card">
                     <div class="card-body">
                         <div class="filter"> 
-                            <button type="button" class="btn btn-sm btn-info"><i class="bi bi-plus"></i></button>
+                            <button type="button" class="btn btn-sm btn-info" data-bs-toggle="modal" data-bs-target="#todayTaskModal"><i class="bi bi-plus"></i></button>
+                            <AddTodayTask :url="route('admin.dailytasks.store')" />
                         </div>
                         <h5 class="card-title">Today's Work</h5>
                         <div class="activity">
