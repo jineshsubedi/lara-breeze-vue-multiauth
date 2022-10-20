@@ -6,6 +6,7 @@ use App\Models\User;
 use Inertia\Inertia;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Models\District;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Validator;
 
@@ -16,9 +17,18 @@ class ProfileController extends Controller
 
     public function index()
     {
-        $user = auth()->user();
+        $user = User::with(['documents','address','detail','bank'])->find(auth()->id());
         $user->avatarpath = $user->avatar_path;
-        return Inertia::render('Admin/Profile', ['user' => $user]);
+
+        $datas['genders'] = ['Male','Female'];
+        $datas['marital_status'] = ['Married','Unmarried'];
+        $districts = District::pluck('id', 'title');
+
+        return Inertia::render('Admin/Profile', [
+            'user' => $user,
+            'datas' => $datas,
+            'districts' => $districts,
+        ]);
     }
     public function updateProfile(Request $request)
     {
