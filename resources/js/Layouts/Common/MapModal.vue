@@ -27,7 +27,7 @@
                     >
                         <GMapMarker
                             :key="path"
-                            :icon="'https://img.icons8.com/plasticine/50/000000/user-location.png'"
+                            :icon="'/images/user-location.png'"
                             :position="location"
                         />
                     </GMapMap>

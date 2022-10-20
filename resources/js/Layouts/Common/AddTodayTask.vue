@@ -1,7 +1,9 @@
 <script setup>
 import { useForm } from "@inertiajs/inertia-vue3";
+
 const props = defineProps({
-    url: String
+    url: String,
+    kras: Array
 })
 const form = useForm({
     work_date: null,
@@ -10,7 +12,15 @@ const form = useForm({
     kra: null,
     description: null,
 });
-
+function submitTodayTask() {
+    form.post(props.url, {
+        preserveScroll: true,
+        onSuccess: () => {
+            form.reset(),
+            $('#todayTaskModal').modal('hide')
+        }
+    })
+}
 </script>
 
 <template>
@@ -21,7 +31,7 @@ const form = useForm({
                     <h5 class="modal-title">Daily Task Modal</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-                <form class="needs-validation" @submit.prevent="form.post(url)" >
+                <form class="needs-validation" @submit.prevent="submitTodayTask" >
                 <div class="modal-body">
                     <div class="row g-3">
                         <div class="col-md-12">
@@ -57,8 +67,7 @@ const form = useForm({
                         <div class="col-md-12">
                             <label for="validationCustomUsername" class="form-label">KRA</label>
                             <select class="form-control" id="kra" v-model="form.kra" >
-                                <option value="">Select Kra</option>
-                                <option value="1">One</option>
+                                <option v-for="(kra, indx) in kras" :key="indx" :value="kra.id">{{kra.title}}</option>
                             </select>
                             <div
                                 class="text-red-400 text-sm"
@@ -81,7 +90,7 @@ const form = useForm({
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Close</button>
-                    <button type="submit" class="btn btn-outline-primary">Submit</button>
+                    <button type="submit" :disabled="form.processing" class="btn btn-outline-primary">Submit</button>
                 </div>
                 </form>
             </div>

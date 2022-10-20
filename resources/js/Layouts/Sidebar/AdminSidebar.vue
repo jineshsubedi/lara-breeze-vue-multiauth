@@ -77,6 +77,14 @@
                             <i class="bi bi-calendar2-check"></i><span>Attendance</span>
                         </NavLink>
                     </li>
+                    <li>
+                        <NavLink 
+                            :href="route('admin.dailytasks.index')" 
+                            :active="route().current('admin.dailytasks.index')"
+                        >
+                            <i class="bi bi-calendar2-check"></i><span>Daily Tasks</span>
+                        </NavLink>
+                    </li>
                 </ul>
             </li>
 

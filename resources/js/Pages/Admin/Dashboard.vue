@@ -164,26 +164,20 @@ function showModal(path, location)
                     <div class="card-body">
                         <div class="filter"> 
                             <button type="button" class="btn btn-sm btn-info" data-bs-toggle="modal" data-bs-target="#todayTaskModal"><i class="bi bi-plus"></i></button>
-                            <AddTodayTask :url="route('admin.dailytasks.store')" />
+                            <AddTodayTask :url="route('admin.dailytasks.store')" :kras="datas.kra" />
                         </div>
-                        <h5 class="card-title">Today's Work</h5>
+                        <Link :href="route('admin.dailytasks.index')" class="dtask">
+                            <h5 class="card-title">Today's Work <i class="bi bi-eye-fill"></i></h5>
+                        </Link>
                         <div class="activity">
-                            <div class="activity-item d-flex">
-                                <div class="activite-label">32 min</div> 
+                            <div class="activity-item d-flex" v-for="(dtask, index) in datas.dailyTasks" :key="index">
+                            <div class="activite-label">{{dtask.duration}}</div> 
                                 <i class="bi bi-person-workspace activity-badge text-success align-self-start"></i>
                                 <div class="activity-content"> 
-                                    Roles Crud Operation and Permission
+                                    <Link :href="route('admin.dailytasks.edit', dtask.id)">
+                                        {{dtask.description}}
+                                    </Link>
                                 </div>
-                            </div>
-                            <div class="activity-item d-flex">
-                                <div class="activite-label">156 min</div> 
-                                <i class="bi bi-person-workspace activity-badge text-success align-self-start"></i>
-                                <div class="activity-content"> Dashboard Design and other changes</div>
-                            </div>
-                            <div class="activity-item d-flex">
-                                <div class="activite-label">56 min</div> 
-                                <i class="bi bi-person-workspace activity-badge text-success align-self-start"></i>
-                                <div class="activity-content"> Attendance Module workout</div>
                             </div>
                         </div>
                     </div>
@@ -205,4 +199,7 @@ function showModal(path, location)
 }
 .dashboard .filter {right: 10px;}
 .dashboard .activity .activity-item .activity-badge {font-size: 14px;}
+.dashboard .activity .activity-item .activite-label {max-width: 50px;}
+.dtask i {display: none;}
+.dtask:hover i {display:contents;}
 </style>

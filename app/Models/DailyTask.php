@@ -1,4 +1,3 @@
-
 <?php
 
 namespace App\Models;
@@ -51,7 +50,7 @@ class DailyTask extends Model
         }
         if($this->start_time && !$this->end_time)
         {
-            return 'Has no finish time!';
+            return '- Minute';
         }
     }
     public function getCalculateEdurationAttribute()
