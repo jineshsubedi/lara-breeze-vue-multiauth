@@ -26,7 +26,7 @@ return new class extends Migration
             $table->date('resigned_date')->nullable();
             $table->string('resigned_reason')->nullable();
             $table->string('assets_taken',500)->nullable();
-            $table->string('blod_group',10)->nullable();
+            $table->string('blood_group',10)->nullable();
             $table->timestamps();
         });
     }

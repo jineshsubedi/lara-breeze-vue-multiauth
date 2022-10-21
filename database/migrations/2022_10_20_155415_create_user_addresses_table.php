@@ -28,6 +28,7 @@ return new class extends Migration
             $table->string('contact_person',20)->nullable();
             $table->string('contact_person_number',20)->nullable();
             $table->string('home_location',50)->nullable();
+            $table->string('phone_number',50)->nullable();
             $table->timestamps();
         });
     }

@@ -6,6 +6,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 use App\Traits\UserRelation;
@@ -13,7 +14,12 @@ use Spatie\Permission\Traits\HasRoles;
 
 class User extends Authenticatable
 {
-    use HasApiTokens, HasFactory, Notifiable, UserRelation, HasRoles;
+    use HasApiTokens, HasFactory, Notifiable, SoftDeletes, UserRelation, HasRoles;
+
+    const CURRENTLY_WORKING = 1;
+    const RESIGNED = 2;
+    const ABSCONDING = 3;
+    const TERMINATED = 4;
 
     /**
      * The attributes that are mass assignable.
@@ -22,10 +28,28 @@ class User extends Authenticatable
      */
     protected $fillable = [
         'name',
+        'father_name',
+        'employee_code',
         'email',
         'password',
         'staff_type',
-        'avatar'
+        'branch_id',
+        'department_id',
+        'designation_id',
+        'shift_time_id',
+        'supervisor_id',
+        'status',
+        'gender',
+        'employment_type',
+        'salary_type',
+        'dob',
+        'join_date',
+        'provision_end_date',
+        'avatar',
+        'weekend',
+        'primary_location',
+        'app_token',
+        'imei'
     ];
 
     /**

@@ -18,7 +18,7 @@ class UserDetail extends Model
         'resigned_date',
         'resigned_reason',
         'assets_taken',
-        'blod_group',
+        'blood_group',
         'nature_of_employment',
         'grade_position',
         'grade_no'

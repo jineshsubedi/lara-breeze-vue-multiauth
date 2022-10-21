@@ -21,10 +21,6 @@ class UserAddress extends Model
         'contact_person_number',
         'home_location',
         'phone_number',
-        'pm_id',
-        'pward',
-        'tm_id',
-        'tward'
     ];
 
     public function pdistrict()
