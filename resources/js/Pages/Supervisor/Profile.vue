@@ -2,18 +2,106 @@
 import SupervisorLayout from "@/Layouts/SupervisorLayout.vue";
 import { Head, Link, useForm  } from "@inertiajs/inertia-vue3";
 
-const props = defineProps(['user']);
+const props = defineProps({
+    'user' : Object,
+    'datas' : Object,
+    'districts' : Object,
+    'detail' : Object,
+    'address' : Object,
+    'bank' : Object,
+    'document' : Object,
+});
 
 const form = useForm({
     name: props.user.name,
     email: props.user.email,
     password: null,
     confirm_password: null,
+
+    father_name: props.user.father_name,
+    gender: props.user.gender,
+    dob: props.user.dob,
+
+    marital_status: props.detail.marital_status,
+    citizenship_no: props.detail.citizenship_no,
+    blood_group: props.detail.blood_group,
+
+    phone_number: props.address.phone_number,
+    pdistrict_id: props.address.pdistrict_id,
+    tdistrict_id: props.address.tdistrict_id,
+    p_address: props.address.p_address,
+    t_address: props.address.t_address,
+    emergency_number: props.address.emergency_number,
+    primary_location: props.address.primary_location,
+    contact_person: props.address.contact_person,
+    contact_person_number: props.address.contact_person_number,
+    home_location: props.address.home_location,
+    location: {
+        lat: 26.481724,
+        lng: 87.283524
+    },
+
+    account_number: props.bank.account_number,
+    bank_name: props.bank.bank_name,
+    pan_number: props.bank.pan_number, 
+
+    document: []
+
 })
 const avatarForm = useForm({
     avatar: ''
 })
 
+function addMoreDocument()
+{
+    form.document.push({
+        title: '',
+        document: ''
+    })
+}
+function removeFormDocument(index)
+{
+    form.document.splice(index, 1)
+}
+function removeDocument(id)
+{
+    if (confirm("Are you sure you want to Delete")) {
+        form.delete(route("supervisor.deleteProfileDocument", id));
+    }
+}
+function submitProfileUpdateForm()
+{
+    form.post(route('supervisor.updateProfile'));
+}
+$(function() {
+    var x = document.getElementById("demo");
+    if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(showPosition);
+    } else {
+        x.innerHTML = '<div class="alert alert-danger">Geolocation is not supported by this browser.</div>';
+    }
+});
+
+function showPosition(position) {
+    if(form.home_location)
+    {
+        var data = form.home_location.split(',');
+        form.location = {
+            lat: parseFloat(data[0]),
+            lng: parseFloat(data[1])
+        }
+    }else{
+        form.location = {
+            lat: parseFloat(position.coords.latitude),
+            lng: parseFloat(position.coords.longitude)
+        }
+    }
+}
+
+function mapLocation(location)
+{
+    form.home_location = location.latLng.lat()+','+location.latLng.lng()
+}
 </script>
 <template>
     <Head title="Profile" />
@@ -67,33 +155,34 @@ const avatarForm = useForm({
                     <div class="card">
                         <div class="card-header">
                             <ul class="nav nav-tabs nav-tabs-bordered">
-    
                                 <li class="nav-item">
-                                    <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#profile-overview">Notification</button>
+                                    <button class="nav-link" data-bs-toggle="tab" data-bs-target="#profile-overview">Notification</button>
                                 </li>
-    
                                 <li class="nav-item">
-                                    <button class="nav-link" data-bs-toggle="tab" data-bs-target="#profile-edit">Edit Profile</button>
+                                    <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#profile-edit">Basic Information</button>
                                 </li>
-    
+                                <li class="nav-item">
+                                    <button class="nav-link" data-bs-toggle="tab" data-bs-target="#contact">Contact Information</button>
+                                </li>
                                 <li class="nav-item">
                                     <button class="nav-link" data-bs-toggle="tab" data-bs-target="#profile-settings">Documents</button>
                                 </li>
-    
+                                <li class="nav-item">
+                                    <button class="nav-link" data-bs-toggle="tab" data-bs-target="#bank">Bank Information</button>
+                                </li>
                                 <li class="nav-item">
                                 <button class="nav-link" data-bs-toggle="tab" data-bs-target="#profile-change-password">Change Password</button>
                                 </li>
-    
                             </ul>
                         </div>
-                        <form class="form-horizontal" @submit.prevent="form.post(route('supervisor.updateProfile'))">
+                        <form class="form-horizontal" @submit.prevent="submitProfileUpdateForm" enctype="multipart/form-data">
                         <div class="card-body pt-3">
                             <div class="tab-content pt-2">
-                                <div class="tab-pane fade show active profile-overview" id="profile-overview">
+                                <div class="tab-pane fade profile-overview" id="profile-overview">
                                     <h5 class="card-title">Notification</h5>
                                     <p class="small fst-italic">Sunt est soluta temporibus accusantium neque nam maiores cumque temporibus. Tempora libero non est unde veniam est qui dolor. Ut sunt iure rerum quae quisquam autem eveniet perspiciatis odit. Fuga sequi sed ea saepe at unde.</p>
                                 </div>
-                                <div class="tab-pane fade profile-edit pt-3" id="profile-edit">
+                                <div class="tab-pane fade show active profile-edit pt-3" id="profile-edit">
                                     <div class="row mb-3">
                                         <label for="fullName" class="col-md-4 col-lg-3 col-form-label">Full Name</label>
                                         <div class="col-md-8 col-lg-9">
@@ -112,10 +201,235 @@ const avatarForm = useForm({
                                             </div>
                                         </div>
                                     </div>
+                                    <div class="row mb-3">
+                                        <label for="phone_number" class="col-md-4 col-lg-3 col-form-label">Phone Number</label>
+                                        <div class="col-md-8 col-lg-9">
+                                            <input type="text" v-model="form.phone_number" class="form-control" id="phone_number">
+                                            <div class="text-red-400 text-sm" v-if="form.errors.phone_number">
+                                                {{ form.errors.phone_number }}
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row mb-3">
+                                        <label for="father_name" class="col-md-4 col-lg-3  col-form-label">Father Name</label>
+                                        <div class="col-md-8 col-lg-9">
+                                            <input  type="father_name" v-model="form.father_name" class="form-control" id="father_name">
+                                            <div class="text-red-400 text-sm" v-if="form.errors.father_name">
+                                                {{ form.errors.father_name }}
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row mb-3">
+                                        <label for="gender" class="col-md-4 col-lg-3  col-form-label">Gender</label>
+                                        <div class="col-md-8 col-lg-9">
+                                            <select id="gender" class="form-control" v-model="form.gender">
+                                                <option v-for="(gender, indexG) in datas.genders" :key="indexG" :value="gender" >{{gender}}</option>
+                                            </select>
+                                            <div class="text-red-400 text-sm" v-if="form.errors.gender">
+                                                {{ form.errors.gender }}
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row mb-3">
+                                        <label for="marital_status" class="col-md-4 col-lg-3  col-form-label">Marital Status</label>
+                                        <div class="col-md-8 col-lg-9">
+                                            <select id="marital_status" class="form-control" v-model="form.marital_status">
+                                                <option v-for="(mstatus, indexG) in datas.marital_status" :key="indexG" :value="mstatus" >{{mstatus}}</option>
+                                            </select>
+                                            <div class="text-red-400 text-sm" v-if="form.errors.marital_status">
+                                                {{ form.errors.marital_status }}
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row mb-3">
+                                        <label for="dob" class="col-md-4 col-lg-3 col-form-label">Date Of Birth</label>
+                                        <div class="col-md-8 col-lg-9">
+                                            <input type="date" class="form-control" v-model="form.dob" id="dob">
+                                            <div class="text-red-400 text-sm" v-if="form.errors.dob">
+                                                {{ form.errors.dob }}
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row mb-3">
+                                        <label for="citizenship_no" class="col-md-4 col-lg-3 col-form-label">Citizenship</label>
+                                        <div class="col-md-8 col-lg-9">
+                                            <input type="text" class="form-control" v-model="form.citizenship_no" id="citizenship_no">
+                                            <div class="text-red-400 text-sm" v-if="form.errors.citizenship_no">
+                                                {{ form.errors.citizenship_no }}
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row mb-3">
+                                        <label for="blood_group" class="col-md-4 col-lg-3 col-form-label">Blood Group</label>
+                                        <div class="col-md-8 col-lg-9">
+                                            <input type="text" class="form-control" v-model="form.blood_group" id="blood_group">
+                                            <div class="text-red-400 text-sm" v-if="form.errors.blood_group">
+                                                {{ form.errors.blood_group }}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="tab-pane fade pt-3" id="contact">
+                                    <div class="row mb-3">
+                                        <label for="pdistrict_id" class="col-md-4 col-lg-3 col-form-label">Permanent District</label>
+                                        <div class="col-md-8 col-lg-9">
+                                            <select v-model="form.pdistrict_id" class="form-control">
+                                                <option v-for="(district, index) in districts" :key="index" :value="district.id">{{district.title}}</option>
+                                            </select>
+                                            <div class="text-red-400 text-sm" v-if="form.errors.pdistrict_id">
+                                                {{ form.errors.pdistrict_id }}
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row mb-3">
+                                        <label for="tdistrict_id" class="col-md-4 col-lg-3 col-form-label">Permanent District</label>
+                                        <div class="col-md-8 col-lg-9">
+                                            <select v-model="form.tdistrict_id" class="form-control">
+                                                <option v-for="(district, index) in districts" :key="index" :value="district.id">{{district.title}}</option>
+                                            </select>
+                                            <div class="text-red-400 text-sm" v-if="form.errors.tdistrict_id">
+                                                {{ form.errors.tdistrict_id }}
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row mb-3">
+                                        <label for="p_address" class="col-md-4 col-lg-3 col-form-label">Permanent Address</label>
+                                        <div class="col-md-8 col-lg-9">
+                                            <input type="text" class="form-control" v-model="form.p_address" id="p_address">
+                                            <div class="text-red-400 text-sm" v-if="form.errors.p_address">
+                                                {{ form.errors.p_address }}
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row mb-3">
+                                        <label for="t_address" class="col-md-4 col-lg-3 col-form-label">Temporary Address</label>
+                                        <div class="col-md-8 col-lg-9">
+                                            <input type="text" class="form-control" v-model="form.t_address" id="t_address">
+                                            <div class="text-red-400 text-sm" v-if="form.errors.t_address">
+                                                {{ form.errors.t_address }}
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row mb-3">
+                                        <label for="emergency_number" class="col-md-4 col-lg-3 col-form-label">Emergency Number</label>
+                                        <div class="col-md-8 col-lg-9">
+                                            <input type="text" class="form-control" v-model="form.emergency_number" id="emergency_number">
+                                            <div class="text-red-400 text-sm" v-if="form.errors.emergency_number">
+                                                {{ form.errors.emergency_number }}
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row mb-3">
+                                        <label for="contact_person" class="col-md-4 col-lg-3 col-form-label">Contact Person</label>
+                                        <div class="col-md-8 col-lg-9">
+                                            <input type="text" class="form-control" v-model="form.contact_person" id="contact_person">
+                                            <div class="text-red-400 text-sm" v-if="form.errors.contact_person">
+                                                {{ form.errors.contact_person }}
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row mb-3">
+                                        <label for="contact_person_number" class="col-md-4 col-lg-3 col-form-label">Contact Person Number</label>
+                                        <div class="col-md-8 col-lg-9">
+                                            <input type="text" class="form-control" v-model="form.contact_person_number" id="contact_person_number">
+                                            <div class="text-red-400 text-sm" v-if="form.errors.contact_person_number">
+                                                {{ form.errors.contact_person_number }}
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row mb-3">
+                                        <label for="home_location" class="col-md-4 col-lg-3 col-form-label">Home Location</label>
+                                        <div class="col-md-8 col-lg-9">
+                                            <GMapMap
+                                                :center="form.location"
+                                                :zoom="16"
+                                                style="width: 100%; height: 20rem"
+                                            >
+                                                <GMapMarker
+                                                    :icon="'/images/user-location.png'"
+                                                    :position="form.location"
+                                                    :draggable="true"
+                                                    @drag="mapLocation"
+                                                />
+                                            </GMapMap>
+                                            <input type="hidden" class="form-control" v-model="form.home_location" id="home_location">
+                                            <div class="text-red-400 text-sm" v-if="form.errors.home_location">
+                                                {{ form.errors.home_location }}
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
                                 <div class="tab-pane fade pt-3" id="profile-settings">
-                                    <div id="document">
-                                        <h2>Document upload</h2>
+                                    <table class="table table-striped">
+                                        <thead>
+                                            <tr>
+                                                <th>Title</th>
+                                                <th>Document</th>
+                                                <th>Action</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr v-for="(doc, index) in document" :key="index">
+                                                <td>{{doc.title}}</td>
+                                                <td><Link :href="doc.document_path" target="_blank">Document</Link></td>
+                                                <td>
+                                                    <button type="button" class="btn btn-sm btn-outline-danger" @click="removeDocument(doc.id)"><i class="bi bi-trash"></i></button>
+                                                </td>
+                                            </tr>
+                                            <tr v-for="(fdoc, findex) in form.document" :key="findex">
+                                                <td>
+                                                    <input type="text" v-model="fdoc.title" class="form-control">
+                                                    <div class="text-red-400 text-sm" v-if="form.errors.document">
+                                                        {{ form.errors.document.findex.title }}
+                                                    </div>
+                                                </td>
+                                                <td>
+                                                    <input type="file" class="form-control" @input="fdoc.document = $event.target.files[0]" />
+                                                    <div class="text-red-400 text-sm" v-if="form.errors.document">
+                                                        {{ form.errors.document.findex.document }}
+                                                    </div>
+                                                </td>
+                                                <td>
+                                                    <button type="button" class="btn btn-sm btn-outline-danger" @click="removeFormDocument(findex)"><i class="bi bi-trash"></i></button>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                        <tfoot>
+                                            <tr>
+                                                <td colspan="3" class="text-right">
+                                                    <button type="button" class="btn btn-sm btn-outline-info" @click="addMoreDocument"><i class="bi bi-plus"></i> Add More</button>
+                                                </td>
+                                            </tr>
+                                        </tfoot>
+                                    </table>
+                                </div>
+                                <div class="tab-pane fade pt-3" id="bank">
+                                    <div class="row mb-3">
+                                        <label for="account_number" class="col-md-4 col-lg-3 col-form-label">Account Number</label>
+                                        <div class="col-md-8 col-lg-9">
+                                            <input v-model="form.account_number" type="text" class="form-control" id="account_number">
+                                            <div class="text-red-400 text-sm" v-if="form.errors.account_number">
+                                                {{ form.errors.account_number }}
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row mb-3">
+                                        <label for="bank_name" class="col-md-4 col-lg-3 col-form-label">Bank Name</label>
+                                        <div class="col-md-8 col-lg-9">
+                                            <input v-model="form.bank_name" type="text" class="form-control" id="bank_name">
+                                            <div class="text-red-400 text-sm" v-if="form.errors.bank_name">
+                                                {{ form.errors.bank_name }}
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row mb-3">
+                                        <label for="pan_number" class="col-md-4 col-lg-3 col-form-label">Pan Number</label>
+                                        <div class="col-md-8 col-lg-9">
+                                            <input v-model="form.pan_number" type="text" class="form-control" id="pan_number">
+                                            <div class="text-red-400 text-sm" v-if="form.errors.pan_number">
+                                                {{ form.errors.pan_number }}
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                                 <div class="tab-pane fade pt-3" id="profile-change-password">

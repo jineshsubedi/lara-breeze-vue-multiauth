@@ -2,12 +2,20 @@
 
 namespace App\Http\Controllers\Staff;
 
-use App\Models\User;
-use Inertia\Inertia;
-use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Redirect;
+use Illuminate\Support\Facades\Storage;
+use App\Http\Requests\ProfileRequest;
+use App\Http\Controllers\Controller;
+use App\Models\UserDocument;
+use Illuminate\Http\Request;
+use App\Models\UserAddress;
+use Illuminate\Support\Str;
+use App\Models\UserDetail;
+use App\Models\District;
+use App\Models\UserBank;
+use Inertia\Inertia;
+use App\Models\User;
 
 class ProfileController extends Controller
 {
@@ -16,11 +24,56 @@ class ProfileController extends Controller
 
     public function index()
     {
-        $user = auth()->user();
+        $user = User::with(['documents','address','detail','bank'])->find(auth()->id());
+        $user = request()->user();
+        $document = [];
+        foreach($user->documents as $k=>$doc)
+        {
+            $document[$k]['id'] = $doc->id;
+            $document[$k]['title'] = $doc->title;
+            $document[$k]['document'] = $doc->document;
+            $document[$k]['document_path'] = $doc->document_path;
+        }
+        $detail = [
+            'marital_status' => $user->detail ? $user->detail->marital_status : '',
+            'citizenship_no' => $user->detail ? $user->detail->citizenship_no : '',
+            'blood_group' => $user->detail ? $user->detail->blood_group : '',
+        ];
+        $address = [
+            'pdistrict_id' => $user->address ? $user->address->pdistrict_id : '',
+            'tdistrict_id' => $user->address ? $user->address->tdistrict_id : '',
+            'p_address' => $user->address ? $user->address->p_address : '',
+            't_address' => $user->address ? $user->address->t_address : '',
+            'emergency_number' => $user->address ? $user->address->emergency_number : '',
+            'primary_location' => $user->address ? $user->address->primary_location : '',
+            'contact_person' => $user->address ? $user->address->contact_person : '',
+            'contact_person_number' => $user->address ? $user->address->contact_person_number : '',
+            'home_location' => $user->address ? $user->address->home_location : '',
+            'phone_number' => $user->address ? $user->address->phone_number : '',
+        ];
+        $bank = [
+            'account_number' => $user->bank ? $user->bank->account_number : '',
+            'bank_name' => $user->bank ? $user->bank->bank_name : '',
+            'pan_number' => $user->bank ? $user->bank->pan_number : '',
+        ];
+        
         $user->avatarpath = $user->avatar_path;
-        return Inertia::render('Staff/Profile', ['user' => $user]);
+        // return $user;
+        $datas['genders'] = ['Male','Female'];
+        $datas['marital_status'] = ['Married','Unmarried'];
+        $districts = District::get(['id', 'title']);
+
+        return Inertia::render('Staff/Profile', [
+            'user' => $user,
+            'datas' => $datas,
+            'districts' => $districts,
+            'detail' => $detail,
+            'address' => $address,
+            'bank' => $bank,
+            'document' => $document,
+        ]);
     }
-    public function updateProfile(Request $request)
+    public function updateProfile(ProfileRequest $request)
     {
         Validator::make($request->all(), [
             'name' => ['required', 'string'],
@@ -31,8 +84,57 @@ class ProfileController extends Controller
         User::find(auth()->id())->update([ 
             'name' => $request->name,
             'email' => $request->email,
+            'dob' => $request->dob,
+            'gender' => $request->gender,
+            'father_name' => $request->father_name,
             'password' => $request->password != '' ? bcrypt($request->password) : auth()->user()->password,
         ]);
+        UserAddress::updateOrCreate(['user_id' => auth()->id()],[
+            'user_id' => auth()->id(),
+            'pdistrict_id' => $request->pdistrict_id,
+            'tdistrict_id' => $request->tdistrict_id,
+            'p_address' => $request->p_address,
+            't_address' => $request->t_address,
+            'emergency_number' => $request->emergency_number,
+            'primary_location' => $request->primary_location,
+            'contact_person' => $request->contact_person,
+            'contact_person_number' => $request->contact_person_number,
+            'home_location' => $request->home_location,
+            'phone_number' => $request->phone_number,
+        ]);
+        UserDetail::updateOrCreate(['user_id' => auth()->id()],[
+            'user_id' => auth()->id(),
+            'marital_status' => $request->marital_status,
+            'citizenship_no' => $request->citizenship_no,
+            'blood_group' => $request->blood_group,
+        ]);
+        UserBank::updateOrCreate(['user_id' => auth()->id()],[
+            'user_id' => auth()->id(),
+            'account_number' => $request->account_number,
+            'bank_name' => $request->bank_name,
+            'pan_number' => $request->pan_number,
+        ]);
+        if ($request->document)
+        {
+            foreach ($request->document as $key => $document)
+            {
+                $doc = '';
+                if (isset($request->File('document')[$key]['document']))
+                {
+                    $directory = 'user/'.auth()->id().'/document';
+                    if (!Storage::exists($directory)) {
+                        Storage::makeDirectory($directory);
+                    }
+                    $file = $request->File('document')[$key]['document'];
+                    $doc = $file->store($directory, $this->disk);
+                    UserDocument::create([
+                        'user_id' => auth()->id(),
+                        'title' => $document['title'],
+                        'document' => $doc
+                    ]);
+                }
+            }
+        }
         return Redirect::route('staffs.profile')->with('success', 'Profile Updated Successfully');
     }
 
@@ -44,6 +146,18 @@ class ProfileController extends Controller
 
         $avatar = $request->file('avatar')->store($this->path, $this->disk);
         User::find(auth()->id())->update(['avatar' => $avatar]);
-        return Redirect::route('staffs.profile')->with('success', 'Avatar Updated Successfully');
+        return Redirect::route('staffs.profile');
+    }
+    public function deleteProfileDocument($id)
+    {
+        $doc = UserDocument::findOrFail($id);
+        if($doc->document != '')
+        {
+            if (!Storage::exists($doc->document)) {
+                Storage::makeDirectory($doc->document);
+            }
+        }
+        $doc->delete();
+        return back()->with('success', 'Document Deletd!');
     }
 }

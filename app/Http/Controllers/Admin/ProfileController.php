@@ -2,20 +2,20 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Models\User;
-use Inertia\Inertia;
-use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
-use App\Http\Requests\ProfileRequest;
-use App\Models\District;
-use App\Models\UserAddress;
-use App\Models\UserBank;
-use Illuminate\Support\Str;
-use App\Models\UserDetail;
-use App\Models\UserDocument;
+use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Storage;
-use Illuminate\Support\Facades\Validator;
+use App\Http\Requests\ProfileRequest;
+use App\Http\Controllers\Controller;
+use App\Models\UserDocument;
+use Illuminate\Http\Request;
+use App\Models\UserAddress;
+use Illuminate\Support\Str;
+use App\Models\UserDetail;
+use App\Models\District;
+use App\Models\UserBank;
+use Inertia\Inertia;
+use App\Models\User;
 
 class ProfileController extends Controller
 {
