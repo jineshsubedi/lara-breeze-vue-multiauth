@@ -37,14 +37,6 @@
                             <i class="bi bi-bootstrap-reboot"></i><span>Roles</span>
                         </NavLink>
                     </li>
-                    <li v-if="$page.props.can.includes('SuperAdmin')">
-                        <NavLink 
-                            :href="route('admin.roles.index')" 
-                            :active="route().current('admin.roles.index')"
-                        >
-                            <i class="bi bi-bootstrap-reboot"></i><span>Roles</span>
-                        </NavLink>
-                    </li>
                 </ul>
             </li>
 
@@ -71,8 +63,8 @@
                     </li>
                     <li>
                         <NavLink 
-                            :href="route('admin.setting.index')" 
-                            :active="route().current('admin.setting.index')"
+                            :href="route('admin.attendances.index')" 
+                            :active="route().current('admin.attendances.index')"
                         >
                             <i class="bi bi-calendar2-check"></i><span>Attendance</span>
                         </NavLink>
