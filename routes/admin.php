@@ -20,3 +20,6 @@ Route::patch('attendances/{id}/approve','AttendanceController@approve')->name('a
 Route::patch('attendances/{id}/reject','AttendanceController@reject')->name('attendances.reject');
 
 Route::resource('dailytasks', 'DailyTaskController');
+Route::resource('branches', 'BranchController');
+
+

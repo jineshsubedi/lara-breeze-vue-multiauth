@@ -2,46 +2,57 @@
 import AdminLayout from "@/Layouts/AdminLayout.vue";
 import { Head, Link, useForm } from "@inertiajs/inertia-vue3";
 import Pagination from "@/Components/Pagination.vue";
-import AddTodayTask from "@/Layouts/Common/AddTodayTask.vue"
+import { ref } from "vue";
 import { Inertia } from "@inertiajs/inertia";
 
 const form = useForm();
 const props = defineProps({
-    dtasks: {
+    branches: {
         type: Object,
         default: () => ({}),
     },
-    kras: Array,
+    provinces: {
+        type: Object,
+        default: () => ({}),
+    },
+    districts: {
+        type: Object,
+        default: () => ({}),
+    },
+    filters: {
+        type: Object,
+        default: () => ({}),
+    },
     can: Array
 });
-let filter = {
-    work_date: new Date(),
-    status: 'all'
-}
 function destroy(id) {
     if (confirm("Are you sure you want to Delete")) {
-        form.delete(route("admin.dailytasks.destroy", id));
+        form.delete(route("admin.branches.destroy", id));
     }
 }
-function filterDailyTask()
+let province = ref(props.filters.province);
+let district = ref(props.filters.district);
+
+function loadFilter()
 {
     Inertia.get(
-        route('admin.dailytasks.index'),
-        { work_date: filter.work_date, status: filter.status },
+        route('admin.branches.index'),
+        { province: province.value, district: district.value },
         {
             preserveState: true,
             replace: true,
         }
     );
 }
+
 </script>
 <template>
-    <Head title="Daily Task Page" />
+    <Head title="Branches Page" />
 
     <AdminLayout>
         <template #header>
             <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-                Daily Task
+                Branches
             </h2>
         </template>
         <template #breadcrum>
@@ -50,68 +61,64 @@ function filterDailyTask()
                     <Link :href="route('admin.dashboard')"> Home </Link>
                 </li>
                 <li class="breadcrumb-item active">
-                    <Link :href="route('admin.dailytasks.index')"> Daily Tasks </Link>
+                    <Link :href="route('admin.branches.index')"> Branches </Link>
                 </li>
             </ol>
         </template>
         <div class="container">
             <div class="text-right">
-                <button type="button" class="btn btn-sm btn-info" data-bs-toggle="modal" data-bs-target="#todayTaskModal"><i class="bi bi-plus"></i> Add More</button>
+                <Link :href="route('admin.branches.create')" class="btn btn-sm btn-outline-info">
+                    <i class="bi bi-plus"></i> Add New Branch
+                </Link>
             </div>
-            <AddTodayTask :url="route('admin.dailytasks.store')" :kras="kras"/>
             <div class="card">
                 <div class="card-body">
-                    <h5 class="card-title">Daily Tasks</h5>
+                    <h5 class="card-title">Branches</h5>
                     <table class="table table-striped">
                         <thead>
                             <tr>
                                 <th scope="col">#</th>
-                                <th scope="col">Work Date</th>
-                                <th scope="col">Duration</th>
-                                <th scope="col">Kra</th>
-                                <th scope="col">Description</th>
-                                <th scope="col">Status</th>
+                                <th scope="col">Name</th>
+                                <th scope="col">Province</th>
+                                <th scope="col">District</th>
                                 <th scope="col">Action</th>
                             </tr>
                             <tr>
-                                <th></th>
-                                <th>
-                                    <input type="date" v-model="filter.work_date" class="form-control" @change="filterDailyTask">
-                                </th>
-                                <th></th>
-                                <th></th>
-                                <th></th>
-                                <th>
-                                    <select v-model="filter.status" class="form-control" @change="filterDailyTask">
-                                        <option value="all">All</option>
-                                        <option value="0">Pending</option>
-                                        <option value="1">Approved</option>
-                                        <option value="2">Rejected</option>
+                                <td></td>
+                                <td></td>
+                                <td>
+                                    <select v-model="province" class="form-control" @change="loadFilter">
+                                        <option value="">Select Province</option>
+                                        <option v-for="(province, index) in provinces" :key="index" :value="province.id">{{province.title}}</option>
                                     </select>
-                                </th>
-                                <th></th>
+                                </td>
+                                <td>
+                                    <select v-model="district" class="form-control" @change="loadFilter">
+                                        <option value="">Select District</option>
+                                        <option v-for="(district, index) in districts" :key="index" :value="district.id">{{district.title}}</option>
+                                    </select>
+                                </td>
+                                <td></td>
                             </tr>
                         </thead>
                         <tbody>
                             <tr 
-                                v-for="(dtask, index) in dtasks.data"
-                                :key="dtask.id"
+                                v-for="(branch, index) in branches.data"
+                                :key="index"
                             >
                                 <th scope="row">{{ ++index }}</th>
-                                <td scope="row">{{ dtask.start_time }}</td>
-                                <td scope="row">{{ dtask.calculate_duration }}</td>
-                                <td scope="row">{{ dtask.kra ? dtask.kra.title : '' }}</td>
-                                <td scope="row">{{ dtask.description }}</td>
-                                <td scope="row">{{ dtask.status }}</td>
+                                <td scope="row">{{ branch.name }}</td>
+                                <td scope="row">{{ branch.province.title }}</td>
+                                <td scope="row">{{ branch.district.title }}</td>
                                 <td scope="row">
                                     <div class="btn-group">
-                                        <Link :href="route('admin.dailytasks.edit', dtask.id)"
+                                        <Link :href="route('admin.branches.edit', branch.id)"
                                             class="btn btn-sm btn-outline-warning">
                                             <i class="bi bi-pencil-square"></i>
                                         </Link>
                                         <button
                                             class="btn btn-sm btn-outline-danger"
-                                            @click="destroy(dtask.id)"
+                                            @click="destroy(branch.id)"
                                         >
                                             <i class="bi bi-trash"></i>
                                         </button>
@@ -122,7 +129,7 @@ function filterDailyTask()
                         <tfoot>
                             <tr>
                                 <td colspan="8">
-                                    <Pagination class="mt-6" :links="dtasks.links" />
+                                    <Pagination class="mt-6" :links="branches.links" />
                                 </td>
                             </tr>
                         </tfoot>

@@ -58,7 +58,7 @@ function destroy(id) {
                                 v-for="(role, index) in roles.data"
                                 :key="role.id"
                             >
-                                <th scope="row">{{ index++ }}</th>
+                                <th scope="row">{{ ++index }}</th>
                                 <td scope="row">{{ role.name }}</td>
                                 <td scope="row">
                                     <div class="btn-group">

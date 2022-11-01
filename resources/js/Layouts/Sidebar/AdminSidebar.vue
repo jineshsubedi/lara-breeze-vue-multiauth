@@ -37,6 +37,14 @@
                             <i class="bi bi-bootstrap-reboot"></i><span>Roles</span>
                         </NavLink>
                     </li>
+                    <li v-if="$page.props.can.includes('SuperAdmin')">
+                        <NavLink 
+                            :href="route('admin.branches.index')" 
+                            :active="route().current('admin.branches.index')"
+                        >
+                            <i class="bi bi-diagram-3"></i><span>Branch</span>
+                        </NavLink>
+                    </li>
                 </ul>
             </li>
 

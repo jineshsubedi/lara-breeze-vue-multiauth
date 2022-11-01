@@ -35,3 +35,7 @@ Route::prefix('file-manager')->controller(FilemanagerController::class)->group(f
     Route::post('/delete-file', 'deleteFile')->name('filemanager.delete_file');
     Route::post('/delete-folder', 'deleteFolder')->name('filemanager.delete_folder');
 });
+
+Route::prefix('common')->group(function() {
+    Route::get('getDistrict', 'Common\CommonController@getDistrict')->name('getDistrict');
+});

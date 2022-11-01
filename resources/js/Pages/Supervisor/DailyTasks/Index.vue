@@ -97,7 +97,7 @@ function filterDailyTask()
                                 v-for="(dtask, index) in dtasks.data"
                                 :key="dtask.id"
                             >
-                                <th scope="row">{{ index++ }}</th>
+                                <th scope="row">{{ ++index }}</th>
                                 <td scope="row">{{ dtask.start_time }}</td>
                                 <td scope="row">{{ dtask.calculate_duration }}</td>
                                 <td scope="row">{{ dtask.kra ? dtask.kra.title : '' }}</td>
