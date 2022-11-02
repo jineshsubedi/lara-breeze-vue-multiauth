@@ -21,6 +21,7 @@ use App\Models\UserKpi;
 use App\Models\UserKra;
 use App\Models\Branch;
 use App\Models\Leave;
+use App\Models\User;
 
 trait UserRelation {
 
@@ -129,5 +130,10 @@ trait UserRelation {
     public function kpi()
     {
         return $this->hasMany(UserKpi::class);
+    }
+
+    public function scopeActive($query)
+    {
+        return $query->whereStatus(User::CURRENTLY_WORKING);
     }
 }

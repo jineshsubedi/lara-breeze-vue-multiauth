@@ -26,7 +26,7 @@ return new class extends Migration
             $table->unsignedBigInteger('designation_id')->index();
             $table->unsignedBigInteger('shift_time_id')->index();
             $table->unsignedBigInteger('supervisor_id')->index();
-            $table->tinyInteger('status')->comment('Enum Value in Enum file');
+            $table->string('status')->comment('Enum Value in Enum file');
             $table->string('gender')->nullable();
             $table->string('employment_type')->nullable();
             $table->string('salary_type')->nullable();

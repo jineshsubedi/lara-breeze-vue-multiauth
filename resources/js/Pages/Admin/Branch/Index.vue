@@ -33,6 +33,7 @@ function destroy(id) {
 let province = ref(props.filters.province);
 let district = ref(props.filters.district);
 
+
 function loadFilter()
 {
     Inertia.get(
@@ -108,10 +109,14 @@ function loadFilter()
                             >
                                 <th scope="row">{{ ++index }}</th>
                                 <td scope="row">{{ branch.name }}</td>
-                                <td scope="row">{{ branch.province.title }}</td>
-                                <td scope="row">{{ branch.district.title }}</td>
+                                <td scope="row">{{ branch.province.title ? branch.province.title : '' }}</td>
+                                <td scope="row">{{ branch.district.title ? branch.district.title : '' }}</td>
                                 <td scope="row">
                                     <div class="btn-group">
+                                        <Link :href="route('admin.branch.getSetting', branch.id)"
+                                            class="btn btn-sm btn-outline-info" v-if="can.includes('SuperAdmin')">
+                                            <i class="bi bi-gear-wide"></i>
+                                        </Link>
                                         <Link :href="route('admin.branches.edit', branch.id)"
                                             class="btn btn-sm btn-outline-warning">
                                             <i class="bi bi-pencil-square"></i>

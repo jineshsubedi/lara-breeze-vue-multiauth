@@ -1,7 +1,7 @@
 <script setup>
     import ToastNotification from "@/Components/ToastNotification.vue";
     let success = 'success';
-    let danger = 'danger';
+    let danger = 'error';
     let warning = 'warning';
     let info = 'info';
 </script>

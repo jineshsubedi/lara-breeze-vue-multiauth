@@ -9,7 +9,7 @@ class Department extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['title', 'minimum_leave', 'maximum_leave', 'department_head'];
+    protected $fillable = ['title', 'branch_id', 'minimum_leave', 'maximum_leave', 'department_head'];
 
     public function user()
     {

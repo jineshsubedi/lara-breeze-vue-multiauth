@@ -16,12 +16,11 @@ return new class extends Migration
         Schema::create('branches', function (Blueprint $table) {
             $table->id();
             $table->string('name',80)->unique();
+            $table->string('email',80)->unique();
             $table->text('description')->nullable();
             $table->unsignedBigInteger('province_id')->index();
             $table->unsignedBigInteger('district_id')->index();
             $table->boolean('is_head')->default(0)->comment('1 => head, 0 => normal');
-            $table->boolean('performance_rating')->default(0)->comment('1 => Yes, 0 => No');
-            $table->integer('rating_time')->nullable();
             $table->string('login_ip')->nullable();
             $table->timestamps();
         });

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Enums\AppConstant;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Storage;
@@ -58,9 +59,8 @@ class ProfileController extends Controller
         ];
         
         $user->avatarpath = $user->avatar_path;
-        // return $user;
-        $datas['genders'] = ['Male','Female'];
-        $datas['marital_status'] = ['Married','Unmarried'];
+        $datas['genders'] = AppConstant::GENDER;
+        $datas['marital_status'] = AppConstant::MARITAL_STATUS;
         $districts = District::get(['id', 'title']);
 
         return Inertia::render('Admin/Profile', [

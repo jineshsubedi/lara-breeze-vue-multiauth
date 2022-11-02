@@ -13,16 +13,15 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('departments', function (Blueprint $table) {
+        Schema::create('performance_settings', function (Blueprint $table) {
             $table->id();
-            $table->string('title');
             $table->foreignId('branch_id')
                 ->constrained()
                 ->onUpdate('cascade')
                 ->onDelete('cascade');
-            $table->tinyInteger('minimum_leave')->default(0);
-            $table->tinyInteger('maximum_leave')->default(0);
-            $table->unsignedBigInteger('department_head')->default(0)->index();
+            $table->integer('title');
+            $table->string('duration')->nullable();
+            $table->string('parameter')->nullable();
             $table->timestamps();
         });
     }
@@ -34,6 +33,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('departments');
+        Schema::dropIfExists('performance_settings');
     }
 };

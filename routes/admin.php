@@ -22,4 +22,5 @@ Route::patch('attendances/{id}/reject','AttendanceController@reject')->name('att
 Route::resource('dailytasks', 'DailyTaskController');
 Route::resource('branches', 'BranchController');
 
-
+Route::get('branch/{id}/setting', 'BranchController@getSetting')->name('branch.getSetting');
+Route::post('branch/{id}/setting', 'BranchController@storeSetting')->name('branch.storeSetting');

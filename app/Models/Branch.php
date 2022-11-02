@@ -9,7 +9,7 @@ class Branch extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['name','description','province_id','district_id', 'performance_rating', 'is_head','rating_time','login_ip'];
+    protected $fillable = ['name', 'email','description','province_id','district_id', 'is_head','login_ip'];
     
     public function province()
     {
@@ -18,5 +18,13 @@ class Branch extends Model
     public function district()
     {
         return $this->belongsTo(District::class);
+    }
+    public function setting()
+    {
+        return $this->hasOne(BranchSetting::class);
+    }
+    public function performance()
+    {
+        return $this->hasOne(PerformanceSetting::class);
     }
 }

@@ -31,20 +31,20 @@ class BranchRequest extends FormRequest
             'province_id' => ['required','integer', Rule::in(Province::pluck('id'))],
             'district_id' => ['required','integer', Rule::in(District::pluck('id'))],
             'is_head' => ['required','integer'],
-            'performance_rating' => ['nullable','integer'],
-            'rating_time' => ['nullable','integer'],
             'login_ip' => ['nullable','string'],
         ];
 
         if($this->getMethod() =='POST') {
             $rules += [
                 'name' => ['bail','required','string','max:80','unique:branches'],
+                'email' => ['bail','required','string','max:80','unique:branches'],
             ];
         }
 
         if($this->getMethod() == 'PUT') {
             $rules += [
-                     'name' => ['bail','required','string','max:80',Rule::unique('branches')->ignore($this->branch->id)]
+                     'name' => ['bail','required','string','max:80',Rule::unique('branches')->ignore($this->branch->id)],
+                     'email' => ['bail','required','string','max:80',Rule::unique('branches')->ignore($this->branch->id)],
                 ];
             }
 

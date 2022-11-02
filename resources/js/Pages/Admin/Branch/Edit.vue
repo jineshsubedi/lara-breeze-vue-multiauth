@@ -8,17 +8,15 @@ const props = defineProps({
     branch: Object,
     provinces: Object,
     yn: Object,
-    rating_times: Object
 });
 
 const form = useForm({
     name: props.branch.name,
+    email: props.branch.email,
     description: props.branch.description,
     province_id: props.branch.province_id,
     district_id: props.branch.district_id,
     is_head: props.branch.is_head,
-    performance_rating: props.branch.performance_rating,
-    rating_time: props.branch.rating_time,
     login_ip: props.branch.login_ip
 });
 
@@ -97,6 +95,28 @@ function getDistrict()
                                 </div>
                                 <div class="form-group row mb-3">
                                     <label
+                                        for="inputEmail"
+                                        class="col-sm-2 col-form-label"
+                                        >Email</label
+                                    >
+                                    <div class="col-sm-10">
+                                        <input
+                                            type="text"
+                                            class="form-control"
+                                            id="inputEmail"
+                                            placeholder="Branch Email"
+                                            v-model="form.email"
+                                        />
+                                        <div
+                                            class="text-red-400 text-sm"
+                                            v-if="form.errors.email"
+                                        >
+                                            {{ form.errors.email }}
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group row mb-3">
+                                    <label
                                         for="description"
                                         class="col-sm-2 col-form-label"
                                         >Description</label
@@ -162,42 +182,6 @@ function getDistrict()
                                             v-if="form.errors.is_head"
                                         >
                                             {{ form.errors.is_head }}
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="form-group row mb-3">
-                                    <label
-                                        for="performance_rating"
-                                        class="col-sm-2 col-form-label"
-                                        >Performance Rating Required</label
-                                    >
-                                    <div class="col-sm-10">
-                                        <select id="performance_rating" v-model="form.performance_rating" class="form-control">
-                                            <option v-for="(yen, index) in yn" :key="index" :value="yen.value">{{yen.title}}</option>
-                                        </select>
-                                        <div
-                                            class="text-red-400 text-sm"
-                                            v-if="form.errors.performance_rating"
-                                        >
-                                            {{ form.errors.performance_rating }}
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="form-group row mb-3">
-                                    <label
-                                        for="rating_time"
-                                        class="col-sm-2 col-form-label"
-                                        >Performance Rating Time</label
-                                    >
-                                    <div class="col-sm-10">
-                                        <select id="rating_time" v-model="form.rating_time" class="form-control">
-                                            <option v-for="(rtime, index) in rating_times" :key="index" :value="rtime.value">{{rtime.title}}</option>
-                                        </select>
-                                        <div
-                                            class="text-red-400 text-sm"
-                                            v-if="form.errors.rating_time"
-                                        >
-                                            {{ form.errors.rating_time }}
                                         </div>
                                     </div>
                                 </div>

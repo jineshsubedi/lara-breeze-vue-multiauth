@@ -3,12 +3,17 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Enums\AppConstant;
+use App\Enums\StatusEnum;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\BranchRequest;
+use App\Http\Requests\Admin\BranchSettingRequest;
+use App\Library\Imagetool;
 use Illuminate\Http\Request;
 use App\Models\Province;
 use App\Models\District;
 use App\Models\Branch;
+use App\Models\BranchSetting;
+use App\Models\Department;
 use App\Models\User;
 use Inertia\Inertia;
 
@@ -47,12 +52,10 @@ class BranchController extends Controller
     {
         $provinces = Province::titleList();
         $yn = AppConstant::YN;
-        $rating_times = AppConstant::RATING_TIMES;
 
         return Inertia::render('Admin/Branch/Create', [
             'provinces' => $provinces,
             'yn' => $yn,
-            'rating_times' => $rating_times,
         ]);
     }
 
@@ -74,9 +77,9 @@ class BranchController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Branch $branch)
     {
-        //
+        return $branch;
     }
 
     /**
@@ -89,12 +92,10 @@ class BranchController extends Controller
     {
         $provinces = Province::titleList();
         $yn = AppConstant::YN;
-        $rating_times = AppConstant::RATING_TIMES;
         return Inertia::render('Admin/Branch/Edit', [
             'branch' => $branch,
             'provinces' => $provinces,
             'yn' => $yn,
-            'rating_times' => $rating_times,
         ]);
     }
 
@@ -121,7 +122,7 @@ class BranchController extends Controller
     {
         if ($branch->is_head == 1)
         {
-            return back()->with('danger', 'Branch Cannot be Deleted Successfully!');
+            return back()->with('danger', 'Head Branch Cannot be Deleted!');
         }
         $branch->delete();
         return back()->with('success', 'Branch Deleted Successfully!');
@@ -136,5 +137,66 @@ class BranchController extends Controller
             $query->where('district_id', request()->district);
         }
         return $query;
+    }
+
+    public function getSetting($id)
+    {
+        $branch = Branch::with(['setting', 'performance'])->findOrFail($id);
+        $yn = AppConstant::YN;
+        $duration = AppConstant::DURATION;
+        $rating_times = AppConstant::RATING_TIMES;
+        $lang_dates = AppConstant::LANG_DATE;
+        $client_ratings = AppConstant::CLIENT_RATING;
+        $staffs = User::where('branch_id', $id)->active()->get(['id', 'name']);
+        $departments = Department::where('branch_id', $id)->get(['id', 'title']);
+
+        $setting = [
+            'revenue' => isset($branch->setting->id) ? $branch->setting->revenue : null,
+            'client' => isset($branch->setting->id) ? $branch->setting->client : null,
+            'canteen' => isset($branch->setting->id) ? $branch->setting->canteen : null,
+            'client_comment' => isset($branch->setting->id) ? $branch->setting->client_comment : 0,
+            'comment_type' => isset($branch->setting->id) ? $branch->setting->comment_type : 0,
+            'salary_calculate' => isset($branch->setting->id) ? $branch->setting->salary_calculate : 1,
+            'performance_rater' => isset($branch->setting->id) ? $branch->setting->performance_rater : null,
+            'performance_rating_type' => isset($branch->setting->id) ? $branch->setting->performance_rating_type : null,    
+            'attendance_handler' => isset($branch->setting->id) ? $branch->setting->attendance_handler : null,
+            'hr_handler' => isset($branch->setting->id) ? $branch->setting->hr_handler : null,
+            'training_handler' => isset($branch->setting->id) ? $branch->setting->training_handler : null,
+            'staff_handler' => isset($branch->setting->id) ? $branch->setting->staff_handler : null,
+            'survey_handler' => isset($branch->setting->id) ? $branch->setting->survey_handler : null,
+            'out_source_handler' => isset($branch->setting->id) ? $branch->setting->out_source_handler : [],
+            'account_handler_signature' => isset($branch->setting->id) ? $branch->setting->account_handler_signature : null,
+            'account_handler' => isset($branch->setting->id) ? $branch->setting->account_handler : null,
+        ];
+        
+        // return $setting;
+        $defaultImage = isset($branch->setting->id) ? Imagetool::mycrop($branch->setting->account_handler_signature, 100, 100) : Imagetool::mycrop('no-image.png', 100, 100);
+        
+        return Inertia::render('Admin/Branch/Setting', [
+            'branch' => $branch,
+            'duration' => $duration,
+            'rating_times' => $rating_times,
+            'lang_dates' => $lang_dates,
+            'client_ratings' => $client_ratings,
+            'staffs' => $staffs,
+            'departments' => $departments,
+            'yn' => $yn,
+            'setting' => $setting,
+            'defaultImage' => $defaultImage
+        ]);
+    }
+
+    public function storeSetting(BranchSettingRequest $request, $id)
+    {
+        $branch = Branch::with(['setting', 'performance'])->findOrFail($id);
+        return BranchSetting::updateOrCreate(
+            ['branch_id' => $branch->id],
+            $request->validated(),
+            [
+                'branch_id' => $branch->id,
+                'out_source_handler' => $request->out_source_handler
+            ]
+        );
+        return back()->with('success', 'Branch Setting Updated!');
     }
 }
