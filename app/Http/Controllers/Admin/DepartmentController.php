@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\DepartmentRequest;
+use App\Models\Branch;
 use App\Models\Department;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -19,12 +20,14 @@ class DepartmentController extends Controller
     public function index(Request $request)
     {
         $query = Department::query();
-        $query->with(['user:id,name']);
+        $query->with(['user:id,name', 'branch:id,name']);
         $filter = $this->filterQuery($query);
         $departments = $filter->latest('id')->paginate(15);
+        $branches = Branch::branchList();
         return Inertia::render('Admin/Department/Index', [
             'departments' => $departments,
-            'filters' => $request->only(['title'])
+            'branches' => $branches,
+            'filters' => $request->only(['title', 'branch_id'])
         ]);
     }
 
@@ -35,9 +38,9 @@ class DepartmentController extends Controller
      */
     public function create()
     {
-        $staffs = User::active()->where('branch_id', auth()->user()->branch_id)->get(['id', 'name']);
+        $branches = Branch::branchList();
         return Inertia::render('Admin/Department/Create', [
-            'staffs' => $staffs,
+            'branches' => $branches,
         ]);
     }
 
@@ -49,9 +52,7 @@ class DepartmentController extends Controller
      */
     public function store(DepartmentRequest $request)
     {
-        Department::create($request->validated() + [
-            'branch_id' => auth()->user()->branch_id
-        ]);
+        Department::create($request->validated());
         return redirect()->route('admin.departments.index')->with('success', 'Department Added Successfully!');
     }
 
@@ -74,7 +75,7 @@ class DepartmentController extends Controller
      */
     public function edit(Department $department)
     {
-        $staffs = User::active()->branch()->get(['id', 'name']);
+        $staffs = User::active()->where('branch_id', $department->branch_id)->get(['id', 'name']);
         return Inertia::render('Admin/Department/Edit', [
             'staffs' => $staffs,
             'department' => $department,
@@ -110,6 +111,9 @@ class DepartmentController extends Controller
     {
         if(request()->filled('title')) {
             $query->where('title', 'LIKE', '%'.request()->title.'%');
+        }
+        if(request()->filled('branch')) {
+            $query->where('branch_id', request()->branch);
         }
         return $query;
     }

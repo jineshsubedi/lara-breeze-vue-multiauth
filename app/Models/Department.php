@@ -15,6 +15,10 @@ class Department extends Model
     {
         return $this->belongsTo(User::class, 'department_head');
     }
+    public function branch()
+    {
+        return $this->belongsTo(Branch::class, 'branch_id');
+    }
     public function scopeBranch($query)
     {
         return $query->whereBranchId(auth()->user()->branch_id);

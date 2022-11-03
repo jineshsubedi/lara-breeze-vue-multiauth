@@ -2,6 +2,9 @@
 import AdminLayout from "@/Layouts/AdminLayout.vue";
 import { Head, Link, useForm } from "@inertiajs/inertia-vue3";
 import Pagination from "@/Components/Pagination.vue";
+import { ref, watch } from "vue";
+import { Inertia } from "@inertiajs/inertia";
+import throttle from "lodash/throttle";
 
 const form = useForm();
 const props = defineProps({
@@ -9,8 +12,39 @@ const props = defineProps({
         type: Object,
         default: () => ({}),
     },
+    branches: Object,
+    filters: {
+        type: Object,
+        default: () => ({}),
+    },
     can: Array
 });
+let SuperAdmin = props.can.includes('SuperAdmin');
+let branch = ref(props.filters.branch_id);
+let title = ref(props.filters.title);
+
+function loadFilter()
+{
+    Inertia.get(
+        route('admin.departments.index'),
+        { branch: branch.value, title: title.value },
+        {
+            preserveState: true,
+            replace: true,
+        }
+    );
+}
+watch(title, throttle(function (value){
+    Inertia.get(
+        route('admin.departments.index'),
+        { branch: branch.value, title: title.value },
+        {
+            preserveState: true,
+            replace: true,
+        }
+    );
+}, 500
+));
 function destroy(id) {
     if (confirm("Are you sure you want to Delete")) {
         form.delete(route("admin.departments.destroy", id));
@@ -49,11 +83,33 @@ function destroy(id) {
                         <thead>
                             <tr>
                                 <th scope="col">#</th>
+                                <th scope="col" v-if="SuperAdmin">Branch</th>
                                 <th scope="col">Title</th>
                                 <th scope="col">Head</th>
                                 <th scope="col">Minimum Leave</th>
                                 <th scope="col">Maximum Leave</th>
                                 <th scope="col">Action</th>
+                            </tr>
+                            <tr>
+                                <td></td>
+                                <td v-if="SuperAdmin">
+                                    <select v-model="branch" class="form-control" @change="loadFilter" >
+                                        <option value="">Select Branch</option>
+                                        <option v-for="(branch, bindex) in branches" :key="bindex" :value="branch.id">{{branch.name}}</option>
+                                    </select>
+                                </td>
+                                <td>
+                                    <input
+                                        type="text"
+                                        v-model="title"
+                                        placeholder="Search Department By Title"
+                                        class="form-control"
+                                    />
+                                </td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
                             </tr>
                         </thead>
                         <tbody>
@@ -62,6 +118,7 @@ function destroy(id) {
                                 :key="department.id"
                             >
                                 <th scope="row">{{ ++index }}</th>
+                                <td scope="row">{{ department.branch.name }}</td>
                                 <td scope="row">{{ department.title }}</td>
                                 <td scope="row">{{ department.user ? department.user.name : '' }}</td>
                                 <td scope="row">{{ department.minimum_leave }}</td>

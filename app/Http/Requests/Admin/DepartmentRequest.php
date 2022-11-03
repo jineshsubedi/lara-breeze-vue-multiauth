@@ -23,11 +23,26 @@ class DepartmentRequest extends FormRequest
      */
     public function rules()
     {
-        return [
+        $rules = [
+            
             'title' => 'required',
-            'department_head' => 'required|integer',
+            'department_head' => 'sometimes|nullable|integer',
             'minimum_leave' => 'required|integer',
             'maximum_leave' => 'required|integer',
         ];
+
+        if($this->getMethod() =='POST') {
+            $rules += [
+                'branch_id' => 'required|integer',
+            ];
+        }
+
+        if($this->getMethod() == 'PUT') {
+            $rules += [
+                
+            ];
+        }
+
+        return $rules;
     }
 }

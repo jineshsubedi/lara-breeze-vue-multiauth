@@ -1,18 +1,34 @@
 <script setup>
 import AdminLayout from "@/Layouts/AdminLayout.vue";
 import { Head, Link, useForm } from "@inertiajs/inertia-vue3";
+import axios from "axios";
+import { ref } from "vue";
 
 const props = defineProps({
-    staffs : Object,
+    branches : Object,
 })
 
 const form = useForm({
+    branch_id: 0,
     title: null,
-    department_head: null,
+    department_head: 0,
     minimum_leave: null,
     maximum_leave: null,
 });
-
+let staffs = ref([]);
+function getStaffs()
+{
+    axios.post(route('getStaffsByBranch'), 
+        {
+            branch: form.branch_id
+        }
+    )
+    .then(res => {
+        staffs.value = ref(res.data)
+    }).catch(err => {
+        console.log(err)
+    })
+}
 </script>
 <template>
     <Head title="Department Create" />
@@ -48,6 +64,24 @@ const form = useForm({
                                     form.post(route('admin.departments.store'))
                                 "
                             >
+                            <div class="form-group row mb-3">
+                                    <label
+                                        for="branch_id"
+                                        class="col-sm-2 col-form-label"
+                                        >Branch</label
+                                    >
+                                    <div class="col-sm-10">
+                                        <select v-model="form.branch_id" id="branch_id" class="form-control" @change="getStaffs" required>
+                                            <option v-for="(branch, index) in branches" :key="index" :value="branch.id">{{branch.name}}</option>
+                                        </select>
+                                        <div
+                                            class="text-red-400 text-sm"
+                                            v-if="form.errors.branch_id"
+                                        >
+                                            {{ form.errors.branch_id }}
+                                        </div>
+                                    </div>
+                                </div>
                                 <div class="form-group row mb-3">
                                     <label
                                         for="title"
@@ -120,11 +154,11 @@ const form = useForm({
                                     <label
                                         for="department_head"
                                         class="col-sm-2 col-form-label"
-                                        >department_head</label
+                                        >Department Head</label
                                     >
                                     <div class="col-sm-10">
                                         <select v-model="form.department_head" id="department_head" class="form-control">
-                                            <option v-for="(staff, index) in staffs" :key="index" :value="staff.id">{{staff.name}}</option>
+                                            <option v-for="(staff, index) in staffs.value" :key="index" :value="staff.id">{{staff.name}}</option>
                                         </select>
                                         <div
                                             class="text-red-400 text-sm"
