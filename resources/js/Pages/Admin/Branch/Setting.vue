@@ -13,7 +13,9 @@ const props = defineProps({
     staffs: Object,
     departments: Object,
     yn: Object,
+    titles: Object,
     setting: Object,
+    performance: Object,
     defaultImage: String,
     can: Object
 });
@@ -35,6 +37,7 @@ const form = useForm({
     client_comment: props.setting.client_comment,
     comment_type: props.setting.comment_type,
     performance_rating_type: props.setting.performance_rating_type,
+    performance : props.performance
     
 });
 let placeholder_image = ref(props.defaultImage)
@@ -49,6 +52,15 @@ function openModel(path) {
     $("#"+path).modal('show');
 }
 
+
+function addPerformance()
+{
+    form.performance.push({'title' : '', 'duration' : '', 'parameter' : ''});
+}
+function removePerformance(index)
+{
+    form.performance.splice(index, 1)
+}
 </script>
 <template>
     <Head title="Branch Setting" />
@@ -390,6 +402,44 @@ function openModel(path) {
                                     </div>
                                 </div>
                             </div>
+                                <table class="table table-bordered">
+                                    <thead>
+                                        <tr>
+                                            <th colspan="4">Performance Valuation Parameters</th>
+                                        </tr>
+                                        <tr>
+                                            <th>Title</th>
+                                            <th>Duration</th>
+                                            <th>Parameter</th>
+                                            <th>Action</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr v-for="(per, inp) in form.performance" :key="inp">
+                                            <td>
+                                                <select v-model="form.performance[inp].title" class="form-control" required>
+                                                <option v-for="(ptitle ,pind) in titles" :value="ptitle" :key="pind">{{ptitle}}</option></select>
+                                            </td>
+                                            <td>
+                                                <select v-model="form.performance[inp].duration" class="form-control" required>
+                                                <option v-for="(pduration ,pdur) in duration" :value="pduration.value" :key="pdur">{{pduration.title}}</option></select>
+                                            </td>
+                                            <td>
+                                                <input type="text" v-model="form.performance[inp].parameter" class="form-control" placeholder="Perfomance parameter" required>
+                                            </td>
+                                            <td>
+                                                <button type="button" class="btn btn-sm btn-outline-danger" @click="removePerformance(inp)"><i class="bi bi-trash"></i></button>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                    <tfoot>
+                                        <tr>
+                                            <td colspan="4" class="text-right">
+                                                <button type="button" class="btn btn-sm btn-outline-primary" @click="addPerformance"><i class="bi bi-plus"></i>  Add More</button>
+                                            </td>
+                                        </tr>
+                                    </tfoot>
+                                </table>
                                 <div class="form-group row mb-3">
                                     <div class="offset-sm-2 col-sm-10">
                                         <button

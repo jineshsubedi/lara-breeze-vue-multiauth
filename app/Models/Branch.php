@@ -25,6 +25,6 @@ class Branch extends Model
     }
     public function performance()
     {
-        return $this->hasOne(PerformanceSetting::class);
+        return $this->hasMany(PerformanceSetting::class);
     }
 }

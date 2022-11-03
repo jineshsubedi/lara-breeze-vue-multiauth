@@ -14,6 +14,7 @@ use App\Models\District;
 use App\Models\Branch;
 use App\Models\BranchSetting;
 use App\Models\Department;
+use App\Models\PerformanceSetting;
 use App\Models\User;
 use Inertia\Inertia;
 
@@ -147,6 +148,7 @@ class BranchController extends Controller
         $rating_times = AppConstant::RATING_TIMES;
         $lang_dates = AppConstant::LANG_DATE;
         $client_ratings = AppConstant::CLIENT_RATING;
+        $titles = AppConstant::PERFORMANCE_TITLES;
         $staffs = User::where('branch_id', $id)->active()->get(['id', 'name']);
         $departments = Department::where('branch_id', $id)->get(['id', 'title']);
 
@@ -169,7 +171,6 @@ class BranchController extends Controller
             'account_handler' => isset($branch->setting->id) ? $branch->setting->account_handler : null,
         ];
         
-        // return $setting;
         $defaultImage = isset($branch->setting->id) ? Imagetool::mycrop($branch->setting->account_handler_signature, 100, 100) : Imagetool::mycrop('no-image.png', 100, 100);
         
         return Inertia::render('Admin/Branch/Setting', [
@@ -181,15 +182,17 @@ class BranchController extends Controller
             'staffs' => $staffs,
             'departments' => $departments,
             'yn' => $yn,
+            'titles' => $titles,
             'setting' => $setting,
-            'defaultImage' => $defaultImage
+            'defaultImage' => $defaultImage,
+            'performance' => count($branch->performance) > 0 ? $branch->performance : []
         ]);
     }
 
     public function storeSetting(BranchSettingRequest $request, $id)
     {
         $branch = Branch::with(['setting', 'performance'])->findOrFail($id);
-        return BranchSetting::updateOrCreate(
+        BranchSetting::updateOrCreate(
             ['branch_id' => $branch->id],
             $request->validated(),
             [
@@ -197,6 +200,19 @@ class BranchController extends Controller
                 'out_source_handler' => $request->out_source_handler
             ]
         );
+        if($request->performance)
+        {
+            PerformanceSetting::where('branch_id', $branch->id)->delete();
+            foreach($request->performance as $per)
+            {
+                PerformanceSetting::create([
+                    'branch_id' => $branch->id,
+                    'title' => $per['title'],
+                    'duration' => $per['duration'],
+                    'parameter' => $per['parameter'],
+                ]);
+            }
+        }
         return back()->with('success', 'Branch Setting Updated!');
     }
 }
