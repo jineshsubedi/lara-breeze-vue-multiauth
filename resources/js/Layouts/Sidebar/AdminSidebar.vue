@@ -45,6 +45,14 @@
                             <i class="bi bi-diagram-3"></i><span>Branch</span>
                         </NavLink>
                     </li>
+                    <li v-if="$page.props.can.includes('SuperAdmin')">
+                        <NavLink 
+                            :href="route('admin.departments.index')" 
+                            :active="route().current('admin.departments.index')"
+                        >
+                            <i class="bi bi-diagram-3"></i><span>Department</span>
+                        </NavLink>
+                    </li>
                 </ul>
             </li>
 

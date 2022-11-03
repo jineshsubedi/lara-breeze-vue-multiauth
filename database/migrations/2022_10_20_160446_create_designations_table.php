@@ -15,7 +15,12 @@ return new class extends Migration
     {
         Schema::create('designations', function (Blueprint $table) {
             $table->id();
-            $table->string('title', 50);
+            $table->foreignId('department_id')
+                ->constrained()
+                ->onUpdate('cascade')
+                ->onDelete('cascade');
+            $table->string('title', 100);
+            $table->string('tor')->nullable();
             $table->timestamps();
         });
     }

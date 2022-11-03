@@ -9,16 +9,6 @@ class Designation extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['title'];
+    protected $fillable = ['title', 'department_id', 'tor'];
 
-    public static function getTitle($id)
-    {
-        $title = '';
-        $designation = Designation::find($id);
-        if(isset($designation->id))
-        {
-            $title = $designation->title;
-        }
-        return $title;
-    }
 }
