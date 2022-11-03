@@ -27,4 +27,12 @@ class Branch extends Model
     {
         return $this->hasMany(PerformanceSetting::class);
     }
+    public function scopeBranchList($query)
+    {
+        if(!auth()->user()->roles->where('name', 'SuperAdmin'))
+        {
+            $query->where('branch_id', auth()->user()->branch_id);
+        }
+        return $query->orderBy('name')->get(['id', 'name']);
+    }
 }

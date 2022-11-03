@@ -27,3 +27,4 @@ Route::post('branch/{id}/setting', 'BranchController@storeSetting')->name('branc
 
 Route::resource('departments', 'DepartmentController');
 Route::resource('designations', 'DesignationController');
+Route::resource('shift_times', 'ShifttimeController');

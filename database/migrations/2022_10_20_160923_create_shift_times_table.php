@@ -15,6 +15,10 @@ return new class extends Migration
     {
         Schema::create('shift_times', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('branch_id')
+                ->constrained()
+                ->onUpdate('cascade')
+                ->onDelete('cascade');
             $table->string('title');
             $table->time('start_time');
             $table->time('end_time');

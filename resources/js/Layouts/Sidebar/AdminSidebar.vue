@@ -45,20 +45,28 @@
                             <i class="bi bi-diagram-3"></i><span>Branch</span>
                         </NavLink>
                     </li>
-                    <li v-if="$page.props.can.includes('SuperAdmin')">
+                    <li>
                         <NavLink 
                             :href="route('admin.departments.index')" 
                             :active="route().current('admin.departments.index')"
                         >
-                            <i class="bi bi-diagram-3"></i><span>Department</span>
+                            <i class="bi bi-node-plus"></i><span>Department</span>
                         </NavLink>
                     </li>
-                    <li v-if="$page.props.can.includes('SuperAdmin')">
+                    <li>
                         <NavLink 
                             :href="route('admin.designations.index')" 
                             :active="route().current('admin.designations.index')"
                         >
-                            <i class="bi bi-diagram-3"></i><span>Designation</span>
+                            <i class="bi bi-mortarboard-fill"></i><span>Designation</span>
+                        </NavLink>
+                    </li>
+                    <li>
+                        <NavLink 
+                            :href="route('admin.shift_times.index')" 
+                            :active="route().current('admin.shift_times.index')"
+                        >
+                            <i class="bi bi-alarm-fill"></i><span>Shift Time</span>
                         </NavLink>
                     </li>
                 </ul>

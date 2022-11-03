@@ -9,5 +9,11 @@ class ShiftTime extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['title', 'start_time', 'end_time'];
+    protected $fillable = ['branch_id', 'title', 'start_time', 'end_time'];
+
+    public function branch()
+    {
+        return $this->belongsTo(Branch::class, 'branch_id');
+    }
+
 }
