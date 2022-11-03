@@ -26,3 +26,4 @@ Route::get('branch/{id}/setting', 'BranchController@getSetting')->name('branch.g
 Route::post('branch/{id}/setting', 'BranchController@storeSetting')->name('branch.storeSetting');
 
 Route::resource('departments', 'DepartmentController');
+Route::resource('designations', 'DesignationController');
