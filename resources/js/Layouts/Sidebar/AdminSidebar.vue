@@ -69,6 +69,25 @@
                             <i class="bi bi-alarm-fill"></i><span>Shift Time</span>
                         </NavLink>
                     </li>
+                    <li class="nav-heading">Leave Configuration</li>
+                    <li>
+                        <NavLink 
+                            :href="route('admin.leave_types.index')" 
+                            :active="route().current('admin.leave_types.index')"
+                        >
+                            <i class="bi bi-escape"></i><span>Leave Type</span>
+                        </NavLink>
+                    </li>
+                    <li>
+                        <NavLink 
+                            :href="route('admin.leave_types.index')" 
+                            :active="route().current('admin.leave_types.index')"
+                        >
+                            <i class="bi bi-escape"></i><span>Leave Setting</span>
+                        </NavLink>
+                    </li>
+                    <li class="nav-heading">Booking Configuration</li>
+                    <li class="nav-heading">Travel Configuration</li>
                 </ul>
             </li>
 

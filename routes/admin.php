@@ -28,3 +28,4 @@ Route::post('branch/{id}/setting', 'BranchController@storeSetting')->name('branc
 Route::resource('departments', 'DepartmentController');
 Route::resource('designations', 'DesignationController');
 Route::resource('shift_times', 'ShifttimeController');
+Route::resource('leave_types', 'LeavetypeController');
