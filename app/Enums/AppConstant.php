@@ -42,4 +42,14 @@ class AppConstant
     const GENDER = ['Male','Female', 'Other'];
 
     const MARITAL_STATUS = ['Married','Unmarried'];
+
+    const ALLOW = [
+        ['value' => 0, 'title' => 'Deny'],
+        ['value' => 1, 'title' => 'Allow']
+    ];
+
+    const REQUIRED = [
+        ['value' => 0, 'title' => 'Optional'],
+        ['value' => 1, 'title' => 'Required']
+    ];
 }

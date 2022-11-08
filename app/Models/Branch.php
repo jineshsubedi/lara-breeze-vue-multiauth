@@ -29,9 +29,9 @@ class Branch extends Model
     }
     public function scopeBranchList($query)
     {
-        if(!auth()->user()->roles->where('name', 'SuperAdmin'))
+        if(!auth()->user()->roles->where('name', 'SuperAdmin')->first())
         {
-            $query->where('branch_id', auth()->user()->branch_id);
+            $query->where('id', auth()->user()->branch_id);
         }
         return $query->orderBy('name')->get(['id', 'name']);
     }

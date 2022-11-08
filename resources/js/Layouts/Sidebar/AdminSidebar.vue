@@ -80,8 +80,8 @@
                     </li>
                     <li>
                         <NavLink 
-                            :href="route('admin.leave_types.index')" 
-                            :active="route().current('admin.leave_types.index')"
+                            :href="route('admin.leave_setting.index')" 
+                            :active="route().current('admin.leave_setting.index')"
                         >
                             <i class="bi bi-escape"></i><span>Leave Setting</span>
                         </NavLink>
