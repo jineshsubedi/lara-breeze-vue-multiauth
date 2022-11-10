@@ -19,8 +19,12 @@ class Department extends Model
     {
         return $this->belongsTo(Branch::class, 'branch_id');
     }
-    public function scopeBranch($query)
+    public function scopeBranchList($query)
     {
-        return $query->whereBranchId(auth()->user()->branch_id);
+        if(!auth()->user()->roles->where('name', 'SuperAdmin')->first())
+        {
+            $query->whereBranchId(auth()->user()->branch_id);
+        }
+        return $query;
     }
 }

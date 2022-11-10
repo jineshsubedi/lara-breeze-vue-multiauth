@@ -33,6 +33,6 @@ class Branch extends Model
         {
             $query->where('id', auth()->user()->branch_id);
         }
-        return $query->orderBy('name')->get(['id', 'name']);
+        return $query->orderBy('id')->get(['id', 'name']);
     }
 }

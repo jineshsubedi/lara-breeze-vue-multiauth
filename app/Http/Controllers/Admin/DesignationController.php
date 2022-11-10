@@ -38,7 +38,7 @@ class DesignationController extends Controller
      */
     public function create()
     {
-        $departments = Department::branch()->get(['id', 'title']);
+        $departments = Department::branchList()->get(['id', 'title']);
         return Inertia::render('Admin/Designation/Create', [
             'departments' => $departments
         ]);
@@ -77,7 +77,7 @@ class DesignationController extends Controller
      */
     public function edit(Designation $designation)
     {
-        $departments = Department::branch()->get(['id', 'title']);
+        $departments = Department::branchList()->get(['id', 'title']);
         $tor_file = Storage::exists($designation->tor) ? Storage::url($designation->tor) : '';
         return Inertia::render('Admin/Designation/Edit', [
             'designation' => $designation,

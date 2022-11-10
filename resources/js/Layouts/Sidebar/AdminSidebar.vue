@@ -1,6 +1,7 @@
 <script setup>
     import NavLink from "@/Components/AdminLteNavLink.vue"
 
+    let DocumentMenu = Ziggy.routes['admin.documents.index'] ? true : false;
 </script>
 <template>
     <aside id="sidebar" class="sidebar">
@@ -59,6 +60,14 @@
                             :active="route().current('admin.designations.index')"
                         >
                             <i class="bi bi-mortarboard-fill"></i><span>Designation</span>
+                        </NavLink>
+                    </li>
+                    <li v-if="DocumentMenu">
+                        <NavLink 
+                            :href="route('admin.documents.index')" 
+                            :active="route().current('admin.documents.index')"
+                        >
+                            <i class="bi bi-escape"></i><span>Document</span>
                         </NavLink>
                     </li>
                     <li>

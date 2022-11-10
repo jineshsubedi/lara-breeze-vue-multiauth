@@ -1,0 +1,25 @@
+{
+    "name": "hris/document",
+    "description": "this is hris document lara-breeze-vue",
+    "type": "project",
+    "license": "MIT",
+    "autoload": {
+        "psr-4": {
+            "Hris\\Document\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "jinesh subedi",
+            "email": "jinesh1094@gmail.com"
+        }
+    ],
+    "require": {},
+    "extra": {
+        "Laravel": {
+            "Providers" : [
+                "Hris\\Document\\DocumentServiceProvider"
+            ]
+        }
+    }
+}
