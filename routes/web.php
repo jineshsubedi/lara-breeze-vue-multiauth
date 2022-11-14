@@ -39,4 +39,5 @@ Route::prefix('file-manager')->controller(FilemanagerController::class)->group(f
 Route::prefix('common')->group(function() {
     Route::get('getDistrict', 'Common\CommonController@getDistrict')->name('getDistrict');
     Route::post('getStaffsByBranch', 'Common\CommonController@getStaffsByBranch')->name('getStaffsByBranch');
+    Route::post('getStaffsKra', 'Common\CommonController@getStaffsKra')->name('getStaffsKra');
 });

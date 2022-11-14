@@ -140,4 +140,12 @@ trait UserRelation {
     {
         return $query->whereBranchId(auth()->user()->branch_id);
     }
+    public function scopeUserList($query)
+    {
+        if(!auth()->user()->roles->where('name', 'SuperAdmin')->first())
+        {
+            $query->where('branch_id', auth()->user()->branch_id);
+        }
+        return $query;
+    }
 }

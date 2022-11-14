@@ -195,6 +195,7 @@ return [
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
         Hris\Document\DocumentServiceProvider::class,
+        Hris\Task\TaskServiceProvider::class,
 
     ],
 

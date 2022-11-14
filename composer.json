@@ -34,7 +34,8 @@
     "autoload-dev": {
         "psr-4": {
             "Tests\\": "tests/",
-            "Hris\\Document\\" : "packages/hris/document/src"
+            "Hris\\Document\\" : "packages/hris/document/src",
+            "Hris\\Task\\" : "packages/hris/task/src"
         }
     },
     "scripts": {
