@@ -14,6 +14,7 @@ class Task extends Model
 
     protected $fillable = ['parent_type','parent_id','task_from','task_to','title','description','complete_status','accept_date','complete_date','start_time','finish_time','remarks','s_remarks','priority','self_mark','supervisor_mark','num_task','kra_id','project','personal','weightage'];
 
+    protected $appends = ['priority_label'];
 
     public function fromUser()
     {
@@ -60,13 +61,13 @@ class Task extends Model
             return '<span class="badge bg-success">Completed</span>';
         }
     }
-    protected function priority(): Attribute
+    protected function priorityLabel(): Attribute
     {
         return Attribute::make(
-            get: fn ($value) => $this->priorityLabel($value),
+            get: fn () => $this->getPriorityLabel($this->priority),
         );
     }
-    private function priorityLabel($value)
+    private function getPriorityLabel($value)
     {
         switch ($value) {
             case 1:

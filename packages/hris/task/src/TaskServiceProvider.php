@@ -2,6 +2,8 @@
 
 namespace Hris\Task;
 
+use Hris\Task\Models\Task;
+use Hris\Task\Observers\TaskObserver;
 use Illuminate\Support\ServiceProvider;
 
 class TaskServiceProvider extends ServiceProvider
@@ -32,5 +34,7 @@ class TaskServiceProvider extends ServiceProvider
         $this->publishes([
             __DIR__.'/config/taskConstant.php' => config_path('taskConstant.php'),
         ]);
+
+        Task::observe(TaskObserver::class);
     }
 }

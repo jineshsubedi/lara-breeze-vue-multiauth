@@ -94,7 +94,7 @@ class TaskController extends Controller
      */
     public function edit(Task $task)
     {
-        $task->old_priority = $task->getRawOriginal('priority');
+        $task->old_priority = $task->priority_label;
         $data = $this->getData();
         $defBranch = Branch::where('id', User::findOrFail($task->task_to)->branch_id)->first()->id;
         return Inertia::render('Admin/Tasks/Edit', [

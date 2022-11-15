@@ -99,7 +99,7 @@ function submitNewTaskJob() {
                                     </tr>
                                     <tr>
                                         <th>Priority</th>
-                                        <td>{{task.priority}}</td>
+                                        <td>{{task.priority_label}}</td>
                                     </tr>
                                     <tr>
                                         <th>Project</th>
