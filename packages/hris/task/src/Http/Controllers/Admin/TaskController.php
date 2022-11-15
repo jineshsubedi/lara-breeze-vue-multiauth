@@ -94,6 +94,7 @@ class TaskController extends Controller
      */
     public function edit(Task $task)
     {
+        $task->old_priority = $task->getRawOriginal('priority');
         $data = $this->getData();
         $defBranch = Branch::where('id', User::findOrFail($task->task_to)->branch_id)->first()->id;
         return Inertia::render('Admin/Tasks/Edit', [
@@ -151,7 +152,7 @@ class TaskController extends Controller
         if(request()->filled('type')) {
             if(request()->type == 1) // for to do task
             {
-                $query->where('task_to', auth()->id())->where('complete_status', 0);
+                $query->where('task_to', auth()->id())->where('complete_status', '0');
             }
             if(request()->type == 2) // for task assigned to me
             {
@@ -200,5 +201,63 @@ class TaskController extends Controller
         }
         $job->delete();
         return back()->with('success', 'Task Job Deleted Successfully!');
+    }
+
+    public function acceptTask($id)
+    {
+        $task = Task::findOrFail($id);
+        if($task->task_to != auth()->id())
+        {
+            return back()->with('warning', 'You cannot Accept Other\'s Task');
+        }
+        $task->update(['accept_date' => Date('Y-m-d')]);
+        return back()->with('success', 'Task Accepted');
+    }
+    public function acceptTaskJob($id)
+    {
+        $task = TaskJob::findOrFail($id);
+        $task->update(['complete_status' => '1']);
+        return back()->with('success', 'Task Job Completed');
+    }
+    public function completeMyTask(Request $request, $id)
+    {
+        $this->validate($request, [
+            'self_mark' => 'required|integer',
+            'remarks' => 'required|string|max:500'
+        ]);
+        $task = Task::with(['jobs'])->findOrFail($id);
+        if($task->task_to != auth()->id())
+        {
+            return back()->with('warning', 'You cannot complete this task');
+        }
+        $jobs = TaskJob::where('task_id', $task->id)->where('complete_status', '0')->count();
+        if($jobs > 0)
+        {
+            return back()->with('warning', 'Please complete all the related job in this task');
+        }
+        $task->update([
+            'complete_date' => Date('Y-m-d'),
+            'self_mark' => $request->self_mark,
+            'remarks' => $request->remarks,
+        ]);
+        return back()->with('success', 'Task Complete');
+    }
+    public function completeTask(Request $request, $id)
+    {
+        $this->validate($request, [
+            'supervisor_mark' => 'required|integer',
+            's_remarks' => 'required|string|max:500'
+        ]);
+        $task = Task::findOrFail($id);
+        if($task->task_from != auth()->id())
+        {
+            return back()->with('warning', 'You cannot complete this task');
+        }
+        $task->update([
+            'complete_status' => '1',
+            'supervisor_mark' => $request->supervisor_mark,
+            's_remarks' => $request->s_remarks,
+        ]);
+        return back()->with('success', 'Task Complete');
     }
 }

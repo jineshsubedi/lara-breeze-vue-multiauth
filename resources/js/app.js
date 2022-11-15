@@ -7,6 +7,8 @@ import { InertiaProgress } from '@inertiajs/progress';
 import { resolvePageComponent } from 'laravel-vite-plugin/inertia-helpers';
 import { ZiggyVue } from '../../vendor/tightenco/ziggy/dist/vue.m';
 import VueGoogleMaps from '@fawmi/vue-google-maps'
+import { QuillEditor } from '@vueup/vue-quill'
+import '@vueup/vue-quill/dist/vue-quill.snow.css';
 
 const appName = window.document.getElementsByTagName('title')[0]?.innerText || 'Laravel';
 
@@ -22,6 +24,7 @@ createInertiaApp({
                 }
             })
             .use(ZiggyVue, Ziggy)
+            .component('QuillEditor', QuillEditor)
             .mount(el);
     },
 });

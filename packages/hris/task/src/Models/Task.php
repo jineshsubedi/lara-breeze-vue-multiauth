@@ -36,7 +36,7 @@ class Task extends Model
     protected function completeStatus(): Attribute
     {
         return Attribute::make(
-            get: fn ($value) => $this->CSTATUS($value),
+            get: fn ($value) => [$value, $this->CSTATUS($value)],
         );
     }
     private function CSTATUS($value)

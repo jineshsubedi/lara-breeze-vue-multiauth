@@ -26,6 +26,15 @@ class CommonController extends Controller
         return User::where('branch_id', $request->branch)
             ->get(['id', 'name']); 
     }
+    public function getSubOrdinates(Request $request)
+    {
+        $this->validate($request, [
+            'branch' => ['required','integer'],
+        ]);
+        return User::where('branch_id', $request->branch)
+            ->where('supervisor_id', auth()->id())
+            ->get(['id', 'name']);
+    }
     public function getStaffsKra(Request $request)
     {
         $this->validate($request, [

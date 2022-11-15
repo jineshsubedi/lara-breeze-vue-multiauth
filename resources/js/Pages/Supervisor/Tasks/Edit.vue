@@ -1,5 +1,5 @@
 <script setup>
-import AdminLayout from "@/Layouts/AdminLayout.vue";
+import SupervisorLayout from "@/Layouts/SupervisorLayout.vue";
 import { Head, Link, useForm } from "@inertiajs/inertia-vue3";
 import axios from "axios";
 import { ref } from "vue";
@@ -27,7 +27,7 @@ let staffs = ref([]);
 let kras = ref([]);
 function getStaffs()
 {
-    axios.post(route('getStaffsByBranch'), 
+    axios.post(route('getSubOrdinates'), 
     {
         branch: form.branch_id
     }
@@ -57,7 +57,7 @@ getStaffKra()
 <template>
     <Head title="Task Edit" />
 
-    <AdminLayout>
+    <SupervisorLayout>
         <template #header>
             <h2 class="font-semibold text-xl text-gray-800 leading-tight">
                 Task Edit
@@ -66,13 +66,13 @@ getStaffKra()
         <template #breadcrum>
             <ol class="breadcrumb float-sm-right">
                 <li class="breadcrumb-item">
-                    <Link :href="route('admin.dashboard')"> Home </Link>
+                    <Link :href="route('supervisor.dashboard')"> Home </Link>
                 </li>
                 <li class="breadcrumb-item">
-                    <Link :href="route('admin.tasks.index')"> Task </Link>
+                    <Link :href="route('supervisor.tasks.index')"> Task </Link>
                 </li>
                 <li class="breadcrumb-item active">
-                    <Link :href="route('admin.tasks.edit', task.id)"> Edit </Link>
+                    <Link :href="route('supervisor.tasks.edit', task.id)"> Edit </Link>
                 </li>
             </ol>
         </template>
@@ -85,7 +85,7 @@ getStaffKra()
                             <form
                                 class="form-horizontal"
                                 @submit.prevent="
-                                    form.put(route('admin.tasks.update', task.id))
+                                    form.put(route('supervisor.tasks.update', task.id))
                                 "
                             >
                                 <!-- <div class="form-group row mb-3">
@@ -323,5 +323,5 @@ getStaffKra()
                 </div>
             </div>
         </div>
-    </AdminLayout>
+    </SupervisorLayout>
 </template>

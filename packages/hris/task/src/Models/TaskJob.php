@@ -45,7 +45,7 @@ class TaskJob extends Model
     protected function completeStatus(): Attribute
     {
         return Attribute::make(
-            get: fn ($value) => $this->CSTATUS($value),
+            get: fn ($value) => [$value, $this->CSTATUS($value)],
         );
     }
     private function CSTATUS($value)
@@ -60,7 +60,7 @@ class TaskJob extends Model
     protected function image(): Attribute
     {
         return Attribute::make(
-            get: fn ($value) => Storage::exists($value) ? Storage::url($value) : '',
+            get: fn ($value) => Storage::exists($value) && $value != '' ? Storage::url($value) : '',
         );
     }
 }

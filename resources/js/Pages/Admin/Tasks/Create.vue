@@ -4,6 +4,7 @@ import { Head, Link, useForm } from "@inertiajs/inertia-vue3";
 import axios from "axios";
 import { ref } from "vue";
 
+
 const props = defineProps({
     data : Object,
     defBranch: Number, 
@@ -293,11 +294,11 @@ getStaffKra()
                                 <div class="form-group row mb-3">
                                     <label
                                         for="description"
-                                        class="col-sm-2 col-form-label"
+                                        class="col-sm-2 mb-3 col-form-label"
                                         >Description</label
                                     >
-                                    <div class="col-sm-10">
-                                        <textarea v-model="form.description" id="description" class="form-control" rows="5"></textarea>
+                                    <div class="col-sm-10 mb-5">
+                                        <QuillEditor v-model:content="form.description" id="description" class="form-control" contentType="html" theme="snow" />
                                         <div
                                             class="text-red-400 text-sm"
                                             v-if="form.errors.description"

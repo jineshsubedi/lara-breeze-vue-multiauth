@@ -1,5 +1,5 @@
 <script setup>
-import AdminLayout from "@/Layouts/AdminLayout.vue";
+import StaffLayout from "@/Layouts/StaffLayout.vue";
 import { Head, Link, useForm } from "@inertiajs/inertia-vue3";
 import LargeModal from "@/Components/LargeModal.vue";
 
@@ -18,11 +18,11 @@ const form = useForm({
 
 function destroyJob(id) {
     if (confirm("Are you sure you want to Delete")) {
-        form.delete(route("admin.taskjobs.delete", id));
+        form.delete(route("staffs.taskjobs.delete", id));
     }
 }
 function submitNewTaskJob() {
-    form.post(route('admin.taskjobs.save', props.task.id), {
+    form.post(route('staffs.taskjobs.save', props.task.id), {
         preserveScroll: true,
         onSuccess: () => {
             form.reset(),
@@ -34,7 +34,7 @@ function submitNewTaskJob() {
 <template>
     <Head title="Task Detail" />
 
-    <AdminLayout>
+    <StaffLayout>
         <template #header>
             <h2 class="font-semibold text-xl text-gray-800 leading-tight">
                 Task Detail
@@ -43,13 +43,13 @@ function submitNewTaskJob() {
         <template #breadcrum>
             <ol class="breadcrumb float-sm-right">
                 <li class="breadcrumb-item">
-                    <Link :href="route('admin.dashboard')"> Home </Link>
+                    <Link :href="route('staffs.dashboard')"> Home </Link>
                 </li>
                 <li class="breadcrumb-item">
-                    <Link :href="route('admin.tasks.index')"> Task </Link>
+                    <Link :href="route('staffs.tasks.index')"> Task </Link>
                 </li>
                 <li class="breadcrumb-item active">
-                    <Link :href="route('admin.tasks.show', task.id)"> Detail </Link>
+                    <Link :href="route('staffs.tasks.show', task.id)"> Detail </Link>
                 </li>
             </ol>
         </template>
@@ -280,7 +280,7 @@ function submitNewTaskJob() {
                                         </td>
                                         <td><p v-html="jtask.complete_status[1]"></p></td>
                                         <td>
-                                            <Link :href="route('admin.taskjobs.acceptTask', jtask.id)" class="btn btn-sm btn-outline-success" v-if="$page.props.auth.user.id == task.task_to && jtask.complete_status[0] != 1">
+                                            <Link :href="route('staffs.taskjobs.acceptTask', jtask.id)" class="btn btn-sm btn-outline-success" v-if="$page.props.auth.user.id == task.task_to && jtask.complete_status[0] != 1">
                                                 <i class="bi bi-check2-all"></i>
                                             </Link>
                                             <button
@@ -299,5 +299,5 @@ function submitNewTaskJob() {
                 </div>
             </div>
         </div>
-    </AdminLayout>
+    </StaffLayout>
 </template>

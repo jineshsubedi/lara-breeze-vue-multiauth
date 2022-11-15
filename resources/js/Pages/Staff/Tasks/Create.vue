@@ -1,36 +1,36 @@
 <script setup>
-import AdminLayout from "@/Layouts/AdminLayout.vue";
+import StaffLayout from "@/Layouts/StaffLayout.vue";
 import { Head, Link, useForm } from "@inertiajs/inertia-vue3";
 import axios from "axios";
 import { ref } from "vue";
 
+
 const props = defineProps({
     data : Object,
-    task : Object,
     defBranch: Number, 
 })
 
 const form = useForm({
-    title: props.task.title,
-    task_to: props.task.task_to,
+    title: null,
+    task_to: 0,
     branch_id: props.defBranch,
-    kra_id: props.task.kra_id,
-    weightage: props.task.weightage,
-    finish_time: props.task.finish_time,
-    num_task: props.task.num_task,
-    project: props.task.project,
-    personal: props.task.personal,
-    priority: props.task.old_priority,
-    description: props.task.description
+    kra_id: 0,
+    weightage: 0,
+    finish_time: null,
+    num_task: 0,
+    project: null,
+    personal: 0,
+    priority: 1,
+    description: null
 });
 let staffs = ref([]);
 let kras = ref([]);
 function getStaffs()
 {
-    axios.post(route('getStaffsByBranch'), 
-    {
-        branch: form.branch_id
-    }
+    axios.post(route('getSubOrdinates'), 
+        {
+            branch: form.branch_id
+        }
     )
     .then(res => {
         staffs.value = ref(res.data)
@@ -55,24 +55,24 @@ getStaffs()
 getStaffKra()
 </script>
 <template>
-    <Head title="Task Edit" />
+    <Head title="Task Create" />
 
-    <AdminLayout>
+    <StaffLayout>
         <template #header>
             <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-                Task Edit
+                Task Create
             </h2>
         </template>
         <template #breadcrum>
             <ol class="breadcrumb float-sm-right">
                 <li class="breadcrumb-item">
-                    <Link :href="route('admin.dashboard')"> Home </Link>
+                    <Link :href="route('staffs.dashboard')"> Home </Link>
                 </li>
                 <li class="breadcrumb-item">
-                    <Link :href="route('admin.tasks.index')"> Task </Link>
+                    <Link :href="route('staffs.tasks.index')"> Task </Link>
                 </li>
                 <li class="breadcrumb-item active">
-                    <Link :href="route('admin.tasks.edit', task.id)"> Edit </Link>
+                    <Link :href="route('staffs.tasks.create')"> Create </Link>
                 </li>
             </ol>
         </template>
@@ -81,14 +81,14 @@ getStaffKra()
                 <div class="col-md-12">
                     <div class="card">
                         <div class="card-body">
-                            <h5 class="card-title">Edit Task</h5>
+                            <h5 class="card-title">New Task</h5>
                             <form
                                 class="form-horizontal"
                                 @submit.prevent="
-                                    form.put(route('admin.tasks.update', task.id))
+                                    form.post(route('staffs.tasks.store'))
                                 "
                             >
-                                <!-- <div class="form-group row mb-3">
+                                <div class="form-group row mb-3">
                                     <label
                                         for="branch_id"
                                         class="col-sm-2 col-form-label"
@@ -105,7 +105,7 @@ getStaffKra()
                                             {{ form.errors.branch_id }}
                                         </div>
                                     </div>
-                                </div> -->
+                                </div>
                                 <div class="form-group row mb-3">
                                     <label
                                         for="task_to"
@@ -287,14 +287,14 @@ getStaffKra()
                                             class="text-red-400 text-sm"
                                             v-if="form.errors.priority"
                                         >
-                                            {{ form.errors.priority }}
+                                            {{ form.errors.personal }}
                                         </div>
                                     </div>
                                 </div>
                                 <div class="form-group row mb-3">
                                     <label
                                         for="description"
-                                        class="col-sm-2 col-form-label"
+                                        class="col-sm-2 mb-3 col-form-label"
                                         >Description</label
                                     >
                                     <div class="col-sm-10 mb-5">
@@ -323,5 +323,5 @@ getStaffKra()
                 </div>
             </div>
         </div>
-    </AdminLayout>
+    </StaffLayout>
 </template>

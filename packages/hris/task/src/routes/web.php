@@ -11,6 +11,10 @@ Route::group([
     Route::resource('tasks', 'TaskController');
     Route::post('task/jobs/{id}', 'TaskController@saveJobs')->name('taskjobs.save');
     Route::delete('task/jobs/{id}', 'TaskController@deleteJobs')->name('taskjobs.delete');
+    Route::get('/tasks/accept/{id}', 'TaskController@acceptTask')->name('tasks.acceptTask');
+    Route::get('/taskjobs/accept/{id}', 'TaskController@acceptTaskJob')->name('taskjobs.acceptTask');
+    Route::post('/mytasks/complete/{id}', 'TaskController@completeMyTask')->name('mytask.completeMyTask');
+    Route::post('/stasks/complete/{id}', 'TaskController@completeTask')->name('stask.completeTask');
 });
 
 Route::group([
@@ -22,6 +26,10 @@ Route::group([
     Route::resource('tasks', 'TaskController');
     Route::post('task/jobs/{id}', 'TaskController@saveJobs')->name('taskjobs.save');
     Route::delete('task/jobs/{id}', 'TaskController@deleteJobs')->name('taskjobs.delete');
+    Route::get('/tasks/accept/{id}', 'TaskController@acceptTask')->name('tasks.acceptTask');
+    Route::get('/taskjobs/accept/{id}', 'TaskController@acceptTaskJob')->name('taskjobs.acceptTask');
+    Route::post('/mytasks/complete/{id}', 'TaskController@completeMyTask')->name('mytask.completeMyTask');
+    Route::post('/stasks/complete/{id}', 'TaskController@completeTask')->name('stask.completeTask');
 });
 
 Route::group([
@@ -33,4 +41,8 @@ Route::group([
     Route::resource('tasks', 'TaskController');
     Route::post('task/jobs/{id}', 'TaskController@saveJobs')->name('taskjobs.save');
     Route::delete('task/jobs/{id}', 'TaskController@deleteJobs')->name('taskjobs.delete');
+    Route::get('/tasks/accept/{id}', 'TaskController@acceptTask')->name('tasks.acceptTask');
+    Route::get('/taskjobs/accept/{id}', 'TaskController@acceptTaskJob')->name('taskjobs.acceptTask');
+    Route::post('/mytasks/complete/{id}', 'TaskController@completeMyTask')->name('mytask.completeMyTask');
+    Route::post('/stasks/complete/{id}', 'TaskController@completeTask')->name('stask.completeTask');
 });

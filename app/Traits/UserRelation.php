@@ -148,4 +148,8 @@ trait UserRelation {
         }
         return $query;
     }
+    public function scopeSubordinate($query)
+    {
+        return $query->where('supervisor_id', auth()->id());
+    }
 }

@@ -1,5 +1,7 @@
 <script setup>
     import NavLink from "@/Components/AdminLteNavLink.vue"
+
+    let TaskMenu = Ziggy.routes['supervisor.tasks.index'] ? true : false;
 </script>
 <template>
     <aside id="sidebar" class="sidebar">
@@ -34,6 +36,29 @@
                             :active="route().current('supervisor.dailytasks.index')"
                         >
                             <i class="bi bi-calendar2-check"></i><span>Daily Tasks</span>
+                        </NavLink>
+                    </li>
+                </ul>
+            </li>
+            <li class="nav-item" v-if="TaskMenu">
+                <a class="nav-link collapsed" data-bs-target="#tasks-nav" data-bs-toggle="collapse" href="#">
+                    <i class="bi bi-pc-display"></i><span>Tasks</span><i class="bi bi-chevron-down ms-auto"></i>
+                </a>
+                <ul id="tasks-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
+                    <li>
+                        <NavLink 
+                            :href="route('supervisor.tasks.index')" 
+                            :active="route().current('supervisor.tasks.index')"
+                        >
+                            <i class="bi bi-person-workspace"></i><span>Home</span>
+                        </NavLink>
+                    </li>
+                    <li>
+                        <NavLink 
+                            :href="route('supervisor.tasks.index')" 
+                            :active="route().current('supervisor.tasks.index')"
+                        >
+                            <i class="bi bi-pc-horizontal"></i><span>Help Desk</span>
                         </NavLink>
                     </li>
                 </ul>
