@@ -2,6 +2,7 @@
 
 namespace Hris\Task\Notifications;
 
+use Carbon\Carbon;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
@@ -13,14 +14,16 @@ class TaskNotification extends Notification
 
     protected $task;
     protected $message;
+    protected $link;
     /**
      * Create a new notification instance.
      *
      * @return void
      */
-    public function __construct($task, $message)
+    public function __construct($task, $message, $link)
     {
         $this->task = $task;
+        $this->link = $link;
         $this->message = $message;
     }
 
@@ -60,11 +63,11 @@ class TaskNotification extends Notification
         return [
             'id' => $this->task->id,
             'title' => $this->task->title,
-            // 'deadline' => $this->task->finish_time,
-            // 'task_from' => $this->task->task_from,
-            // 'task_to' => $this->task->task_to,
+            'message' => $this->message,
+            'url' => $this->link,
+            'diff_time' => $this->task->updated_at,
             'module' => 'TASK',
-            'message' => $this->message
+            'icon' => 'bi bi-pc-display text-info'
         ];
     }
 }

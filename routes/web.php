@@ -41,4 +41,5 @@ Route::prefix('common')->group(function() {
     Route::post('getStaffsByBranch', 'Common\CommonController@getStaffsByBranch')->name('getStaffsByBranch');
     Route::post('getSubOrdinates', 'Common\CommonController@getSubOrdinates')->name('getSubOrdinates');
     Route::post('getStaffsKra', 'Common\CommonController@getStaffsKra')->name('getStaffsKra');
+    Route::post('/mark-as-read', 'Common\CommonController@markNotification')->name('markNotification');
 });

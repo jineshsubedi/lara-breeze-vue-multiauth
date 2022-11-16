@@ -19,8 +19,9 @@ class TaskObserver
     {
         $task->load(['fromUser:id,name', 'toUser:id,name']);
         $user = User::find($task->task_to);
-        $message = $task->fromUser->name.' has created a task for you. ['.$task->title.']';
-        Notification::send($user, new TaskNotification($task, $message));
+        $message = $task->fromUser->name.' Has Assigned a Task for you.';
+        $link = $this->staffUrl($user, $task->id);
+        Notification::send($user, new TaskNotification($task, $message, $link));
     }
 
     /**
@@ -34,18 +35,21 @@ class TaskObserver
         $task->load(['fromUser:id,name', 'toUser:id,name']);
         if($task->isDirty('accept_date')){
             $user = User::find($task->task_from);
-            $message = $task->toUser->name.' has accepted a task. ['.$task->title.']';
-            Notification::send($user, new TaskNotification($task, $message));
+            $message = $task->toUser->name.' Has Accepted a Task';
+            $link = $this->staffUrl($user, $task->id);
+            Notification::send($user, new TaskNotification($task, $message, $link));
         }
         if($task->isDirty('complete_date')){
             $user = User::find($task->task_from);
-            $message = $task->toUser->name.' has completed a task. ['.$task->title.']';
-            Notification::send($user, new TaskNotification($task, $message));
+            $message = $task->toUser->name.' Has Partially Completed a Task';
+            $link = $this->staffUrl($user, $task->id);
+            Notification::send($user, new TaskNotification($task, $message, $link));
         }
         if($task->isDirty('complete_status')){
             $user = User::find($task->task_to);
-            $message = $task->fromUser->name.' has closed a task. ['.$task->title.']';
-            Notification::send($user, new TaskNotification($task, $message));
+            $message = $task->fromUser->name.' Has Closed a Task';
+            $link = $this->staffUrl($user, $task->id);
+            Notification::send($user, new TaskNotification($task, $message, $link));
         }
     }
 
@@ -59,8 +63,9 @@ class TaskObserver
     {
         $task->load(['fromUser:id,name', 'toUser:id,name']);
         $user = User::find($task->task_to);
-        $message = $task->fromUser->name.' has deleted a task assigned to you. ['.$task->title.']';
-        Notification::send($user, new TaskNotification($task, $message));
+        $message = $task->fromUser->name.' Has Deleted a Task Assigned to You]';
+        $link = '';
+        Notification::send($user, new TaskNotification($task, $message, $link));
     }
 
     /**
@@ -83,5 +88,20 @@ class TaskObserver
     public function forceDeleted(Task $task)
     {
         //
+    }
+    private function staffUrl($user, $id)
+    {
+        if($user->staff_type == 1)
+        {
+            return route('admin.tasks.show', $id);
+        }
+        if($user->staff_type == 2)
+        {
+            return route('supervisor.tasks.show', $id);
+        }
+        if($user->staff_type == 3)
+        {
+            return route('staffs.tasks.show', $id);
+        }
     }
 }

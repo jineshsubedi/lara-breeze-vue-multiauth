@@ -4,6 +4,7 @@ namespace Hris\Task\Models;
 
 use App\Models\User;
 use App\Models\UserKra;
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Casts\Attribute;
@@ -14,7 +15,7 @@ class Task extends Model
 
     protected $fillable = ['parent_type','parent_id','task_from','task_to','title','description','complete_status','accept_date','complete_date','start_time','finish_time','remarks','s_remarks','priority','self_mark','supervisor_mark','num_task','kra_id','project','personal','weightage'];
 
-    protected $appends = ['priority_label'];
+    protected $appends = ['priority_label', 'diff_time'];
 
     public function fromUser()
     {
@@ -89,5 +90,12 @@ class Task extends Model
                 return '';
                 break;
         }
+    }
+
+    protected function diffTime(): Attribute 
+    {
+        return Attribute::make(
+            get: fn () => Carbon::parse($this->updated_at)->diffForHumans(),
+        );
     }
 }

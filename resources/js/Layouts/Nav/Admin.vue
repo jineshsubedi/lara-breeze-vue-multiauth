@@ -1,7 +1,36 @@
 <script setup>
     import NavLink from "@/Components/AdminLteNavLink.vue"
     import {Link} from "@inertiajs/inertia-vue3"
-    
+    import { Inertia } from '@inertiajs/inertia'
+    import axios from "axios";
+    import { ref } from "vue";
+    import moment from 'moment';
+
+    function toUpperCase(value)
+    {
+        return value.toUpperCase();
+    }
+    function humanTime(value)
+    {
+        return moment(value).fromNow();
+    }
+
+    function markAsRead(id = '', url = '')
+    {
+        axios.post(route('markNotification'), 
+            {
+                id: id
+            }
+        )
+        .then(res => {
+            Inertia.visit(url, {
+                method: 'get'
+            })
+        }).catch(err => {
+            console.log(err)
+        })
+    }
+
 </script>
 
 <template>
@@ -17,70 +46,34 @@
             <li class="nav-item dropdown">
                 <a class="nav-link nav-icon" href="#" data-bs-toggle="dropdown">
                     <i class="bi bi-bell"></i>
-                    <span class="badge bg-primary badge-number">4</span>
+                    <span class="badge bg-primary badge-number">{{$page.props.countNotification}}</span>
                 </a><!-- End Notification Icon -->
-                <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow notifications">
+                <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow notifications" style="max-height: 80vh; overflow-y: scroll;">
                     <li class="dropdown-header">
-                    You have 4 new notifications
-                    <a href="#"><span class="badge rounded-pill bg-primary p-2 ms-2">View all</span></a>
+                    You have {{$page.props.countNotification}} new notifications
+                    <!-- <a href="#"><span class="badge rounded-pill bg-primary p-2 ms-2">View all</span></a> -->
                     </li>
                     <li>
                     <hr class="dropdown-divider">
                     </li>
-
-                    <li class="notification-item">
-                    <i class="bi bi-exclamation-circle text-warning"></i>
-                    <div>
-                        <h4>Lorem Ipsum</h4>
-                        <p>Quae dolorem earum veritatis oditseno</p>
-                        <p>30 min. ago</p>
-                    </div>
-                    </li>
-
-                    <li>
-                    <hr class="dropdown-divider">
-                    </li>
-
-                    <li class="notification-item">
-                    <i class="bi bi-x-circle text-danger"></i>
-                    <div>
-                        <h4>Atque rerum nesciunt</h4>
-                        <p>Quae dolorem earum veritatis oditseno</p>
-                        <p>1 hr. ago</p>
-                    </div>
-                    </li>
-
-                    <li>
-                    <hr class="dropdown-divider">
-                    </li>
-
-                    <li class="notification-item">
-                    <i class="bi bi-check-circle text-success"></i>
-                    <div>
-                        <h4>Sit rerum fuga</h4>
-                        <p>Quae dolorem earum veritatis oditseno</p>
-                        <p>2 hrs. ago</p>
-                    </div>
-                    </li>
-
-                    <li>
-                    <hr class="dropdown-divider">
-                    </li>
-
-                    <li class="notification-item">
-                    <i class="bi bi-info-circle text-primary"></i>
-                    <div>
-                        <h4>Dicta reprehenderit</h4>
-                        <p>Quae dolorem earum veritatis oditseno</p>
-                        <p>4 hrs. ago</p>
-                    </div>
-                    </li>
-
+                    <span v-for="(notification, nindex) in $page.props.notifications" :key="nindex">
+                        <li class="notification-item" @click="markAsRead(notification.id, notification.data.url)">
+                                <i :class="notification.data.icon"></i>
+                                <div>
+                                    <h4>{{toUpperCase(notification.data.title)}}</h4>
+                                    <p>{{notification.data.message}}</p>
+                                    <p>{{humanTime(notification.created_at)}}</p>
+                                </div>
+                            </li>   
+                            <li>
+                                <hr class="dropdown-divider">
+                            </li>
+                    </span>
                     <li>
                     <hr class="dropdown-divider">
                     </li>
                     <li class="dropdown-footer">
-                    <a href="#">Show all notifications</a>
+                        <button type="button" @click="markAsRead()">Mark all Read Notification</button>
                     </li>
 
                 </ul><!-- End Notification Dropdown Items -->
