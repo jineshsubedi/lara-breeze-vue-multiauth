@@ -11,7 +11,7 @@
             <li class="nav-item">
                 <NavLink
                     :href="route('admin.dashboard')"
-                    :active="route().current('admin.dashboard')"
+                    :active="$page.component.startsWith('Dashboard')"
                 >
                     <i class="bi bi-grid"></i>
                     Dashboard
@@ -26,7 +26,7 @@
                     <li v-if="$page.props.can.includes('SuperAdmin')">
                         <NavLink 
                             :href="route('admin.setting.index')" 
-                            :active="route().current('admin.setting.index')"
+                            :active="$page.component.startsWith('Admin/Setting')"
                         >
                             <i class="bi bi-gear-fill"></i><span>Setting</span>
                         </NavLink>
@@ -34,7 +34,7 @@
                     <li v-if="$page.props.can.includes('SuperAdmin')">
                         <NavLink 
                             :href="route('admin.roles.index')" 
-                            :active="route().current('admin.roles.index')"
+                            :active="$page.component.startsWith('Admin/Roles')"
                         >
                             <i class="bi bi-bootstrap-reboot"></i><span>Roles</span>
                         </NavLink>
@@ -42,7 +42,7 @@
                     <li v-if="$page.props.can.includes('SuperAdmin')">
                         <NavLink 
                             :href="route('admin.branches.index')" 
-                            :active="route().current('admin.branches.index')"
+                            :active="$page.component.startsWith('Admin/Branch')"
                         >
                             <i class="bi bi-diagram-3"></i><span>Branch</span>
                         </NavLink>
@@ -50,7 +50,7 @@
                     <li>
                         <NavLink 
                             :href="route('admin.departments.index')" 
-                            :active="route().current('admin.departments.index')"
+                            :active="$page.component.startsWith('Admin/Department')"
                         >
                             <i class="bi bi-node-plus"></i><span>Department</span>
                         </NavLink>
@@ -58,7 +58,7 @@
                     <li>
                         <NavLink 
                             :href="route('admin.designations.index')" 
-                            :active="route().current('admin.designations.index')"
+                            :active="$page.component.startsWith('Admin/Designation')"
                         >
                             <i class="bi bi-mortarboard-fill"></i><span>Designation</span>
                         </NavLink>
@@ -66,7 +66,7 @@
                     <li v-if="DocumentMenu">
                         <NavLink 
                             :href="route('admin.documents.index')" 
-                            :active="route().current('admin.documents.index')"
+                            :active="$page.component.startsWith('Admin/Document')"
                         >
                             <i class="bi bi-escape"></i><span>Document</span>
                         </NavLink>
@@ -74,7 +74,7 @@
                     <li>
                         <NavLink 
                             :href="route('admin.shift_times.index')" 
-                            :active="route().current('admin.shift_times.index')"
+                            :active="$page.component.startsWith('Admin/Shifttime')"
                         >
                             <i class="bi bi-alarm-fill"></i><span>Shift Time</span>
                         </NavLink>
@@ -83,7 +83,7 @@
                     <li>
                         <NavLink 
                             :href="route('admin.leave_types.index')" 
-                            :active="route().current('admin.leave_types.index')"
+                            :active="$page.component.startsWith('Admin/Leavetype')"
                         >
                             <i class="bi bi-escape"></i><span>Leave Type</span>
                         </NavLink>
@@ -91,7 +91,7 @@
                     <li>
                         <NavLink 
                             :href="route('admin.leave_setting.index')" 
-                            :active="route().current('admin.leave_setting.index')"
+                            :active="$page.component.startsWith('Admin/Leavesetting')"
                         >
                             <i class="bi bi-escape"></i><span>Leave Setting</span>
                         </NavLink>
@@ -109,7 +109,7 @@
                     <li>
                         <NavLink 
                             :href="route('admin.tasks.index')" 
-                            :active="route().current('admin.tasks.index')"
+                            :active="$page.component.startsWith('Admin/Tasks')"
                         >
                             <i class="bi bi-person-workspace"></i><span>Home</span>
                         </NavLink>

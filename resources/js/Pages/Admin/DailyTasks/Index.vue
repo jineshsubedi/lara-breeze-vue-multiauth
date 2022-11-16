@@ -50,7 +50,7 @@ function filterDailyTask()
                     <Link :href="route('admin.dashboard')"> Home </Link>
                 </li>
                 <li class="breadcrumb-item active">
-                    <Link :href="route('admin.dailytasks.index')"> Daily Tasks </Link>
+                    <Link :href="route('admin.dailytasks.index')" :only="['dtasks']"> Daily Tasks </Link>
                 </li>
             </ol>
         </template>

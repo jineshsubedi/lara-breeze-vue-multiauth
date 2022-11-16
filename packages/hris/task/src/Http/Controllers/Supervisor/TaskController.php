@@ -31,9 +31,9 @@ class TaskController extends Controller
         $data = $this->getData();
         $staffs = User::active()->userList()->subordinate()->get(['id', 'name']);
         return Inertia::render('Supervisor/Tasks/Index', [
-            'tasks' => $tasks,
-            'data' => $data,
-            'staffs' => $staffs,
+            'tasks' => fn () => $tasks,
+            'data' => fn () => $data,
+            'staffs' => fn () => $staffs,
             'filters' => $request->only(['title', 'task_from', 'task_to', 'complete_status', 'finish_time', 'project', 'type'])
         ]);
     }
@@ -47,8 +47,8 @@ class TaskController extends Controller
     {
         $data = $this->getData();
         return Inertia::render('Supervisor/Tasks/Create', [
-            'data' => $data,
-            'defBranch' => auth()->user()->branch_id,
+            'data' => fn () => $data,
+            'defBranch' => fn () => auth()->user()->branch_id,
         ]);
     }
 
@@ -81,8 +81,8 @@ class TaskController extends Controller
         $task->load(['kra:id,title', 'fromUser:id,name', 'toUser:id,name', 'jobs'])->loadCount('jobs');
         $data['priorities'] = config('taskConstant.task_priority');
         return Inertia::render('Supervisor/Tasks/Show', [
-            'task' => $task,
-            'data' => $data
+            'task' => fn () => $task,
+            'data' => fn () => $data
         ]);
     }
 
@@ -98,8 +98,8 @@ class TaskController extends Controller
         $data = $this->getData();
         $defBranch = Branch::where('id', User::findOrFail($task->task_to)->branch_id)->first()->id;
         return Inertia::render('Supervisor/Tasks/Edit', [
-            'task' => $task,
-            'data' => $data,
+            'task' => fn () => $task,
+            'data' => fn () => $data,
             'defBranch' => $defBranch
         ]);
     }

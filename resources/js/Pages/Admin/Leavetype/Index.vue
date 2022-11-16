@@ -54,7 +54,7 @@ function destroy(id) {
                     <Link :href="route('admin.dashboard')"> Home </Link>
                 </li>
                 <li class="breadcrumb-item active">
-                    <Link :href="route('admin.leave_types.index')"> Leave Type </Link>
+                    <Link :href="route('admin.leave_types.index')" :only="['ltypes']"> Leave Type </Link>
                 </li>
             </ol>
         </template>

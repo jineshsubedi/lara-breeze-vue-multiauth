@@ -54,7 +54,7 @@ function destroy(id) {
                     <Link :href="route('admin.dashboard')"> Home </Link>
                 </li>
                 <li class="breadcrumb-item active">
-                    <Link :href="route('admin.shift_times.index')"> Shift Time </Link>
+                    <Link :href="route('admin.shift_times.index')" :only="['shifts']"> Shift Time </Link>
                 </li>
             </ol>
         </template>

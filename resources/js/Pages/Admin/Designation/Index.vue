@@ -32,7 +32,7 @@ function destroy(id) {
                     <Link :href="route('admin.dashboard')"> Home </Link>
                 </li>
                 <li class="breadcrumb-item active">
-                    <Link :href="route('admin.designations.index')"> Designations </Link>
+                    <Link :href="route('admin.designations.index')" :only="['designations']"> Designations </Link>
                 </li>
             </ol>
         </template>

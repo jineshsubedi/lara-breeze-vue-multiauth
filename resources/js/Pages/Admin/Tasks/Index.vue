@@ -29,7 +29,7 @@ const completeform2 = useForm({
 const props = defineProps({
     tasks: {
         type: Object,
-        default: () => ({}),
+        default: () => ({}), 
     },
     staffs: Object,
     data: Object,
@@ -140,7 +140,7 @@ function submitSupervisorCompleteTask(id)
                     <Link :href="route('admin.dashboard')"> Home </Link>
                 </li>
                 <li class="breadcrumb-item active">
-                    <Link :href="route('admin.tasks.index')"> Task </Link>
+                    <Link :href="route('admin.tasks.index')" :only="['tasks']"> Task </Link>
                 </li>
             </ol>
         </template>
@@ -154,10 +154,10 @@ function submitSupervisorCompleteTask(id)
                 <div class="card-body">
                     <ul class="nav nav-tabs">
                         <li class="nav-item">
-                            <NavLink :active="filters.type == 0 || filters.type == null" :href="route('admin.tasks.index',{type: 0})">All</NavLink>
+                            <NavLink :active="filters.type == 0 || filters.type == null" :href="route('admin.tasks.index',{type: 0})" :only=[tasks,staffs,data,filters]>All</NavLink>
                         </li>
                         <li class="nav-item">
-                            <NavLink :active="filters.type == 1" :href="route('admin.tasks.index', {type:1})">TO DO Task</NavLink>
+                            <NavLink :active="filters.type == 1" :href="route('admin.tasks.index', {type:1})" :only=[tasks,staffs,data,filters]>TO DO Task</NavLink>
                         </li>
                         <li class="nav-item">
                             <NavLink :active="filters.type == 2" :href="route('admin.tasks.index', {type:2})">My Task</NavLink>

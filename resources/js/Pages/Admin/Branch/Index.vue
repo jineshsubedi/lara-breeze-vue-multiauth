@@ -62,7 +62,7 @@ function loadFilter()
                     <Link :href="route('admin.dashboard')"> Home </Link>
                 </li>
                 <li class="breadcrumb-item active">
-                    <Link :href="route('admin.branches.index')"> Branches </Link>
+                    <Link :href="route('admin.branches.index')" :only="['branches']"> Branches </Link>
                 </li>
             </ol>
         </template>
