@@ -27,14 +27,17 @@ function showPosition(position) {
 
 function submitIntime(type)
 {
-    Inertia.post(
-        route('supervisor.attendances.store'),
-        { type: type, location: form1.location },
-        {
-            preserveState: true,
-            replace: true,
-        }
-    );
+    if(Ziggy.routes['supervisor.attendances.index'])
+    {
+        Inertia.post(
+            route('supervisor.attendances.store'),
+            { type: type, location: form1.location },
+            {
+                preserveState: true,
+                replace: true,
+            }
+        );
+    }
 }
 
 
@@ -69,8 +72,8 @@ function showModal(path, location)
         </template>
 
         <div class="row">
-            <input type="hidden" id="geo_location" v-model="form1.location"/>
-            <div class="col-sm-8 col-md-8 col-lg-8">
+            <div class="col-sm-8 col-md-8 col-lg-8" v-if="datas.attendances.length > 0">
+                <input type="hidden" id="geo_location" v-model="form1.location"/>
                 <div class="card info-card customers-card">
                     <div class="card-body">
                         <h5 class="card-title">Attendance <span>| {{datas.today}}</span></h5>

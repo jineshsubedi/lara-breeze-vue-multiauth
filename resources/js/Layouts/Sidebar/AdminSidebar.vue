@@ -3,6 +3,7 @@
 
     let DocumentMenu = Ziggy.routes['admin.documents.index'] ? true : false;
     let TaskMenu = Ziggy.routes['admin.tasks.index'] ? true : false;
+    let AttendanceMenu = Ziggy.routes['admin.attendances.index'] ? true : false;
 </script>
 <template>
     <aside id="sidebar" class="sidebar">
@@ -146,7 +147,7 @@
                             <i class="bi bi-card-text"></i><span>Report</span>
                         </NavLink>
                     </li>
-                    <li>
+                    <li v-if="AttendanceMenu">
                         <NavLink 
                             :href="route('admin.attendances.index')" 
                             :active="route().current('admin.attendances.index')"

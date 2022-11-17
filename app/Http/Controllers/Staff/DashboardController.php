@@ -3,20 +3,20 @@
 namespace App\Http\Controllers\Staff;
 
 use App\Http\Controllers\Controller;
+use App\Traits\PackageManager;
 use Illuminate\Http\Request;
-use App\Models\Attendance;
 use App\Models\DailyTask;
 use App\Models\UserKra;
 use Inertia\Inertia;
 use Carbon\Carbon;
 class DashboardController extends Controller
 {
+    use PackageManager;
+
     public function index(Request $request)
     {
         $datas['today'] = Carbon::today()->format('d F, Y');
-        $attendance = new Attendance();
-        $datas['attendances'] = $attendance->getTodayAttendance();
-
+        $datas['attendances'] = $this->getTodayAttendance();
         $datas['dailyTasks'] = DailyTask::where('user_id', auth()->id())
             ->whereDate('created_at', Date('Y-m-d'))
             ->orderBy('id', 'desc')

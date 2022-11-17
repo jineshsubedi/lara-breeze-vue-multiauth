@@ -27,16 +27,18 @@ function showPosition(position) {
 
 function submitIntime(type)
 {
-    Inertia.post(
-        route('admin.attendances.store'),
-        { type: type, location: form1.location },
-        {
-            preserveState: true,
-            replace: true,
-        }
-    );
+    if(Ziggy.routes['admin.attendances.index'])
+    {
+        Inertia.post(
+            route('admin.attendances.store'),
+            { type: type, location: form1.location },
+            {
+                preserveState: true,
+                replace: true,
+            }
+        );
+    }
 }
-
 
 const form2 = useForm({
     position: {lat: 51.093048, lng: 6.842120},
@@ -57,7 +59,7 @@ function showModal(path, location)
     <AdminLayout>
         <template #header>
             <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-                Dashboard
+                Dashboard 
             </h2>
         </template>
         <template #breadcrum>
@@ -69,8 +71,8 @@ function showModal(path, location)
         </template>
 
         <div class="row">
-            <input type="hidden" id="geo_location" v-model="form1.location"/>
-            <div class="col-sm-8 col-md-8 col-lg-8">
+            <div class="col-sm-8 col-md-8 col-lg-8" v-if="datas.attendances.length > 0">
+                <input type="hidden" id="geo_location" v-model="form1.location"/>
                 <div class="card info-card customers-card">
                     <div class="card-body">
                         <h5 class="card-title">Attendance <span>| {{datas.today}}</span></h5>

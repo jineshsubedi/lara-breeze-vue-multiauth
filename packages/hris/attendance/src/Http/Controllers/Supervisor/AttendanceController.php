@@ -1,14 +1,14 @@
 <?php
 
-namespace App\Http\Controllers\Staff;
+namespace Hris\Attendance\Http\Controllers\Supervisor;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Library\NepaliDateApi;
-use App\Models\Attendance;
 use Illuminate\Support\Str;
 use App\Models\User;
 use App\Models\Setting;
+use Hris\Attendance\Models\Attendance;
 
 class AttendanceController extends Controller
 {
