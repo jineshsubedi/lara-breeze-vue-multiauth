@@ -3,10 +3,10 @@
 namespace Hris\Task\Notifications;
 
 use Illuminate\Bus\Queueable;
-use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
+use Illuminate\Notifications\Messages\MailMessage;
 
-class TaskNotification extends Notification
+class HelpDeskNotification extends Notification
 {
     use Queueable;
 
@@ -65,7 +65,7 @@ class TaskNotification extends Notification
             'url' => $this->link,
             'diff_time' => $this->task->updated_at,
             'module' => 'TASK',
-            'icon' => 'bi bi-pc-display text-info'
+            'icon' => 'bi bi-pc-horizontal text-info'
         ];
     }
 }

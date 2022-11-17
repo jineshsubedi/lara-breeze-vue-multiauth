@@ -10,7 +10,7 @@
             <li class="nav-item">
                 <NavLink
                     :href="route('staffs.dashboard')"
-                    :active="route().current('staffs.dashboard')"
+                    :active="$page.component.startsWith('Staff/Dashboard')"
                 >
                     <i class="bi bi-grid"></i>
                     Dashboard
@@ -48,15 +48,15 @@
                     <li>
                         <NavLink 
                             :href="route('staffs.tasks.index')" 
-                            :active="route().current('staffs.tasks.index')"
+                            :active="$page.component.startsWith('Staff/Tasks')"
                         >
                             <i class="bi bi-person-workspace"></i><span>Home</span>
                         </NavLink>
                     </li>
                     <li>
                         <NavLink 
-                            :href="route('staffs.tasks.index')" 
-                            :active="route().current('staffs.tasks.index')"
+                            :href="route('staffs.helpdesks.index')" 
+                            :active="$page.component.startsWith('Staff/Helpdesk')"
                         >
                             <i class="bi bi-pc-horizontal"></i><span>Help Desk</span>
                         </NavLink>

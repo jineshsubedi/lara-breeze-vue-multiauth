@@ -11,7 +11,7 @@
             <li class="nav-item">
                 <NavLink
                     :href="route('admin.dashboard')"
-                    :active="$page.component.startsWith('Dashboard')"
+                    :active="$page.component.startsWith('Admin/Dashboard')"
                 >
                     <i class="bi bi-grid"></i>
                     Dashboard
@@ -116,8 +116,8 @@
                     </li>
                     <li>
                         <NavLink 
-                            :href="route('admin.tasks.index')" 
-                            :active="route().current('admin.tasks.index')"
+                            :href="route('admin.helpdesks.index')" 
+                            :active="$page.component.startsWith('Admin/Helpdesk')"
                         >
                             <i class="bi bi-pc-horizontal"></i><span>Help Desk</span>
                         </NavLink>

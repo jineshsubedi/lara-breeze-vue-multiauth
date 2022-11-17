@@ -6,16 +6,21 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\UserKra;
+use App\Models\Branch;
 use App\Models\User;
-use Carbon\Carbon;
 
-class Task extends Model
+class HelpDesk extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['parent_type','parent_id','task_from','task_to','title','description','complete_status','accept_date','complete_date','start_time','finish_time','remarks','s_remarks','priority','self_mark','supervisor_mark','num_task','kra_id','project','personal','weightage'];
+    protected $fillable = array('task_to', 'task_from','title', 'description', 'accept_status', 'priority', 'complete_status', 'start_time', 'finish_time', 'remarks', 'kra_id', 'task_id', 'parent_id', 'job_id', 'branch_id');
 
-    protected $appends = ['priority_label', 'diff_time'];
+    protected $appends = ['priority_label', 'complete_status_label'];
+
+    public function branch()
+    {
+        return $this->belongsTo(Branch::class, 'branch_id');
+    }
 
     public function fromUser()
     {
@@ -31,34 +36,25 @@ class Task extends Model
     {
         return $this->belongsTo(UserKra::class, 'kra_id');
     }
-    public function jobs()
-    {
-        return $this->hasMany(TaskJob::class, 'task_id');
-    }
-    protected function completeStatus(): Attribute
+
+    protected function completeStatusLabel(): Attribute
     {
         return Attribute::make(
-            get: fn ($value) => [$value, $this->CSTATUS($value)],
+            get: fn ($value) => $this->CSTATUS($value),
         );
     }
     private function CSTATUS($value)
     {
-        if($value == 0 && $this->accept_date == null){
+        if($value == 0 && $this->accept_status == '0'){
             return '<span class="badge bg-secondary">Pending</span>';
         }
-        if($value == 0 && $this->accept_date != null){
+        if($value == 0 && $this->accept_status == '1' && $this->complete_status != '1'){
             return '<span class="badge bg-info text-dark">Progress</span>';
         }
-        if($value == 0 && $this->accept_date != null && $this->finish_time < Date('Y-m-d') && $this->complete_date == null){
+        if($value == 0 && $this->accept_status == '1' && $this->finish_time < Date('Y-m-d') && $this->complete_status != '1'){
             return '<span class="badge bg-warning text-dark">Deadline Crossed</span>';
         }
-        if($value == 0 && $this->accept_date != null && $this->finish_time < Date('Y-m-d') && $this->complete_date != null){
-            return '<span class="badge bg-warning text-dark">Deadline Crossed & Partial Complete</span>';
-        }
-        if($value == 0 && $this->accept_date != null && $this->finish_time > $this->complete_date && $this->complete_date != null){
-            return '<span class="badge bg-primary">Partial Complete</span>';
-        }
-        if($value == 1){
+        if($this->complete_status == '1'){
             return '<span class="badge bg-success">Completed</span>';
         }
     }
@@ -90,12 +86,5 @@ class Task extends Model
                 return '';
                 break;
         }
-    }
-
-    protected function diffTime(): Attribute 
-    {
-        return Attribute::make(
-            get: fn () => Carbon::parse($this->updated_at)->diffForHumans(),
-        );
     }
 }

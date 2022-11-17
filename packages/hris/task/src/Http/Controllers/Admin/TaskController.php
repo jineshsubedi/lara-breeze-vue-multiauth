@@ -5,6 +5,7 @@ namespace Hris\Task\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Branch;
 use App\Models\User;
+use Hris\Task\Models\HelpDesk;
 use Hris\Task\Models\Task;
 use Hris\Task\Models\TaskJob;
 use Hris\Task\Requests\TaskJobRequest;
@@ -125,6 +126,7 @@ class TaskController extends Controller
      */
     public function destroy(Task $task)
     {
+        HelpDesk::where('task_id', $task->id)->delete();
         $task->delete();
         return redirect()->route('admin.tasks.index')->with('success', 'Task Deleted Successfully');
     }
@@ -154,14 +156,19 @@ class TaskController extends Controller
             {
                 $query->where('task_to', auth()->id())->where('complete_status', '0');
             }
-            if(request()->type == 2) // for task assigned to me
+            else if(request()->type == 2) // for task assigned to me
             {
                 $query->where('task_to', auth()->id());
             }
-            if(request()->type == 3) // for task given from me
+            else if(request()->type == 3) // for task given from me
             {
                 $query->where('task_from', auth()->id());
             }
+            else{
+                $query->where('task_from', auth()->id())->orWhere('task_to', auth()->id());
+            }
+        }else{
+            $query->where('task_from', auth()->id())->orWhere('task_to', auth()->id());
         }
         return $query;
     }

@@ -3,8 +3,10 @@
 namespace Hris\Task;
 
 use Hris\Task\Models\Task;
+use Hris\Task\Models\HelpDesk;
 use Hris\Task\Observers\TaskObserver;
 use Illuminate\Support\ServiceProvider;
+use Hris\Task\Observers\HelpDeskObserver;
 
 class TaskServiceProvider extends ServiceProvider
 {
@@ -36,5 +38,6 @@ class TaskServiceProvider extends ServiceProvider
         ]);
 
         Task::observe(TaskObserver::class);
+        HelpDesk::observe(HelpDeskObserver::class);
     }
 }
