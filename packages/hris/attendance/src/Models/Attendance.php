@@ -2,10 +2,11 @@
 
 namespace Hris\Attendance\Models;
 
-use App\Models\User;
-use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use App\Models\User;
+use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 
 class Attendance extends Model
 {
@@ -33,151 +34,61 @@ class Attendance extends Model
         'out_away_location',
         'remarks'
     ];
+
+    protected $appends = ['attendance_duration', 'approve_title', 'in_time_class', 'out_time_class', 'lunch_start_class', 'lunch_end_class', 'in_time_distance', 'out_time_distance', 'lunch_start_distance', 'lunch_end_distance', 'attendance_duration'];
+
     public function user()
     {
         return $this->belongsTo(User::class);
     }
     public function getStaffNameAttribute(): string
     {
-        $user = User::find($this->user_id);
-        return $user->name ?: '';
+        return $this->user->name;
     }
     public function getTodayAttendance()
     {
         $attendances = self::where('user_id', auth()->user()->id)->where('attendance_date', date('Y-m-d'))->orderBy('id', 'desc')->get();
-        $primary = ['27.6660224', '85.377024'];
-        // if (isset(auth()->user()->address()->primary_location)) {
-        //     $primary = explode(',', auth()->user()->address()->primary_location);
-        // }
+        $primary = auth()->user()->address ? auth()->user()->address->primary_location : '27.6660224, 85.377024';
         if (count($attendances) > 0) {
             foreach ($attendances as $attendance) {
-                $in_distance = null;
-                $in_location = null;
-                $in_class = null;
-                $in_time = null;
-                $out_time = null;
-                $out_distance = null;
-                $out_location = null;
-                $out_class = null;
-
-                if ($attendance->in_time != '') {
-
-                    $in_time = $attendance->in_time;
-                    $inlocation = explode(',', $attendance->in_location);
-
-                    $primarylat = '';
-                    $primarylong = '';
-
-                    if (isset($primary[0])) {
-                        $primarylat = $primary[0];
-                    }
-                    if (isset($primary[1])) {
-                        $primarylong = $primary[1];
-                    }
-
-                    $distance = $this->getDistance($primarylat, $primarylong, $inlocation[0], $inlocation[1], 'K');
-                    if ($distance > '0.3') {
-                        $class = 'text-danger';
-                    } else {
-                        $class = 'text-success';
-                    }
-                    $indis = '';
-                    if ($distance != '') {
-                        $indis = number_format($distance, 2, '.', '') . ' KM';
-                    }
-
-                    $in_distance = $indis;
-                    $in_location = $attendance->in_location;
-                    $in_class = $class;
-                }
-
-                if ($attendance->out_time != '') {
-                    $out_time = $attendance->out_time;
-                    $outlocation = explode(',', $attendance->out_location);
-                    $primarylat = '';
-                    $primarylong = '';
-                    if (isset($primary[0])) {
-                        $primarylat = $primary[0];
-                    }
-                    if (isset($primary[1])) {
-                        $primarylong = $primary[1];
-                    }
-
-                    $odistance = $this->getDistance($primarylat, $primarylong, $outlocation[0], $outlocation[1], 'K');
-                    if ($odistance > '0.3') {
-                        $out_class = 'text-danger';
-                    } else {
-                        $out_class = 'text-success';
-                    }
-                    $outdis = $odistance;
-
-                    if ($outdis != '') {
-                        $outdis = number_format($outdis, 2, '.', '') . ' KM';
-                    }
-
-                    $out_distance = $outdis;
-                    $out_location = $attendance->out_location;
-                    $out_class = $out_class;
-                }
-                $in_away_location = false;
-                $out_away_location = false;
-                $attendance_id = isset($attendance->id) ? $attendance->id : '';
-                $lunch_start = null;
-                $lunch_start_location = null;
-                $lunch_end = null;
-                $lunch_end_location = null;
-
-                if ($in_class == 'bg-danger' && $attendance->in_away_location == null) {
-                    $in_away_location = true;
-                }
-                if ($out_class == 'bg-danger' && $attendance->out_away_location == null) {
-                    $out_away_location = true;
-                }
-
-                if ($attendance->lunch_start != '') {
-
-                    $lunch_start = $attendance->lunch_start;
-                    $lunch_start_location = $attendance->lunch_start_location;
-
-                }
-                if ($attendance->lunch_end != '') {
-                    $lunch_end = $attendance->lunch_end;
-                    $lunch_end_location = $attendance->lunch_end_location;
-                }
                 $datas[] = [
-                    'in_time' => $in_time,
-                    'lunch_start' => $lunch_start,
-                    'lunch_end' => $lunch_end,
-                    'out_time' => $out_time,
+                    'in_time' => $attendance->in_time,
+                    'lunch_start' => $attendance->lunch_start,
+                    'lunch_end' => $attendance->lunch_end,
+                    'out_time' => $attendance->out_time,
 
-                    'in_distance' => $in_distance,
-                    'out_distance' => $out_distance,
-                    'in_class' => $in_class,
-                    'out_class' => $out_class,
+                    'in_time_distance' => $attendance->in_time_distance,
+                    'lunch_start_distance' => $attendance->lunch_start_distance,
+                    'lunch_end_distance' => $attendance->lunch_end_distance,
+                    'out_time_distance' => $attendance->out_time_distance,
+                    'in_time_class' => $attendance->in_time_class,
+                    'lunch_start_class' => $attendance->lunch_start_class,
+                    'lunch_end_class' => $attendance->lunch_end_class,
+                    'out_time_class' => $attendance->out_time_class,
 
-                    'in_away_location' => $in_away_location,
-                    'out_away_location' => $out_away_location,
-                    'attendance_id' => $attendance_id,
-                    'in_location' => $in_location,
-                    'out_location' => $out_location,
-                    'lunch_start_location' => $lunch_start_location,
-                    'lunch_end_location' => $lunch_end_location,
+                    'in_away_location' => $attendance->in_away_location == null ? true : false,
+                    'out_away_location' => $attendance->out_away_location == null ? true : false,
+                    'attendance_id' => isset($attendance->id) ? $attendance->id : '',
+                    'in_location' => $attendance->in_location,
+                    'out_location' => $attendance->out_location,
+                    'lunch_start_location' => $attendance->lunch_start_location,
+                    'lunch_end_location' => $attendance->lunch_end_location,
                 ];
-
             }
-
         } else{
             $datas[] = [
                 'in_time' => null,
                 'lunch_start' => null,
                 'lunch_end' => null,
                 'out_time' => null,
-
-                'in_distance' => '',
-                'out_distance' => '',
-                'in_class' => '',
-                'out_class' => '',
-
+                'in_time_distance' => '',
+                'lunch_start_distance' => '',
+                'lunch_end_distance' => '',
+                'out_time_distance' => '',
+                'in_time_class' => '',
+                'lunch_start_class' => '',
+                'lunch_end_class' => '',
+                'out_time_class' => '',
                 'in_away_location' => false,
                 'out_away_location' => false,
                 'attendance_id' => '',
@@ -215,14 +126,16 @@ class Attendance extends Model
             return '';
         }
     }
-    public function getAttendanceDurationAttribute():string
+    public function attendanceDuration(): Attribute
     {
-        return $this->getDuration(
-            $this->attendance_date,
-            $this->in_time,
-            $this->out_time,
-            $this->lunch_start,
-            $this->lunch_end,
+        return Attribute::make(
+            get: fn () => $this->getDuration(
+                $this->attendance_date,
+                $this->in_time,
+                $this->out_time,
+                $this->lunch_start,
+                $this->lunch_end,
+            ),
         );
     }
     public function getDuration($attendance_date, $in_time, $out_time, $lunch_start, $lunch_end)
@@ -263,25 +176,16 @@ class Attendance extends Model
         }
         return $human_time;
     }
-    public function getApproveTitleAttribute()
+    public function approveTitle(): Attribute
     {
-        $title = '';
-        switch($this->approve){
-            case 1:
-                $title = 'Approved';
-                break;
-            case 2:
-                $title = 'Rejected';
-                break;
-            default:
-                $title = 'UnApproved';
-        }
-        return $title;
+        return Attribute::make(
+            get: fn () => $this->getApproveSpan($this->approve),
+        );
     }
-    public function getApproveSpanAttribute()
+    public function getApproveSpan($value): String
     {
         $title = '';
-        switch($this->approve){
+        switch($value){
             case 1:
                 $title = '<span class="badge bg-success">Approved</span>';
                 break;
@@ -293,4 +197,86 @@ class Attendance extends Model
         }
         return $title;
     }
+    public function inTimeClass(): Attribute 
+    {
+        return Attribute::make(
+            get: fn () => $this->in_time != '' ? $this->generateClass($this->in_location) : '',
+        );
+    }
+    public function outTimeClass(): Attribute 
+    {
+        return Attribute::make(
+            get: fn () => $this->out_time != '' ? $this->generateClass($this->out_location) : '',
+        );
+    }
+    public function lunchStartClass(): Attribute 
+    {
+        return Attribute::make(
+            get: fn () => $this->lunch_start != '' ? $this->generateClass($this->lunch_start_location) : '',
+        );
+    }
+    public function lunchEndClass(): Attribute 
+    {
+        return Attribute::make(
+            get: fn () => $this->lunch_end != '' ? $this->generateClass($this->lunch_end_location) : '',
+        );
+    }
+    public function inTimeDistance(): Attribute
+    {
+        return Attribute::make(
+            get: fn () => $this->in_time != '' ? $this->generateDistanceClass($this->in_location) : '',
+        );
+    }
+    public function outTimeDistance(): Attribute
+    {
+        return Attribute::make(
+            get: fn () => $this->out_time != '' ? $this->generateDistanceClass($this->out_location) : '',
+        );
+    }
+    public function lunchStartDistance(): Attribute 
+    {
+        return Attribute::make(
+            get: fn () => $this->lunch_start != '' ? $this->generateDistanceClass($this->lunch_start_location) : '',
+        );
+    }
+    public function lunchEndDistance(): Attribute 
+    {
+        return Attribute::make(
+            get: fn () => $this->lunch_end != '' ? $this->generateDistanceClass($this->lunch_end_location) : '',
+        );
+    }
+    private function generateClass($location)
+    {
+        $primary_location = auth()->user()->address ? auth()->user()->address->primary_location : '27.6660224, 85.377024';
+        $primary = array_map('trim', explode(',', $primary_location));
+        $mylocation = array_map('trim', explode(',', $location));
+        $distance = $this->getDistance($primary[0], $primary[1], $mylocation[0], $mylocation[1], 'K');
+        if ($distance > '0.3') {
+            $class = 'badge bg-danger';
+        } else {
+            $class = 'badge bg-success';
+        }
+        return $class;
+    } 
+    private function generateDistanceClass($location)
+    {
+        $primary_location = auth()->user()->address ? auth()->user()->address->primary_location : '27.6660224, 85.377024';
+        $primary = array_map('trim', explode(',', $primary_location));
+        $mylocation = array_map('trim', explode(',', $location));
+        $distance = $this->getDistance($primary[0], $primary[1], $mylocation[0], $mylocation[1], 'K');
+        
+        return number_format($distance, 2, '.', '') . ' KM';
+    } 
+    public function generateDistance($location)
+    {
+        $primary_location = auth()->user()->address ? auth()->user()->address->primary_location : '27.6660224, 85.377024';
+        $primary = array_map('trim', explode(',', $primary_location));
+        $mylocation = array_map('trim', explode(',', $location));
+        $distance = $this->getDistance($primary[0], $primary[1], $mylocation[0], $mylocation[1], 'K');
+        if ((float)$distance > 0.3) {
+            return true;
+        } else {
+            return false;
+        }
+    } 
 }

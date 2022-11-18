@@ -18,6 +18,7 @@ class DashboardController extends Controller
     {
         $datas['today'] = Carbon::today()->format('d F, Y');
         $datas['attendances'] = $this->getTodayAttendance();
+        // return $datas;
         $datas['dailyTasks'] = DailyTask::where('user_id', auth()->id())
             ->whereDate('created_at', Date('Y-m-d'))
             ->orderBy('id', 'desc')

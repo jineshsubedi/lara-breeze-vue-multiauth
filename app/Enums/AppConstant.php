@@ -52,4 +52,37 @@ class AppConstant
         ['value' => 0, 'title' => 'Optional'],
         ['value' => 1, 'title' => 'Required']
     ];
+
+    const NEPALI_MONTH = [
+        ['id' => 1, 'title' => 'बैशाख'],
+        ['id' => 2, 'title' => 'जेठ'],
+        ['id' => 3, 'title' => 'आषाढ़'],
+        ['id' => 4, 'title' => 'श्रावण'],
+        ['id' => 5, 'title' => 'भाद्र'],
+        ['id' => 6, 'title' => 'असोज'],
+        ['id' => 7, 'title' => 'कार्तिक'],
+        ['id' => 8, 'title' => 'मंसिर'],
+        ['id' => 9, 'title' => 'पुष'],
+        ['id' => 10, 'title' => 'माघ'],
+        ['id' => 11, 'title' => 'फाल्गुन'],
+        ['id' => 12, 'title' => 'चैत्र'],
+    ];
+
+    const ENGLISH_MONTH = [
+        ['id' => 1, 'title' => 'January'],
+        ['id' => 2, 'title' => 'February'],
+        ['id' => 3, 'title' => 'March'],
+        ['id' => 4, 'title' => 'April'],
+        ['id' => 5, 'title' => 'May'],
+        ['id' => 6, 'title' => 'June'],
+        ['id' => 7, 'title' => 'July'],
+        ['id' => 8, 'title' => 'August'],
+        ['id' => 9, 'title' => 'September'],
+        ['id' => 10, 'title' => 'October'],
+        ['id' => 11, 'title' => 'November'],
+        ['id' => 12, 'title' => 'December'],
+    ];
+
+    const NEPALIDATE = 1;
+    const ENGLISHDATE = 2;
 }

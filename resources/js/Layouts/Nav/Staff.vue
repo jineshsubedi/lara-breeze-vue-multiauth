@@ -48,7 +48,7 @@
                     <i class="bi bi-bell"></i>
                     <span class="badge bg-primary badge-number">{{$page.props.countNotification}}</span>
                 </a><!-- End Notification Icon -->
-                <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow notifications" style="max-height: 80vh; overflow-y: scroll;">
+                <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow notifications" style="max-height: 80vh; width:100vh; overflow-y: scroll;">
                     <li class="dropdown-header">
                     You have {{$page.props.countNotification}} new notifications
                     <!-- <a href="#"><span class="badge rounded-pill bg-primary p-2 ms-2">View all</span></a> -->

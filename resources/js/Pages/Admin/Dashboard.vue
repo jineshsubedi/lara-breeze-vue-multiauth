@@ -80,17 +80,11 @@ function showModal(path, location)
                             <tr v-for="(attendance, index) in datas.attendances" :key="index">
                                 <td>        
                                     <div class="d-flex align-items-center" v-if="attendance.in_time">
-                                        <div class="ps-3"> 
-                                            <div 
-                                                class="card-icon rounded-circle d-flex align-items-center justify-content-center" 
-                                                @click="showModal('duty-In'+index, attendance.in_location)"
-                                            > 
-                                                <i class="bi bi-geo-alt"></i>
-                                            </div>
-                                            <p class="small pt-1 fw-bold" :class="attendance.in_class">Check-In</p> 
-                                            <p class="small pt-2 ps-1" :class="attendance.in_class">{{attendance.in_time}} {{attendance.in_distance}}</p>
+                                        <div v-if="attendance.in_time != null">
+                                            <p for="">Clock In</p>
+                                            <button :class="attendance.in_time_class"  @click="showModal('duty-In'+index, attendance.in_location)"><i class="bi bi-geo-alt"></i> {{attendance.in_time}} {{attendance.in_time_distance}}</button>
+                                            <MapModal :path="'duty-In'+index" :title="'Duty Start At: '+attendance.in_time" :location="attendance.in_location" :key="'duty-In'+index" />
                                         </div>
-                                        <MapModal :path="'duty-In'+index" :title="'Duty Start At: '+attendance.in_time" :location="attendance.in_location" :key="'duty-In'+index" />
                                     </div>
                                     <div v-else>
                                         <button type="button" class="btn btn-sm btn-outline-primary" @click="submitIntime('clockin')">CHECK IN</button>
@@ -98,17 +92,9 @@ function showModal(path, location)
                                 </td>
                                 <td>
                                     <div v-if="attendance.in_time">
-                                        <div class="d-flex align-items-center" v-if="attendance.lunch_start">
-                                            <div class="ps-3"> 
-                                                <div 
-                                                    class="card-icon rounded-circle d-flex align-items-center justify-content-center" 
-                                                    @click="showModal('lunch-In'+index, attendance.lunch_start_location)"
-                                                > 
-                                                    <i class="bi bi-geo-alt"></i>
-                                                </div>
-                                                <p class="text-info small pt-1 fw-bold">Lunch-Out</p> 
-                                                <p class="text-muted small pt-2 ps-1">{{attendance.lunch_start}}</p>
-                                            </div>
+                                        <div v-if="attendance.lunch_start != null">
+                                            <p for="">Lunch Start</p>
+                                            <button :class="attendance.lunch_start_class" @click="showModal('lunch-In'+index, attendance.lunch_start_location)"><i class="bi bi-geo-alt"></i> {{attendance.lunch_start}} {{attendance.lunch_start_distance}}</button>
                                             <MapModal :path="'lunch-In'+index" :title="'Lunch Start At: '+attendance.in_time" :location="attendance.in_location" :key="'Lunch-In'+index"/>
                                         </div>
                                         <div v-else>
@@ -118,18 +104,12 @@ function showModal(path, location)
                                 </td>
                                 <td>
                                     <div v-if="attendance.lunch_start">
-                                        <div class="d-flex align-items-center" v-if="attendance.lunch_end">
-                                            <div class="ps-3"> 
-                                                <div 
-                                                    class="card-icon rounded-circle d-flex align-items-center justify-content-center" 
-                                                    @click="showModal('lunch-Out'+index, attendance.lunch_end_location)"
-                                                > 
-                                                    <i class="bi bi-geo-alt"></i>
-                                                </div>
-                                                <p class="text-info small pt-1 fw-bold">Lunch-In</p> 
-                                                <p class="text-muted small pt-2 ps-1">{{attendance.lunch_end}}</p>
+                                        <div class="" v-if="attendance.lunch_end">
+                                            <div v-if="attendance.lunch_end != null">
+                                                <p for="">Lunch End</p>
+                                                <button :class="attendance.lunch_end_class" @click="showModal('lunch-Out'+index, attendance.lunch_end_location)"><i class="bi bi-geo-alt"></i> {{attendance.lunch_end}} {{attendance.lunch_end_distance}}</button>
+                                                <MapModal :path="'lunch-Out'+index" :title="'Lunch End At: '+attendance.lunch_end" :location="attendance.lunch_end_location" :key="'Lunch-Out'+index"/>
                                             </div>
-                                            <MapModal :path="'lunch-Out'+index" :title="'Lunch End At: '+attendance.lunch_end" :location="attendance.lunch_end_location" :key="'Lunch-Out'+index"/>
                                         </div>
                                         <div v-else>
                                             <button type="button" class="btn btn-sm btn-outline-primary" @click="submitIntime('lunchin')">LUNCH IN</button>
@@ -138,18 +118,12 @@ function showModal(path, location)
                                 </td>
                                 <td>
                                     <div v-if="attendance.in_time">
-                                        <div class="d-flex align-items-center" v-if="attendance.out_time">
-                                            <div class="ps-3"> 
-                                                <div 
-                                                    class="card-icon rounded-circle d-flex align-items-center justify-content-center" 
-                                                    @click="showModal('Duty-Out'+index, attendance.out_location)"
-                                                > 
-                                                    <i class="bi bi-geo-alt"></i>
-                                                </div>
-                                                <p class="small pt-1 fw-bold" :class="attendance.out_class">Check-Out</p> 
-                                                <p class="small pt-2 ps-1" :class="attendance.out_class">{{attendance.out_time}} {{attendance.out_distance}}</p>
+                                        <div v-if="attendance.out_time">
+                                            <div v-if="attendance.out_time != null">
+                                                <p for="">Check Out</p>
+                                                <button :class="attendance.out_time_class" @click="showModal('Duty-Out'+index, attendance.out_location)"><i class="bi bi-geo-alt"></i> {{attendance.out_time}} {{attendance.out_time_distance}}</button>
+                                                <MapModal :path="'Duty-Out'+index" :title="'Duty End At: '+attendance.out_time" :location="attendance.out_location" :key="'Duty-In'+index"/>
                                             </div>
-                                            <MapModal :path="'Duty-Out'+index" :title="'Duty End At: '+attendance.out_time" :location="attendance.out_location" :key="'Duty-In'+index"/>
                                         </div>
                                         <div v-else>
                                             <button type="button" class="btn btn-sm btn-outline-primary" @click="submitIntime('clockout')">CHECK OUT</button>

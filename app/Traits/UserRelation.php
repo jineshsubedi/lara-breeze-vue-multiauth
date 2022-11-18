@@ -27,15 +27,14 @@ trait UserRelation {
 
     public function getAvatarPathAttribute()
     {
-        $path = 'no-image.png';
         if(!empty($this->avatar))
         {
             if (Storage::exists($this->avatar))
             {
-                $path = $this->avatar;
+                return Imagetool::mycrop($this->avatar, 300, 300);
             }
         }
-        return Imagetool::mycrop($path, 300, 300);
+        return "https://ui-avatars.com/api/?name=".$this->name."&size=100";
     }
 
     public function branch()
