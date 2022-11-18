@@ -17,8 +17,8 @@ Route::group([
     Route::post('/stasks/complete/{id}', 'TaskController@completeTask')->name('stask.completeTask');
 
     Route::resource('helpdesks', 'HelpdeskController');
-    Route::get('/tasks/accept/{id}', 'HelpdeskController@acceptTask')->name('helpdesks.acceptTask');
-    Route::get('/tasks/complete/{id}', 'HelpdeskController@completeTask')->name('helpdesks.completeTask');
+    Route::get('/helpdesks/accept/{id}', 'HelpdeskController@acceptTask')->name('helpdesks.acceptTask');
+    Route::get('/helpdesks/complete/{id}', 'HelpdeskController@completeTask')->name('helpdesks.completeTask');
 });
 
 Route::group([
@@ -36,8 +36,8 @@ Route::group([
     Route::post('/stasks/complete/{id}', 'TaskController@completeTask')->name('stask.completeTask');
 
     Route::resource('helpdesks', 'HelpdeskController');
-    Route::get('/tasks/accept/{id}', 'HelpdeskController@acceptTask')->name('helpdesks.acceptTask');
-    Route::get('/tasks/complete/{id}', 'HelpdeskController@completeTask')->name('helpdesks.completeTask');
+    Route::get('/helpdesks/accept/{id}', 'HelpdeskController@acceptTask')->name('helpdesks.acceptTask');
+    Route::get('/helpdesks/complete/{id}', 'HelpdeskController@completeTask')->name('helpdesks.completeTask');
 });
 
 Route::group([
@@ -55,6 +55,6 @@ Route::group([
     Route::post('/stasks/complete/{id}', 'TaskController@completeTask')->name('stask.completeTask');
 
     Route::resource('helpdesks', 'HelpdeskController');
-    Route::get('/tasks/accept/{id}', 'HelpdeskController@acceptTask')->name('helpdesks.acceptTask');
-    Route::get('/tasks/complete/{id}', 'HelpdeskController@completeTask')->name('helpdesks.completeTask');
+    Route::get('/helpdesks/accept/{id}', 'HelpdeskController@acceptTask')->name('helpdesks.acceptTask');
+    Route::get('/helpdesks/complete/{id}', 'HelpdeskController@completeTask')->name('helpdesks.completeTask');
 });

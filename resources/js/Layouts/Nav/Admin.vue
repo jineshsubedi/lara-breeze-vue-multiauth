@@ -48,7 +48,7 @@
                     <i class="bi bi-bell"></i>
                     <span class="badge bg-primary badge-number">{{$page.props.countNotification}}</span>
                 </a><!-- End Notification Icon -->
-                <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow notifications" style="max-height: 80vh; width:100vh; overflow-y: scroll;">
+                <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow notifications" style="max-height: 80vh; width: 30vw; overflow-y: scroll;">
                     <li class="dropdown-header">
                     You have {{$page.props.countNotification}} new notifications
                     <!-- <a href="#"><span class="badge rounded-pill bg-primary p-2 ms-2">View all</span></a> -->
@@ -56,7 +56,7 @@
                     <li>
                     <hr class="dropdown-divider">
                     </li>
-                    <span v-for="(notification, nindex) in $page.props.notifications" :key="nindex">
+                    <span v-for="(notification, nindex) in $page.props.notifications" :key="nindex" style="cursor:pointer">
                         <li class="notification-item" @click="markAsRead(notification.id, notification.data.url)">
                                 <i :class="notification.data.icon"></i>
                                 <div>
