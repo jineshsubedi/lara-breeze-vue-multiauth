@@ -109,7 +109,7 @@ function showModal(path, location)
                                     :key="attendance.id"
                                 >
                                     <td scope="row">
-                                        <div class="btn-group" v-if="attendance.approve != 1">
+                                        <div class="btn-group">
                                             <Link :href="route('admin.attendances.show', attendance.id)"
                                                 class="btn btn-sm btn-outline-info">
                                                 <i class="bi bi-eye"></i>
