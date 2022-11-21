@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Supervisor;
 
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Validation\Rules\Password;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Storage;
 use App\Http\Requests\ProfileRequest;
@@ -78,8 +79,8 @@ class ProfileController extends Controller
         Validator::make($request->all(), [
             'name' => ['required', 'string'],
             'email' => ['required', 'email'],
-            'password' => ['sometimes', 'nullable', 'min:6', 'required_with:confirm_password', 'same:confirm_password'],
-            'confirm_password' => ['sometimes', 'nullable', 'min:6'],
+            'password' => ['sometimes', 'nullable', 'required_with:confirm_password', 'same:confirm_password', Password::defaults()],
+            'confirm_password' => ['sometimes', 'nullable'],
         ])->validate();
         User::find(auth()->id())->update([ 
             'name' => $request->name,

@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Enums\AppConstant;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Validation\Rules\Password;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Storage;
 use App\Http\Requests\ProfileRequest;
@@ -11,8 +11,8 @@ use App\Http\Controllers\Controller;
 use App\Models\UserDocument;
 use Illuminate\Http\Request;
 use App\Models\UserAddress;
-use Illuminate\Support\Str;
 use App\Models\UserDetail;
+use App\Enums\AppConstant;
 use App\Models\District;
 use App\Models\UserBank;
 use Inertia\Inertia;
@@ -78,7 +78,7 @@ class ProfileController extends Controller
         Validator::make($request->all(), [
             'name' => ['required', 'string'],
             'email' => ['required', 'email'],
-            'password' => ['sometimes', 'nullable', 'min:6', 'required_with:confirm_password', 'same:confirm_password'],
+            'password' => ['sometimes', 'nullable', 'required_with:confirm_password', 'same:confirm_password', Password::defaults()],
             'confirm_password' => ['sometimes', 'nullable', 'min:6'],
         ])->validate();
         User::find(auth()->id())->update([ 

@@ -34,14 +34,6 @@
                     </li>
                     <li v-if="$page.props.can.includes('SuperAdmin')">
                         <NavLink 
-                            :href="route('admin.roles.index')" 
-                            :active="$page.component.startsWith('Admin/Roles')"
-                        >
-                            <i class="bi bi-bootstrap-reboot"></i><span>Roles</span>
-                        </NavLink>
-                    </li>
-                    <li v-if="$page.props.can.includes('SuperAdmin')">
-                        <NavLink 
                             :href="route('admin.branches.index')" 
                             :active="$page.component.startsWith('Admin/Branch')"
                         >

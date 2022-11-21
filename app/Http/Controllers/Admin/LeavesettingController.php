@@ -10,6 +10,7 @@ use App\Models\LeaveSetting;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
+use Spatie\Permission\Models\Role;
 
 class LeavesettingController extends Controller
 {
@@ -101,6 +102,21 @@ class LeavesettingController extends Controller
      */
     public function update(LeaveSettingRequest $request, LeaveSetting $leaveSetting)
     {
+        $oldSetting = $leaveSetting;
+        if($oldSetting->leave_handler != $request->leave_handler && $oldSetting->branch_id == $request->branch_id)
+        {
+            $user = new User;
+            $role = new Role;
+            $user1 = $user->select('id', 'name')->find($oldSetting->leave_handler);
+            $user2 = $user->select('id', 'name')->find($request->leave_handler);
+            if($role->where('name', 'LeaveManager')->first())
+            {
+                if(isset($user1->id))
+                    $user1->removeRole('LeaveManager');
+                if(isset($user2->id))
+                    $user2->assignRole('LeaveManager');
+            }
+        }
         $leaveSetting->update($request->validated());
         return redirect()->route('admin.leave_setting.index')->with('success', 'Branch Leave Setting Updated');
     }

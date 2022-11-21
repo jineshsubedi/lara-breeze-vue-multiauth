@@ -17,13 +17,15 @@ class RolesSeeder extends Seeder
      */
     public function run()
     {
-        $role1 = Role::create(['name' => 'SuperAdmin']);
+        Role::create(['name' => 'SuperAdmin']);
         Role::create(['name' => 'LeaveManager']);
         Role::create(['name' => 'HrHandler']);
         Role::create(['name' => 'AttendanceHandler']);
         Role::create(['name' => 'PayrollHandler']);
-        Role::create(['name' => 'EventHandler']);
+        Role::create(['name' => 'StaffHandler']);
+        Role::create(['name' => 'TrainingHandler']);
         Role::create(['name' => 'SurveyHandler']);
+        Role::create(['name' => 'RevenueHandler']);
 
         $admin = User::where('email', 'admin@gmail.com')->first();
         $admin->assignRole(['SuperAdmin', 'LeaveManager', 'HrHandler']);

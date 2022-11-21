@@ -17,6 +17,7 @@ use App\Models\Department;
 use App\Models\PerformanceSetting;
 use App\Models\User;
 use Inertia\Inertia;
+use Spatie\Permission\Models\Role;
 
 class BranchController extends Controller
 {
@@ -68,7 +69,10 @@ class BranchController extends Controller
      */
     public function store(BranchRequest $request)
     {
-        Branch::create($request->validated());
+        $branch = Branch::create($request->validated());
+        BranchSetting::create([
+            'branch_id' => $branch->id
+        ]);
         return redirect()->route('admin.branches.index')->with('success', 'Branch Added Successfully');
     }
 
@@ -171,7 +175,7 @@ class BranchController extends Controller
             'account_handler' => isset($branch->setting->id) ? $branch->setting->account_handler : null,
         ];
         
-        $defaultImage = isset($branch->setting->id) ? Imagetool::mycrop($branch->setting->account_handler_signature, 100, 100) : Imagetool::mycrop('no-image.png', 100, 100);
+        $defaultImage = isset($branch->setting->id) ? Imagetool::mycrop($branch->setting->account_handler_signature ? $branch->setting->account_handler_signature : 'no-image.png', 100, 100) : Imagetool::mycrop('no-image.png', 100, 100);
         
         return Inertia::render('Admin/Branch/Setting', [
             'branch' => $branch,
@@ -192,7 +196,8 @@ class BranchController extends Controller
     public function storeSetting(BranchSettingRequest $request, $id)
     {
         $branch = Branch::with(['setting', 'performance'])->findOrFail($id);
-        BranchSetting::updateOrCreate(
+        $old_setting = BranchSetting::where('branch_id', $branch->id)->first();
+        $setting = BranchSetting::updateOrCreate(
             ['branch_id' => $branch->id],
             $request->validated(),
             [
@@ -200,6 +205,9 @@ class BranchController extends Controller
                 'out_source_handler' => $request->out_source_handler
             ]
         );
+        if(isset($old_setting->id))
+            $this->assignBranchRoles($setting, $old_setting);
+            
         if($request->performance)
         {
             PerformanceSetting::where('branch_id', $branch->id)->delete();
@@ -214,5 +222,66 @@ class BranchController extends Controller
             }
         }
         return back()->with('success', 'Branch Setting Updated!');
+    }
+    public function assignBranchRoles($setting, $old_setting)
+    {
+        $user = new User;
+        $role = new Role;
+        if($old_setting->attendance_handler != $setting->attendance_handler && $old_setting->branch_id == $setting->branch_id)
+        {
+            $user1 = $user->select('id', 'name')->find($old_setting->attendance_handler);
+            $user2 = $user->select('id', 'name')->find($setting->attendance_handler);
+            if($role->where('name', 'AttendanceHandler')->first())
+                $this->roleAssignment($user1, $user2, 'AttendanceHandler');
+        }
+        if($old_setting->hr_handler != $setting->hr_handler && $old_setting->branch_id == $setting->branch_id)
+        {
+            $user1 = $user->select('id', 'name')->find($old_setting->hr_handler);
+            $user2 = $user->select('id', 'name')->find($setting->hr_handler);
+            if($role->where('name', 'HrHandler')->first())
+                $this->roleAssignment($user1, $user2, 'HrHandler');
+        }
+        if($old_setting->account_handler != $setting->account_handler && $old_setting->branch_id == $setting->branch_id)
+        {
+            $user1 = $user->select('id', 'name')->find($old_setting->account_handler);
+            $user2 = $user->select('id', 'name')->find($setting->account_handler);
+            if($role->where('name', 'PayrollHandler')->first())
+                $this->roleAssignment($user1, $user2, 'PayrollHandler');
+        }
+        if($old_setting->staff_handler != $setting->staff_handler && $old_setting->branch_id == $setting->branch_id)
+        {
+            $user1 = $user->select('id', 'name')->find($old_setting->staff_handler);
+            $user2 = $user->select('id', 'name')->find($setting->staff_handler);
+            if($role->where('name', 'StaffHandler')->first())
+                $this->roleAssignment($user1, $user2, 'StaffHandler');
+        }
+        if($old_setting->training_handler != $setting->training_handler && $old_setting->branch_id == $setting->branch_id)
+        {
+            $user1 = $user->select('id', 'name')->find($old_setting->training_handler);
+            $user2 = $user->select('id', 'name')->find($setting->training_handler);
+            if($role->where('name', 'TrainingHandler')->first())
+                $this->roleAssignment($user1, $user2, 'TrainingHandler');
+        }
+        if($old_setting->survey_handler != $setting->survey_handler && $old_setting->branch_id == $setting->branch_id)
+        {
+            $user1 = $user->select('id', 'name')->find($old_setting->survey_handler);
+            $user2 = $user->select('id', 'name')->find($setting->survey_handler);
+            if($role->where('name', 'SurveyHandler')->first())
+                $this->roleAssignment($user1, $user2, 'SurveyHandler');
+        }
+        if($old_setting->revenue != $setting->revenue && $old_setting->branch_id == $setting->branch_id)
+        {
+            $user1 = $user->select('id', 'name')->find($old_setting->revenue);
+            $user2 = $user->select('id', 'name')->find($setting->revenue);
+            if($role->where('name', 'RevenueHandler')->first())
+                $this->roleAssignment($user1, $user2, 'RevenueHandler');
+        }
+    }
+    private function roleAssignment($user1, $user2, $role)
+    {
+        if(isset($user1->id))
+            $user1->removeRole($role);
+        if(isset($user2->id))
+            $user2->assignRole($role);
     }
 }

@@ -12,7 +12,8 @@ Route::prefix('profile')->controller(ProfileController::class)->group(function (
 });
 
 Route::resource('setting', 'SettingController')->only(['index', 'update']);
-Route::resource('roles', 'RoleController');
+
+// Route::resource('roles', 'RoleController');
 
 Route::resource('dailytasks', 'DailyTaskController');
 Route::resource('branches', 'BranchController');
