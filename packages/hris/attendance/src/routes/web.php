@@ -12,6 +12,11 @@ Route::group([
     Route::post('attendance_approval', 'AttendanceController@approveAll')->name('attendances.approveAll');
     Route::patch('attendances/{id}/approve','AttendanceController@approve')->name('attendances.approve');
     Route::patch('attendances/{id}/reject','AttendanceController@reject')->name('attendances.reject');
+
+    Route::get('attendance_handler', 'AttendanceHandlerController@index')->name('attendanceHandler.index');
+    Route::post('attendance_handler', 'AttendanceHandlerController@approve')->name('attendanceHandler.approve');
+    Route::post('attendance_handler/generate', 'AttendanceHandlerController@generate')->name('attendanceHandler.generate');
+    Route::post('attendance_handler/export', 'AttendanceHandlerController@export')->name('attendanceHandler.export');
 });
 
 Route::group([

@@ -85,4 +85,12 @@ class AppConstant
 
     const NEPALIDATE = 1;
     const ENGLISHDATE = 2;
+
+    const WORKDURATION = 8;
+    const LOCATION = '27.6905941,85.3275142';
+
+    const ATTENDANCE_STATUS = [
+        ['value' => 0, 'title' => 'Pending'],
+        ['value' => 1, 'title' => 'Approved'],
+    ];
 }

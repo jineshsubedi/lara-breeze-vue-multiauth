@@ -4,6 +4,7 @@
     let DocumentMenu = Ziggy.routes['admin.documents.index'] ? true : false;
     let TaskMenu = Ziggy.routes['admin.tasks.index'] ? true : false;
     let AttendanceMenu = Ziggy.routes['admin.attendances.index'] ? true : false;
+    let AttendanceHandlerMenu = Ziggy.routes['admin.attendanceHandler.index'] ? true : false;
 </script>
 <template>
     <aside id="sidebar" class="sidebar">
@@ -117,7 +118,15 @@
                     </li>
                 </ul>
             </li>
-
+            <li class="nav-item" v-if="AttendanceHandlerMenu && $page.props.can.includes('AttendanceHandler')">
+                <NavLink
+                    :href="route('admin.attendanceHandler.index')"
+                    :active="$page.component.startsWith('Admin/Attendance/Main')"
+                >
+                    <i class="bi bi-grid"></i>
+                    Attendance Handler
+                </NavLink>
+            </li>
             <li class="nav-item">
                 <a class="nav-link collapsed" data-bs-target="#hrm-nav" data-bs-toggle="collapse" href="#">
                     <i class="bi bi-briefcase-fill"></i><span>HRM</span><i class="bi bi-chevron-down ms-auto"></i>

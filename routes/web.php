@@ -42,4 +42,8 @@ Route::prefix('common')->group(function() {
     Route::post('getSubOrdinates', 'Common\CommonController@getSubOrdinates')->name('getSubOrdinates');
     Route::post('getStaffsKra', 'Common\CommonController@getStaffsKra')->name('getStaffsKra');
     Route::post('/mark-as-read', 'Common\CommonController@markNotification')->name('markNotification');
+
+    Route::get('getYear', 'Common\CommonDateController@getYear')->name('getYear');
+    Route::get('getMonth', 'Common\CommonDateController@getMonth')->name('getMonth');
+    Route::get('getDays', 'Common\CommonDateController@getDays')->name('getDays');
 });

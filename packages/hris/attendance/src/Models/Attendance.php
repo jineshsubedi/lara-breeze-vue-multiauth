@@ -2,6 +2,7 @@
 
 namespace Hris\Attendance\Models;
 
+use App\Models\BranchSetting;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\User;
@@ -14,6 +15,7 @@ class Attendance extends Model
     
     protected $fillable = [
         'user_id',
+        'branch_id',
         'attendance_date',
         'in_time',
         'out_time',
@@ -35,7 +37,7 @@ class Attendance extends Model
         'remarks'
     ];
 
-    protected $appends = ['attendance_duration', 'approve_title', 'in_time_class', 'out_time_class', 'lunch_start_class', 'lunch_end_class', 'in_time_distance', 'out_time_distance', 'lunch_start_distance', 'lunch_end_distance', 'attendance_duration'];
+    protected $appends = ['attendance_duration', 'approve_title', 'in_time_class', 'out_time_class', 'lunch_start_class', 'lunch_end_class', 'in_time_distance', 'out_time_distance', 'lunch_start_distance', 'lunch_end_distance', 'attendance_duration', 'en_year'];
 
     public function user()
     {
@@ -265,7 +267,7 @@ class Attendance extends Model
         $mylocation = array_map('trim', explode(',', $location));
         $distance = $this->getDistance($primary[0], $primary[1], $mylocation[0], $mylocation[1], 'K');
         
-        return number_format($distance, 2, '.', '') . ' KM';
+        return number_format((float)$distance, 2, '.', '') . ' KM';
     } 
     public function generateDistance($location)
     {
@@ -279,4 +281,10 @@ class Attendance extends Model
             return false;
         }
     } 
+    public function enYear(): Attribute 
+    {
+        return Attribute::make(
+            get: fn () => Carbon::parse($this->created_at)->format('Y'),
+        );
+    }
 }

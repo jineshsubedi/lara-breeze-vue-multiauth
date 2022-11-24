@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use App\Models\Setting;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Validation\Rules\Password;
 
@@ -32,5 +33,10 @@ class AppServiceProvider extends ServiceProvider
                 ->mixedCase()
                 ->uncompromised();
         });
+        $setting = Setting::first();
+        $config = array(
+            'app.settings' => $setting,
+        );
+        config($config);
     }
 }

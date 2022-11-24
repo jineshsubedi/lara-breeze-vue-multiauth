@@ -2,6 +2,7 @@
 
 namespace App\Traits;
 
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Support\Facades\Storage;
 use App\Models\UserAllowance;
 use App\Models\UserEducation;
@@ -22,6 +23,7 @@ use App\Models\UserKra;
 use App\Models\Branch;
 use App\Models\Leave;
 use App\Models\User;
+use Carbon\Carbon;
 
 trait UserRelation {
 
@@ -150,5 +152,65 @@ trait UserRelation {
     public function scopeSubordinate($query)
     {
         return $query->where('supervisor_id', auth()->id());
+    }
+    public function weekend(): Attribute
+    {
+        return Attribute::make(
+            get: fn ($value) => explode(',', $value),
+            set: fn ($value) => implode(',', $value),
+        );
+    }
+    public static function setWeekend()
+    {
+        $weekend = auth()->user()->weekend;
+        if(is_array($weekend))
+        {
+            $wekSTr = [];
+            if (in_array('SUNDAY', $weekend)) {
+                $wekSTr[] = Carbon::SUNDAY;
+            }
+            if (in_array('MONDAY', $weekend)) {
+                $wekSTr[] = Carbon::MONDAY;
+            }
+            if (in_array('TUESDAY', $weekend)) {
+            $wekSTr[] = Carbon::TUESDAY;
+            }
+            if (in_array('WEDNESDAY', $weekend)) {
+            $wekSTr[] = Carbon::WEDNESDAY;
+            }
+            if (in_array('THURSDAY', $weekend)) {
+            $wekSTr[] = Carbon::THURSDAY;
+            }
+            if (in_array('FRIDAY', $weekend)) {
+            $wekSTr[] = Carbon::FRIDAY;
+            }
+            if (in_array('SATURDAY', $weekend)) {
+            $wekSTr[] = Carbon::SATURDAY;
+            }
+            Carbon::setWeekendDays($wekSTr);
+
+        }else{
+            if (auth()->user()->weekend == 'SUNDAY') {
+                 Carbon::setWeekendDays([Carbon::SUNDAY]);
+               }
+            if (auth()->user()->weekend == 'MONDAY') {
+                 Carbon::setWeekendDays([Carbon::MONDAY]);
+               }
+            if (auth()->user()->weekend == 'TUESDAY') {
+                 Carbon::setWeekendDays([Carbon::TUESDAY]);
+               }
+            if (auth()->user()->weekend == 'WEDNESDAY') {
+                 Carbon::setWeekendDays([Carbon::WEDNESDAY]);
+               }
+            if (auth()->user()->weekend == 'THURSDAY') {
+                 Carbon::setWeekendDays([Carbon::THURSDAY]);
+               }
+            if (auth()->user()->weekend == 'FRIDAY') {
+                 Carbon::setWeekendDays([Carbon::FRIDAY]);
+               }
+            if (auth()->user()->weekend == 'SATURDAY') {
+                Carbon::setWeekendDays([Carbon::SATURDAY]);
+              }
+        }
     }
 }

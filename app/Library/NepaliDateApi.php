@@ -781,4 +781,14 @@ trait NepaliDateApi
         return $date['nmonth'] . " " . $date_day_ . ", " . $nepali_year;
 
     }
+    public function getDefaultNepaliYearFromEnglishYear()
+    {
+        $date = $this->eng_to_nep(date('Y'), date('m'), date('d'));
+        $year = str_split($date['year']);
+        $nepali_year = '';
+        foreach ($year as $y) {
+            $nepali_year .= $y;
+        }
+        return $nepali_year;
+    }
 }

@@ -19,6 +19,7 @@ return new class extends Migration
                 ->constrained()
                 ->onUpdate('cascade')
                 ->onDelete('cascade');
+            $table->integer('branch_id')->default(0);
             $table->date('attendance_date');
             $table->time('in_time');
             $table->time('out_time')->nullable();

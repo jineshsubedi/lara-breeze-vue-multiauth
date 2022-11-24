@@ -57,12 +57,14 @@ class AttendanceController extends Controller
         {
             Attendance::create([
                 'user_id' => auth()->user()->id,
+                'branch_id' => auth()->user()->branch_id,
                 'attendance_date' => $today,
                 'in_time' => date('H:i:s'),
                 'in_location' => $request->location,
                 'np_year' => $np_today['year'],
                 'np_month' => $np_today['month'],
-                'np_date' => $np_today['date']
+                'np_date' => $np_today['date'],
+                'approve' => '0'
             ]);
         }
         if ($request->type == 'lunchout')
@@ -105,7 +107,8 @@ class AttendanceController extends Controller
                     'out_location' => $request->location,
                     'np_year' => $np_today['year'],
                     'np_month' => $np_today['month'],
-                    'np_date' => $np_today['date']
+                    'np_date' => $np_today['date'],
+                    'approve' => '0'
                 ]);
             }
 
@@ -134,7 +137,7 @@ class AttendanceController extends Controller
             {
                 $data['late_clock_in'] = true;
             }
-            if($shift->end_time >= $attendance->out_time && $attendance->out_time_reason == null)
+            if($attendance->out_time != null && $shift->end_time >= $attendance->out_time && $attendance->out_time_reason == null)
             {
                 $data['early_clock_out'] = true;
             }

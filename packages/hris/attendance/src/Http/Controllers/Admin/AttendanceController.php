@@ -2,6 +2,7 @@
 
 namespace Hris\Attendance\Http\Controllers\Admin;
 
+use App\Enums\AppConstant;
 use Hris\Attendance\Requests\AttendanceRequest;
 use Hris\Attendance\Models\Attendance;
 use App\Http\Controllers\Controller;
@@ -9,6 +10,7 @@ use App\Library\NepaliDateApi;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 use App\Models\User;
+use Carbon\Carbon;
 
 class AttendanceController extends Controller
 {
@@ -57,12 +59,14 @@ class AttendanceController extends Controller
         {
             Attendance::create([
                 'user_id' => auth()->user()->id,
+                'branch_id' => auth()->user()->branch_id,
                 'attendance_date' => $today,
                 'in_time' => date('H:i:s'),
                 'in_location' => $request->location,
                 'np_year' => $np_today['year'],
                 'np_month' => $np_today['month'],
-                'np_date' => $np_today['date']
+                'np_date' => $np_today['date'],
+                'approve' => '0'
             ]);
         }
         if ($request->type == 'lunchout')
@@ -93,9 +97,13 @@ class AttendanceController extends Controller
             $attendance = Attendance::where('user_id', auth()->user()->id)->where('attendance_date',$today)->orderBy('id','desc')->first();
             if (isset($attendance->id))
             {
+                $to1 = Carbon::parse($attendance->attendance_date . ' ' . $attendance->in_time);
+                $to2 = Carbon::parse($attendance->attendance_date . ' ' . date('H:i:s'));
+                $duration = $to2->diffInHours($to1);
                 $attendance->update([
                     'out_time' => date('H:i:s'),
                     'out_location' => $request->location,
+                    'approve' => $duration > AppConstant::WORKDURATION ? '1' : '0'
                 ]);
             }else{
                 Attendance::create([
@@ -105,7 +113,8 @@ class AttendanceController extends Controller
                     'out_location' => $request->location,
                     'np_year' => $np_today['year'],
                     'np_month' => $np_today['month'],
-                    'np_date' => $np_today['date']
+                    'np_date' => $np_today['date'],
+                    'approve' => '0'
                 ]);
             }
 
@@ -134,14 +143,13 @@ class AttendanceController extends Controller
             {
                 $data['late_clock_in'] = true;
             }
-            if($shift->end_time >= $attendance->out_time && $attendance->out_time_reason == null)
+            if($attendance->out_time != null && $shift->end_time >= $attendance->out_time && $attendance->out_time_reason == null)
             {
                 $data['early_clock_out'] = true;
             }
         }
         $data['away_clock_in'] = $attendance->in_time != null && $attendance->in_away_location == null ? $attendance->generateDistance($attendance->in_location) : false;
         $data['away_clock_out'] = $attendance->out_time != null && $attendance->out_away_location == null && $attendance->out_time_reason == null ? $attendance->generateDistance($attendance->out_location) : false;
-
         return Inertia::render('Admin/Attendance/Show', [
             'attendance' => $attendance,
             'data' => $data
@@ -161,6 +169,7 @@ class AttendanceController extends Controller
         $attendance->update([
             'approve' => '1'
         ]);
+        return back()->with('info', 'Approved');
     }
 
     public function reject($id)
