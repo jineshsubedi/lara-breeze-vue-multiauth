@@ -2,6 +2,7 @@
     import NavLink from "@/Components/AdminLteNavLink.vue"
 
     let TaskMenu = Ziggy.routes['supervisor.tasks.index'] ? true : false;
+    let AttendanceHandlerMenu = Ziggy.routes['supervisor.attendanceHandler.index'] ? true : false;
 </script>
 <template>
     <aside id="sidebar" class="sidebar">
@@ -16,7 +17,15 @@
                     Dashboard
                 </NavLink>
             </li>
-
+            <li class="nav-item" v-if="AttendanceHandlerMenu && $page.props.can.includes('AttendanceHandler')">
+                <NavLink
+                    :href="route('supervisor.attendanceHandler.index')"
+                    :active="$page.component.startsWith('Supervisor/Attendance/Main')"
+                >
+                    <i class="bi bi-grid"></i>
+                    Attendance Handler
+                </NavLink>
+            </li>
             <li class="nav-item">
                 <a class="nav-link collapsed" data-bs-target="#hrm-nav" data-bs-toggle="collapse" href="#">
                     <i class="bi bi-gear"></i><span>HRM</span><i class="bi bi-chevron-down ms-auto"></i>
