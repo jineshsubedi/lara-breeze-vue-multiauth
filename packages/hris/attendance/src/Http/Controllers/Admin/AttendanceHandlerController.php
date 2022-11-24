@@ -12,6 +12,8 @@ use App\Enums\AppConstant;
 use Inertia\Inertia;
 use App\Models\User;
 use Carbon\Carbon;
+use Hris\Attendance\Exports\MultipleMonthlyAttendance;
+use Illuminate\Support\Facades\Storage;
 
 class AttendanceHandlerController extends Controller
 {
@@ -29,10 +31,12 @@ class AttendanceHandlerController extends Controller
         $staffs = User::active()->where('branch_id', auth()->user()->branch_id)->get(['id', 'name']);
         $dateType = BranchSetting::where('branch_id', auth()->user()->branch_id)->first();
         $astatus = AppConstant::ATTENDANCE_STATUS;
+        $excelFile = Storage::exists('export/staffAttendance.xlsx') ? Storage::url('export/staffAttendance.xlsx') : null;
         return Inertia::render('Admin/Attendance/Main', [
             'attendances' => fn () => $attendances, // required for partial reload
             'staffs' => $staffs,
             'astatus' => $astatus,
+            'excelFile' => $excelFile,
             'dateType' => $dateType->salary_calculate ?: 2,
             'filters' => $request->only(['staff', 'from', 'to', 'status'])
         ]);
@@ -291,7 +295,7 @@ class AttendanceHandlerController extends Controller
         }
         $datas['staffs'] = $e_staff;
         $datas['attendance'] = $e_attendance;
-        return response()->json($datas);
+        (new MultipleMonthlyAttendance($datas))->store('export/staffAttendance.xlsx', 'public');
     }
     private function filterQuery($query)
     {

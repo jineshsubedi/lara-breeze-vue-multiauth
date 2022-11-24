@@ -27,6 +27,7 @@ class AttendanceServiceProvider extends ServiceProvider
     {
         $this->loadRoutesFrom(__DIR__.'/routes/web.php');
         $this->loadMigrationsFrom(__DIR__.'/database/migrations');
+        $this->loadViewsFrom(__DIR__.'/views', 'attendance');
         Attendance::observe(AttendanceObserver::class);
     }
 }

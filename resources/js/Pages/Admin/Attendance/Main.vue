@@ -13,6 +13,7 @@ const props = defineProps({
     attendances: Object,
     staffs: Object,
     astatus: Object,
+    excelFile: String,
     filters: Object,
     dateType: Number,
     can: Object,
@@ -51,6 +52,7 @@ let staff = ref(props.filters.staff);
 let from = ref(props.filters.from);
 let to = ref(props.filters.to);
 let status = ref(props.filters.status);
+let download_excel = ref(false);
 function loadFilter() {
     Inertia.get(
         route("admin.attendanceHandler.index"),
@@ -75,8 +77,8 @@ function generateAttendanceModal() {
 function exportAttendance() {
     exportForm.post(route("admin.attendanceHandler.export"), {
         preserveScroll: true,
-        onSuccess: (response) => {
-            
+        onSuccess: () => {
+            download_excel.value = true;
             $("#ExportAttendanceModal").modal("hide");
         },
     });
@@ -260,28 +262,45 @@ function selectAllAttendance() {
                                     <div class="col-md-6">
                                         <label for="">Attendance</label><br />
                                         <div class="btn-group">
+                                            <a 
+                                                :href="excelFile" 
+                                                target="_blank" 
+                                                v-if="download_excel" 
+                                                class="btn btn-sm btn-outline-info" 
+                                                data-bs-toggle="tooltip" 
+                                                data-bs-title="Download Attendances"
+                                            >
+                                                <i class="bi bi-download"></i> 
+                                            </a>
                                             <button
                                                 class="btn btn-sm btn-outline-info"
                                                 type="button"
                                                 @click="ExportAttendanceModal()"
+                                                data-bs-toggle="tooltip" 
+                                                data-bs-title="Export Attendances"
                                             >
-                                                Export
+                                                <i class="bi bi-archive"></i>
                                             </button>
+                                            
                                             <button
                                                 class="btn btn-sm btn-outline-primary"
                                                 type="button"
                                                 @click="
                                                     generateAttendanceModal()
                                                 "
+                                                data-bs-toggle="tooltip" 
+                                                data-bs-title="Generate Attendances"
                                             >
-                                                Generate
+                                                <i class="bi bi-arrow-repeat"></i>
                                             </button>
                                             <button
                                                 class="btn btn-sm btn-outline-success"
                                                 type="button"
                                                 @click="approveAttendance()"
+                                                data-bs-toggle="tooltip" 
+                                                data-bs-title="Approve Attendances"
                                             >
-                                                Approve
+                                                <i class="bi bi-check2-all"></i>
                                             </button>
                                         </div>
                                     </div>
