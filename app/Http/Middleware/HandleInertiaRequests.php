@@ -38,8 +38,8 @@ class HandleInertiaRequests extends Middleware
         $setting = Setting::with(['socials'])->select('id', 'name', 'email', 'phone', 'address', 'meta_title', 'meta_keyword', 'meta_description', 'google_analytics', 'logo', 'icon')->first();
         return array_merge(parent::share($request), [
             'auth' => [
-                'user' => $request->user(),
-                'avatar' => $request->user() ? $request->user()->avatar_path : ''
+                'user' => fn () => $request->user(),
+                'avatar' => fn () => $request->user() ? $request->user()->avatar_path : '',
             ],
             'ziggy' => function () use ($request) {
                 return array_merge((new Ziggy)->toArray(), [
@@ -52,9 +52,12 @@ class HandleInertiaRequests extends Middleware
                 'warning' => fn () => session()->get('warning'),
                 'info' => fn () => session()->get('info')
             ],
-            'site' => $setting,
-            'logo_path' => $setting->logo_path,
-            'icon_path' => $setting->icon_path,
+            'can' => fn () => $request->user() ? $request->user()->roles->pluck('name') : [],
+            'site' => fn () => $setting,
+            'logo_path' => fn () => $setting->logo_path,
+            'icon_path' => fn () => $setting->icon_path,
+            'notifications' => $request->user() ? $request->user()->unreadNotifications : [],
+            'countNotification' => $request->user() ? $request->user()->unreadNotifications->count() : 0,
         ]);
     }
 }

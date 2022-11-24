@@ -11,6 +11,9 @@
         "laravel/framework": "^9.19",
         "laravel/sanctum": "^2.8",
         "laravel/tinker": "^2.7",
+        "maatwebsite/excel": "^3.1",
+        "psr/simple-cache": "^2.0",
+        "spatie/laravel-permission": "^5.5",
         "tightenco/ziggy": "^1.0"
     },
     "require-dev": {
@@ -32,7 +35,10 @@
     },
     "autoload-dev": {
         "psr-4": {
-            "Tests\\": "tests/"
+            "Tests\\": "tests/",
+            "Hris\\Document\\" : "packages/hris/document/src",
+            "Hris\\Task\\" : "packages/hris/task/src",
+            "Hris\\Attendance\\" : "packages/hris/attendance/src"
         }
     },
     "scripts": {

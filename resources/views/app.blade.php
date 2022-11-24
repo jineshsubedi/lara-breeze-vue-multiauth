@@ -19,7 +19,6 @@
 
         <!-- Template Main CSS File -->
         <link href="{{asset('assets/css/style.css')}}" rel="stylesheet">
-
         <!-- Scripts -->
         <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
         @routes

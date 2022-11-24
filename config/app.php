@@ -69,7 +69,7 @@ return [
     |
     */
 
-    'timezone' => 'UTC',
+    'timezone' => 'Asia/Kathmandu',
 
     /*
     |--------------------------------------------------------------------------
@@ -194,7 +194,9 @@ return [
         // App\Providers\BroadcastServiceProvider::class,
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
-
+        Hris\Document\DocumentServiceProvider::class,
+        Hris\Task\TaskServiceProvider::class,
+        Hris\Attendance\AttendanceServiceProvider::class
     ],
 
     /*

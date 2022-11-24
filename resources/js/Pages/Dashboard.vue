@@ -24,3 +24,15 @@ import { Head } from '@inertiajs/inertia-vue3';
         </div>
     </AuthenticatedLayout>
 </template>
+<style>
+.dashboard .card-icon {
+    font-size: 20px;
+    line-height: 0;
+    width: 40px;
+    height: 40px;
+    flex-shrink: 0;
+    flex-grow: 0;
+}
+.dashboard .filter {right: 10px;}
+.dashboard .activity .activity-item .activity-badge {font-size: 14px;}
+</style>

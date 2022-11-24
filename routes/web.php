@@ -35,3 +35,15 @@ Route::prefix('file-manager')->controller(FilemanagerController::class)->group(f
     Route::post('/delete-file', 'deleteFile')->name('filemanager.delete_file');
     Route::post('/delete-folder', 'deleteFolder')->name('filemanager.delete_folder');
 });
+
+Route::prefix('common')->group(function() {
+    Route::get('getDistrict', 'Common\CommonController@getDistrict')->name('getDistrict');
+    Route::post('getStaffsByBranch', 'Common\CommonController@getStaffsByBranch')->name('getStaffsByBranch');
+    Route::post('getSubOrdinates', 'Common\CommonController@getSubOrdinates')->name('getSubOrdinates');
+    Route::post('getStaffsKra', 'Common\CommonController@getStaffsKra')->name('getStaffsKra');
+    Route::post('/mark-as-read', 'Common\CommonController@markNotification')->name('markNotification');
+
+    Route::get('getYear', 'Common\CommonDateController@getYear')->name('getYear');
+    Route::get('getMonth', 'Common\CommonDateController@getMonth')->name('getMonth');
+    Route::get('getDays', 'Common\CommonDateController@getDays')->name('getDays');
+});

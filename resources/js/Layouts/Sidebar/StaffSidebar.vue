@@ -1,5 +1,8 @@
 <script setup>
     import NavLink from "@/Components/AdminLteNavLink.vue"
+
+    let TaskMenu = Ziggy.routes['staffs.tasks.index'] ? true : false;
+    let AttendanceHandlerMenu = Ziggy.routes['staffs.attendanceHandler.index'] ? true : false;
 </script>
 <template>
     <aside id="sidebar" class="sidebar">
@@ -8,100 +11,67 @@
             <li class="nav-item">
                 <NavLink
                     :href="route('staffs.dashboard')"
-                    :active="route().current('staffs.dashboard')"
+                    :active="$page.component.startsWith('Staff/Dashboard')"
                 >
                     <i class="bi bi-grid"></i>
                     Dashboard
                 </NavLink>
             </li>
-
-            <!-- <li class="nav-item">
-                <a class="nav-link collapsed" data-bs-target="#components-nav" data-bs-toggle="collapse" href="#">
-                <i class="bi bi-menu-button-wide"></i><span>Components</span><i class="bi bi-chevron-down ms-auto"></i>
+            <li class="nav-item" v-if="AttendanceHandlerMenu && $page.props.can.includes('AttendanceHandler')">
+                <NavLink
+                    :href="route('staffs.attendanceHandler.index')"
+                    :active="$page.component.startsWith('Staff/Attendance/Main')"
+                >
+                    <i class="bi bi-grid"></i>
+                    Attendance Handler
+                </NavLink>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link collapsed" data-bs-target="#hrm-nav" data-bs-toggle="collapse" href="#">
+                    <i class="bi bi-gear"></i><span>HRM</span><i class="bi bi-chevron-down ms-auto"></i>
                 </a>
-                <ul id="components-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
-                <li>
-                    <a href="components-alerts.html">
-                    <i class="bi bi-circle"></i><span>Alerts</span>
-                    </a>
-                </li>
-                <li>
-                    <a href="components-accordion.html">
-                    <i class="bi bi-circle"></i><span>Accordion</span>
-                    </a>
-                </li>
-                <li>
-                    <a href="components-badges.html">
-                    <i class="bi bi-circle"></i><span>Badges</span>
-                    </a>
-                </li>
-                <li>
-                    <a href="components-breadcrumbs.html">
-                    <i class="bi bi-circle"></i><span>Breadcrumbs</span>
-                    </a>
-                </li>
-                <li>
-                    <a href="components-buttons.html">
-                    <i class="bi bi-circle"></i><span>Buttons</span>
-                    </a>
-                </li>
-                <li>
-                    <a href="components-cards.html">
-                    <i class="bi bi-circle"></i><span>Cards</span>
-                    </a>
-                </li>
-                <li>
-                    <a href="components-carousel.html">
-                    <i class="bi bi-circle"></i><span>Carousel</span>
-                    </a>
-                </li>
-                <li>
-                    <a href="components-list-group.html">
-                    <i class="bi bi-circle"></i><span>List group</span>
-                    </a>
-                </li>
-                <li>
-                    <a href="components-modal.html">
-                    <i class="bi bi-circle"></i><span>Modal</span>
-                    </a>
-                </li>
-                <li>
-                    <a href="components-tabs.html">
-                    <i class="bi bi-circle"></i><span>Tabs</span>
-                    </a>
-                </li>
-                <li>
-                    <a href="components-pagination.html">
-                    <i class="bi bi-circle"></i><span>Pagination</span>
-                    </a>
-                </li>
-                <li>
-                    <a href="components-progress.html">
-                    <i class="bi bi-circle"></i><span>Progress</span>
-                    </a>
-                </li>
-                <li>
-                    <a href="components-spinners.html">
-                    <i class="bi bi-circle"></i><span>Spinners</span>
-                    </a>
-                </li>
-                <li>
-                    <a href="components-tooltips.html">
-                    <i class="bi bi-circle"></i><span>Tooltips</span>
-                    </a>
-                </li>
+                <ul id="hrm-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
+                    <li>
+                        <NavLink 
+                            :href="route('staffs.attendances.index')" 
+                            :active="route().current('staffs.attendances.index')"
+                        >
+                            <i class="bi bi-calendar2-check"></i><span>Attendance</span>
+                        </NavLink>
+                    </li>
+                    <li>
+                        <NavLink 
+                            :href="route('staffs.dailytasks.index')" 
+                            :active="route().current('staffs.dailytasks.index')"
+                        >
+                            <i class="bi bi-calendar2-check"></i><span>Daily Tasks</span>
+                        </NavLink>
+                    </li>
                 </ul>
-            </li> -->
-
-
-            <!-- <li class="nav-heading">Pages</li> -->
-
-            <!-- <li class="nav-item">
-                <a class="nav-link collapsed" href="users-profile.html">
-                <i class="bi bi-person"></i>
-                <span>Profile</span>
+            </li>
+            <li class="nav-item" v-if="TaskMenu">
+                <a class="nav-link collapsed" data-bs-target="#tasks-nav" data-bs-toggle="collapse" href="#">
+                    <i class="bi bi-pc-display"></i><span>Tasks</span><i class="bi bi-chevron-down ms-auto"></i>
                 </a>
-            </li> -->
+                <ul id="tasks-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
+                    <li>
+                        <NavLink 
+                            :href="route('staffs.tasks.index')" 
+                            :active="$page.component.startsWith('Staff/Tasks')"
+                        >
+                            <i class="bi bi-person-workspace"></i><span>Home</span>
+                        </NavLink>
+                    </li>
+                    <li>
+                        <NavLink 
+                            :href="route('staffs.helpdesks.index')" 
+                            :active="$page.component.startsWith('Staff/Helpdesk')"
+                        >
+                            <i class="bi bi-pc-horizontal"></i><span>Help Desk</span>
+                        </NavLink>
+                    </li>
+                </ul>
+            </li>
 
 
         </ul>

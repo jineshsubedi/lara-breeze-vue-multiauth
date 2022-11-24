@@ -1,5 +1,10 @@
 <script setup>
     import NavLink from "@/Components/AdminLteNavLink.vue"
+
+    let DocumentMenu = Ziggy.routes['admin.documents.index'] ? true : false;
+    let TaskMenu = Ziggy.routes['admin.tasks.index'] ? true : false;
+    let AttendanceMenu = Ziggy.routes['admin.attendances.index'] ? true : false;
+    let AttendanceHandlerMenu = Ziggy.routes['admin.attendanceHandler.index'] ? true : false;
 </script>
 <template>
     <aside id="sidebar" class="sidebar">
@@ -8,99 +13,159 @@
             <li class="nav-item">
                 <NavLink
                     :href="route('admin.dashboard')"
-                    :active="route().current('admin.dashboard')"
+                    :active="$page.component.startsWith('Admin/Dashboard')"
                 >
                     <i class="bi bi-grid"></i>
                     Dashboard
                 </NavLink>
             </li>
+
             <li class="nav-item">
-                <NavLink
-                    :href="route('admin.setting.index')"
-                    :active="route().current('admin.setting.index')"
-                >
-                    <i class="bi bi-gear-fill"></i>
-                    Setting
-                </NavLink>
+                <a class="nav-link collapsed" data-bs-target="#setting-nav" data-bs-toggle="collapse" href="#">
+                    <i class="bi bi-gear"></i><span>Configuration</span><i class="bi bi-chevron-down ms-auto"></i>
+                </a>
+                <ul id="setting-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
+                    <li v-if="$page.props.can.includes('SuperAdmin')">
+                        <NavLink 
+                            :href="route('admin.setting.index')" 
+                            :active="$page.component.startsWith('Admin/Setting')"
+                        >
+                            <i class="bi bi-gear-fill"></i><span>Setting</span>
+                        </NavLink>
+                    </li>
+                    <li v-if="$page.props.can.includes('SuperAdmin')">
+                        <NavLink 
+                            :href="route('admin.branches.index')" 
+                            :active="$page.component.startsWith('Admin/Branch')"
+                        >
+                            <i class="bi bi-diagram-3"></i><span>Branch</span>
+                        </NavLink>
+                    </li>
+                    <li>
+                        <NavLink 
+                            :href="route('admin.departments.index')" 
+                            :active="$page.component.startsWith('Admin/Department')"
+                        >
+                            <i class="bi bi-node-plus"></i><span>Department</span>
+                        </NavLink>
+                    </li>
+                    <li>
+                        <NavLink 
+                            :href="route('admin.designations.index')" 
+                            :active="$page.component.startsWith('Admin/Designation')"
+                        >
+                            <i class="bi bi-mortarboard-fill"></i><span>Designation</span>
+                        </NavLink>
+                    </li>
+                    <li v-if="DocumentMenu">
+                        <NavLink 
+                            :href="route('admin.documents.index')" 
+                            :active="$page.component.startsWith('Admin/Document')"
+                        >
+                            <i class="bi bi-escape"></i><span>Document</span>
+                        </NavLink>
+                    </li>
+                    <li>
+                        <NavLink 
+                            :href="route('admin.shift_times.index')" 
+                            :active="$page.component.startsWith('Admin/Shifttime')"
+                        >
+                            <i class="bi bi-alarm-fill"></i><span>Shift Time</span>
+                        </NavLink>
+                    </li>
+                    <li class="nav-heading">Leave Configuration</li>
+                    <li>
+                        <NavLink 
+                            :href="route('admin.leave_types.index')" 
+                            :active="$page.component.startsWith('Admin/Leavetype')"
+                        >
+                            <i class="bi bi-escape"></i><span>Leave Type</span>
+                        </NavLink>
+                    </li>
+                    <li>
+                        <NavLink 
+                            :href="route('admin.leave_setting.index')" 
+                            :active="$page.component.startsWith('Admin/Leavesetting')"
+                        >
+                            <i class="bi bi-escape"></i><span>Leave Setting</span>
+                        </NavLink>
+                    </li>
+                    <li class="nav-heading">Booking Configuration</li>
+                    <li class="nav-heading">Travel Configuration</li>
+                </ul>
             </li>
 
-            <!-- <li class="nav-item">
-                <a class="nav-link collapsed" data-bs-target="#components-nav" data-bs-toggle="collapse" href="#">
-                <i class="bi bi-menu-button-wide"></i><span>Components</span><i class="bi bi-chevron-down ms-auto"></i>
+            <li class="nav-item" v-if="TaskMenu">
+                <a class="nav-link collapsed" data-bs-target="#tasks-nav" data-bs-toggle="collapse" href="#">
+                    <i class="bi bi-pc-display"></i><span>Tasks</span><i class="bi bi-chevron-down ms-auto"></i>
                 </a>
-                <ul id="components-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
-                <li>
-                    <a href="components-alerts.html">
-                    <i class="bi bi-circle"></i><span>Alerts</span>
-                    </a>
-                </li>
-                <li>
-                    <a href="components-accordion.html">
-                    <i class="bi bi-circle"></i><span>Accordion</span>
-                    </a>
-                </li>
-                <li>
-                    <a href="components-badges.html">
-                    <i class="bi bi-circle"></i><span>Badges</span>
-                    </a>
-                </li>
-                <li>
-                    <a href="components-breadcrumbs.html">
-                    <i class="bi bi-circle"></i><span>Breadcrumbs</span>
-                    </a>
-                </li>
-                <li>
-                    <a href="components-buttons.html">
-                    <i class="bi bi-circle"></i><span>Buttons</span>
-                    </a>
-                </li>
-                <li>
-                    <a href="components-cards.html">
-                    <i class="bi bi-circle"></i><span>Cards</span>
-                    </a>
-                </li>
-                <li>
-                    <a href="components-carousel.html">
-                    <i class="bi bi-circle"></i><span>Carousel</span>
-                    </a>
-                </li>
-                <li>
-                    <a href="components-list-group.html">
-                    <i class="bi bi-circle"></i><span>List group</span>
-                    </a>
-                </li>
-                <li>
-                    <a href="components-modal.html">
-                    <i class="bi bi-circle"></i><span>Modal</span>
-                    </a>
-                </li>
-                <li>
-                    <a href="components-tabs.html">
-                    <i class="bi bi-circle"></i><span>Tabs</span>
-                    </a>
-                </li>
-                <li>
-                    <a href="components-pagination.html">
-                    <i class="bi bi-circle"></i><span>Pagination</span>
-                    </a>
-                </li>
-                <li>
-                    <a href="components-progress.html">
-                    <i class="bi bi-circle"></i><span>Progress</span>
-                    </a>
-                </li>
-                <li>
-                    <a href="components-spinners.html">
-                    <i class="bi bi-circle"></i><span>Spinners</span>
-                    </a>
-                </li>
-                <li>
-                    <a href="components-tooltips.html">
-                    <i class="bi bi-circle"></i><span>Tooltips</span>
-                    </a>
-                </li>
+                <ul id="tasks-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
+                    <li>
+                        <NavLink 
+                            :href="route('admin.tasks.index')" 
+                            :active="$page.component.startsWith('Admin/Tasks')"
+                        >
+                            <i class="bi bi-person-workspace"></i><span>Home</span>
+                        </NavLink>
+                    </li>
+                    <li>
+                        <NavLink 
+                            :href="route('admin.helpdesks.index')" 
+                            :active="$page.component.startsWith('Admin/Helpdesk')"
+                        >
+                            <i class="bi bi-pc-horizontal"></i><span>Help Desk</span>
+                        </NavLink>
+                    </li>
                 </ul>
-            </li> -->
+            </li>
+            <li class="nav-item" v-if="AttendanceHandlerMenu && $page.props.can.includes('AttendanceHandler')">
+                <NavLink
+                    :href="route('admin.attendanceHandler.index')"
+                    :active="$page.component.startsWith('Admin/Attendance/Main')"
+                >
+                    <i class="bi bi-grid"></i>
+                    Attendance Handler
+                </NavLink>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link collapsed" data-bs-target="#hrm-nav" data-bs-toggle="collapse" href="#">
+                    <i class="bi bi-briefcase-fill"></i><span>HRM</span><i class="bi bi-chevron-down ms-auto"></i>
+                </a>
+                <ul id="hrm-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
+                    <li>
+                        <NavLink 
+                            :href="route('admin.setting.index')" 
+                            :active="route().current('admin.setting.index')"
+                        >
+                            <i class="bi bi-person-fill"></i><span>Staffs</span>
+                        </NavLink>
+                    </li>
+                    <li>
+                        <NavLink 
+                            :href="route('admin.setting.index')" 
+                            :active="route().current('admin.setting.index')"
+                        >
+                            <i class="bi bi-card-text"></i><span>Report</span>
+                        </NavLink>
+                    </li>
+                    <li v-if="AttendanceMenu">
+                        <NavLink 
+                            :href="route('admin.attendances.index')" 
+                            :active="route().current('admin.attendances.index')"
+                        >
+                            <i class="bi bi-calendar2-check"></i><span>Attendance</span>
+                        </NavLink>
+                    </li>
+                    <li>
+                        <NavLink 
+                            :href="route('admin.dailytasks.index')" 
+                            :active="route().current('admin.dailytasks.index')"
+                        >
+                            <i class="bi bi-calendar2-check"></i><span>Daily Tasks</span>
+                        </NavLink>
+                    </li>
+                </ul>
+            </li>
 
 
             <!-- <li class="nav-heading">Pages</li> -->

@@ -23,3 +23,4 @@
         title: props.message
     })
 </script>
+<template></template>
