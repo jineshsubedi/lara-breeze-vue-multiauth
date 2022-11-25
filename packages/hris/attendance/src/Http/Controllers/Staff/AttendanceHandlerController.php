@@ -11,13 +11,14 @@ use Illuminate\Http\Request;
 use App\Enums\AppConstant;
 use Inertia\Inertia;
 use App\Models\User;
+use App\Traits\PackageManager;
 use Carbon\Carbon;
 use Hris\Attendance\Exports\MultipleMonthlyAttendance;
 use Illuminate\Support\Facades\Storage;
 
 class AttendanceHandlerController extends Controller
 {
-    use NepaliDateApi;
+    use NepaliDateApi, PackageManager;
 
     public function __construct()
     {
@@ -64,7 +65,7 @@ class AttendanceHandlerController extends Controller
                 $day = $date['date'];
                 $carbon_date = Carbon::create($english_year, $english_month, $day);
                 $check = Attendance::where('user_id', $request->staff)->where('attendance_date', $carbon_date->format('Y-m-d'))->first();
-                // $holiday = Holidays::where('holiday', $carbon_date->format('Y-m-d'))->first();
+                $holiday = $this->getHoliday($carbon_date->format('Y-m-d'));
                 // $leave = LeaveRequest::where('requested_by', $request->staff)->where('supervisor_approval', 1)->where('hr_approval', 1)->whereDate('start_date', '>=', $carbon_date->format('Y-m-d'))->where('start_date', '<=', $carbon_date->format('Y-m-d'))->get();
                 User::setWeekend();
                 if ($carbon_date->isWeekend()) {
@@ -72,9 +73,9 @@ class AttendanceHandlerController extends Controller
                 } elseif ($check) {
                     continue;
                 }
-                // elseif($holiday){
-                //     continue;
-                // }
+                elseif($holiday){
+                    continue;
+                }
                 // elseif(count($leave)>0){
                 //     continue;
                 // }
@@ -107,7 +108,7 @@ class AttendanceHandlerController extends Controller
                 $day = $date['date'];
                 $carbon_date = Carbon::create($english_year, $english_month, $i);
                 $check = Attendance::where('user_id', $request->staff)->where('attendance_date', $carbon_date->format('Y-m-d'))->first();
-                // $holiday = Holidays::where('holiday', $carbon_date->format('Y-m-d'))->first();
+                $holiday = $this->getHoliday($carbon_date->format('Y-m-d'));
                 // $leave = LeaveRequest::where('requested_by', $request->staff)->where('supervisor_approval', 1)->where('hr_approval', 1)->whereDate('start_date', '>=', $carbon_date->format('Y-m-d'))->where('start_date', '<=', $carbon_date->format('Y-m-d'))->get();
                 User::setWeekend();
                 if ($carbon_date->isWeekend()) {
@@ -115,9 +116,9 @@ class AttendanceHandlerController extends Controller
                 } elseif ($check) {
                     continue;
                 }
-                // elseif($holiday){
-                //     continue;
-                // }
+                elseif($holiday){
+                    continue;
+                }
                 // elseif(count($leave)>0){
                 //     continue;
                 // }
@@ -198,7 +199,7 @@ class AttendanceHandlerController extends Controller
                 } else {
                     // $leave_request = LeaveRequest::where('requested_by', $staff->id)->where('start_date', '<=', $eng_date)->where('end_date', '>=', $eng_date)->select('id', 'requested_by', 'leave_type', 'full_day', 'description', 'supervisor_approval', 'hr_approval', 'chairman_approval', 'types')->first();
                     $staff_week = $staff->weekend;
-                    // $holiday = Holidays::where('branch_id', $staff->branch)->where('holiday', $eng_date)->select('id', 'title', 'holiday')->first();
+                    $holiday = $this->getHoliday($eng_date);
                     if (in_array(strtoupper($week_en), $staff_week)) {
                         $e_attendance[$staff->name][] = [
                             'n_date' => $np_date,
@@ -258,22 +259,22 @@ class AttendanceHandlerController extends Controller
                     //     //     'week' => $week_np,
                     //     // ];
                     // }
-                    // else if(isset($holiday->id))
-                    // {
-                    // $e_attendance[$staff->name][] = [
-                    //     'n_date' => $np_date,
-                    //     'e_date' => $eng_date,
-                    //     'clock_in' => '',
-                    //     'clock_out' => '',
-                    //     'duration' => '',
-                    //     'in_location' => '',
-                    //     'out_location' => '',
-                    //     'status' => '',
-                    //     'remarks' => $remark,
-                    //     'attendance_type' => 'Holiday- '.$holiday->title,
-                    //     'week' => $week_np,
-                    // ];
-                    // }
+                    else if(isset($holiday->id))
+                    {
+                        $e_attendance[$staff->name][] = [
+                            'n_date' => $np_date,
+                            'e_date' => $eng_date,
+                            'clock_in' => '',
+                            'clock_out' => '',
+                            'duration' => '',
+                            'in_location' => '',
+                            'out_location' => '',
+                            'status' => '',
+                            'remarks' => $remark,
+                            'attendance_type' => 'Holiday- '.$holiday->title,
+                            'week' => $week_np,
+                        ];
+                    }
                     else {
                         $e_attendance[$staff->name][] = [
                             'n_date' => $np_date,

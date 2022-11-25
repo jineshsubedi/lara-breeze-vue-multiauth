@@ -79,7 +79,7 @@
                             :href="route('admin.holidays.index')" 
                             :active="$page.component.startsWith('Admin/Holiday')"
                         >
-                            <i class="bi bi-alarm-fill"></i><span>Holiday</span>
+                            <i class="bi bi-balloon-heart"></i><span>Holiday</span>
                         </NavLink>
                     </li>
                     <li class="nav-heading">Leave Configuration</li>
@@ -132,7 +132,7 @@
                     :href="route('admin.attendanceHandler.index')"
                     :active="$page.component.startsWith('Admin/Attendance/Main')"
                 >
-                    <i class="bi bi-grid"></i>
+                    <i class="bi bi-calendar-check-fill"></i>
                     Attendance Handler
                 </NavLink>
             </li>

@@ -23,7 +23,7 @@
                     :href="route('supervisor.attendanceHandler.index')"
                     :active="$page.component.startsWith('Supervisor/Attendance/Main')"
                 >
-                    <i class="bi bi-grid"></i>
+                    <i class="bi bi-calendar-check-fill"></i>
                     Attendance Handler
                 </NavLink>
             </li>
@@ -46,7 +46,7 @@
                             :href="route('supervisor.holidays.index')" 
                             :active="$page.component.startsWith('Supervisor/Holiday')"
                         >
-                            <i class="bi bi-alarm-fill"></i><span>Holiday</span>
+                            <i class="bi bi-balloon-heart"></i><span>Holiday</span>
                         </NavLink>
                     </li>
                 </ul>
