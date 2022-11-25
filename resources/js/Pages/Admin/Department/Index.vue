@@ -118,7 +118,7 @@ function destroy(id) {
                                 :key="department.id"
                             >
                                 <th scope="row">{{ ++index }}</th>
-                                <td scope="row">{{ department.branch.name }}</td>
+                                <td scope="row">{{ department.branch ? department.branch.name : '' }}</td>
                                 <td scope="row">{{ department.title }}</td>
                                 <td scope="row">{{ department.user ? department.user.name : '' }}</td>
                                 <td scope="row">{{ department.minimum_leave }}</td>

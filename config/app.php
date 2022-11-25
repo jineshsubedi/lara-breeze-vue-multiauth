@@ -196,7 +196,8 @@ return [
         App\Providers\RouteServiceProvider::class,
         Hris\Document\DocumentServiceProvider::class,
         Hris\Task\TaskServiceProvider::class,
-        Hris\Attendance\AttendanceServiceProvider::class
+        Hris\Attendance\AttendanceServiceProvider::class,
+        Hris\Holiday\HolidayServiceProvider::class
     ],
 
     /*

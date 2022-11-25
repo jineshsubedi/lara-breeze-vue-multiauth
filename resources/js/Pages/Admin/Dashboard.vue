@@ -159,8 +159,6 @@ function showModal(path, location)
                     </div>
                 </div>
             </div>
-            
-            
         </div>
     </AdminLayout>
 </template>

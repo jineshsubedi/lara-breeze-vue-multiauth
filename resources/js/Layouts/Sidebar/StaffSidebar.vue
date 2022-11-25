@@ -3,6 +3,7 @@
 
     let TaskMenu = Ziggy.routes['staffs.tasks.index'] ? true : false;
     let AttendanceHandlerMenu = Ziggy.routes['staffs.attendanceHandler.index'] ? true : false;
+    let HolidayMenu = Ziggy.routes['staffs.holidays.index'] ? true : false;
 </script>
 <template>
     <aside id="sidebar" class="sidebar">
@@ -17,7 +18,7 @@
                     Dashboard
                 </NavLink>
             </li>
-            <li class="nav-item" v-if="AttendanceHandlerMenu && $page.props.can.includes('AttendanceHandler')">
+            <li class="nav-item" v-if="AttendanceHandlerMenu && $page.props.can.includes('AttendanceHandler') && !$page.props.can.includes('HrHandler')">
                 <NavLink
                     :href="route('staffs.attendanceHandler.index')"
                     :active="$page.component.startsWith('Staff/Attendance/Main')"
@@ -26,25 +27,26 @@
                     Attendance Handler
                 </NavLink>
             </li>
-            <li class="nav-item">
-                <a class="nav-link collapsed" data-bs-target="#hrm-nav" data-bs-toggle="collapse" href="#">
-                    <i class="bi bi-gear"></i><span>HRM</span><i class="bi bi-chevron-down ms-auto"></i>
+            <li class="nav-item" v-if="$page.props.can.includes('HrHandler')">
+                <a class="nav-link collapsed" data-bs-target="#hr-handler-nav" data-bs-toggle="collapse" href="#">
+                    <i class="bi bi-briefcase-fill"></i><span>Hr Handler</span><i class="bi bi-chevron-down ms-auto"></i>
                 </a>
-                <ul id="hrm-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
-                    <li>
-                        <NavLink 
-                            :href="route('staffs.attendances.index')" 
-                            :active="route().current('staffs.attendances.index')"
+                <ul id="hr-handler-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
+                    <li v-if="AttendanceHandlerMenu">
+                        <NavLink
+                            :href="route('staffs.attendanceHandler.index')"
+                            :active="$page.component.startsWith('Staff/Attendance/Main')"
                         >
-                            <i class="bi bi-calendar2-check"></i><span>Attendance</span>
+                            <i class="bi bi-grid"></i>
+                            Attendance Handler
                         </NavLink>
                     </li>
-                    <li>
+                    <li v-if="HolidayMenu">
                         <NavLink 
-                            :href="route('staffs.dailytasks.index')" 
-                            :active="route().current('staffs.dailytasks.index')"
+                            :href="route('staffs.holidays.index')" 
+                            :active="$page.component.startsWith('Staff/Holiday')"
                         >
-                            <i class="bi bi-calendar2-check"></i><span>Daily Tasks</span>
+                            <i class="bi bi-alarm-fill"></i><span>Holiday</span>
                         </NavLink>
                     </li>
                 </ul>
@@ -72,8 +74,29 @@
                     </li>
                 </ul>
             </li>
-
-
+            <li class="nav-item">
+                <a class="nav-link collapsed" data-bs-target="#hrm-nav" data-bs-toggle="collapse" href="#">
+                    <i class="bi bi-gear"></i><span>HRM</span><i class="bi bi-chevron-down ms-auto"></i>
+                </a>
+                <ul id="hrm-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
+                    <li>
+                        <NavLink 
+                            :href="route('staffs.attendances.index')" 
+                            :active="route().current('staffs.attendances.index')"
+                        >
+                            <i class="bi bi-calendar2-check"></i><span>Attendance</span>
+                        </NavLink>
+                    </li>
+                    <li>
+                        <NavLink 
+                            :href="route('staffs.dailytasks.index')" 
+                            :active="route().current('staffs.dailytasks.index')"
+                        >
+                            <i class="bi bi-calendar2-check"></i><span>Daily Tasks</span>
+                        </NavLink>
+                    </li>
+                </ul>
+            </li>
         </ul>
     </aside>
 </template>

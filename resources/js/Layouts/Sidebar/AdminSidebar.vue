@@ -5,6 +5,7 @@
     let TaskMenu = Ziggy.routes['admin.tasks.index'] ? true : false;
     let AttendanceMenu = Ziggy.routes['admin.attendances.index'] ? true : false;
     let AttendanceHandlerMenu = Ziggy.routes['admin.attendanceHandler.index'] ? true : false;
+    let HolidayMenu = Ziggy.routes['admin.holidays.index'] ? true : false;
 </script>
 <template>
     <aside id="sidebar" class="sidebar">
@@ -73,6 +74,14 @@
                             <i class="bi bi-alarm-fill"></i><span>Shift Time</span>
                         </NavLink>
                     </li>
+                    <li v-if="HolidayMenu">
+                        <NavLink 
+                            :href="route('admin.holidays.index')" 
+                            :active="$page.component.startsWith('Admin/Holiday')"
+                        >
+                            <i class="bi bi-alarm-fill"></i><span>Holiday</span>
+                        </NavLink>
+                    </li>
                     <li class="nav-heading">Leave Configuration</li>
                     <li>
                         <NavLink 
@@ -118,7 +127,7 @@
                     </li>
                 </ul>
             </li>
-            <li class="nav-item" v-if="AttendanceHandlerMenu && $page.props.can.includes('AttendanceHandler')">
+            <li class="nav-item" v-if="AttendanceHandlerMenu && $page.props.can.includes('AttendanceHandler') && !$page.props.can.includes('HrHandler')">
                 <NavLink
                     :href="route('admin.attendanceHandler.index')"
                     :active="$page.component.startsWith('Admin/Attendance/Main')"
@@ -126,6 +135,22 @@
                     <i class="bi bi-grid"></i>
                     Attendance Handler
                 </NavLink>
+            </li>
+            <li class="nav-item" v-if="$page.props.can.includes('HrHandler')">
+                <a class="nav-link collapsed" data-bs-target="#hr-handler-nav" data-bs-toggle="collapse" href="#">
+                    <i class="bi bi-briefcase-fill"></i><span>Hr Handler</span><i class="bi bi-chevron-down ms-auto"></i>
+                </a>
+                <ul id="hr-handler-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
+                    <li v-if="AttendanceHandlerMenu">
+                        <NavLink
+                            :href="route('admin.attendanceHandler.index')"
+                            :active="$page.component.startsWith('Admin/Attendance/Main')"
+                        >
+                            <i class="bi bi-grid"></i>
+                            Attendance Handler
+                        </NavLink>
+                    </li>
+                </ul>
             </li>
             <li class="nav-item">
                 <a class="nav-link collapsed" data-bs-target="#hrm-nav" data-bs-toggle="collapse" href="#">

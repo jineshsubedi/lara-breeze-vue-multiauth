@@ -38,7 +38,8 @@
             "Tests\\": "tests/",
             "Hris\\Document\\" : "packages/hris/document/src",
             "Hris\\Task\\" : "packages/hris/task/src",
-            "Hris\\Attendance\\" : "packages/hris/attendance/src"
+            "Hris\\Attendance\\" : "packages/hris/attendance/src",
+            "Hris\\Holiday\\" : "packages/hris/holiday/src"
         }
     },
     "scripts": {
