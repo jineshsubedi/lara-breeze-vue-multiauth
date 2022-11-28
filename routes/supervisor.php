@@ -12,3 +12,5 @@ Route::prefix('profile')->controller(ProfileController::class)->group(function (
 });
 
 Route::resource('dailytasks', 'DailyTaskController');
+
+Route::resource('users', 'UsersController');

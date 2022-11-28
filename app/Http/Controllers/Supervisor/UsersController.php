@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Admin;
+namespace App\Http\Controllers\Supervisor;
 
 use App\Http\Requests\Admin\UsersRequest;
 use App\Http\Controllers\Controller;
@@ -14,6 +14,10 @@ use Inertia\Inertia;
 
 class UsersController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('role:HrHandler,StaffHandler');
+    }
     /**
      * Display a listing of the resource.
      *
@@ -29,7 +33,7 @@ class UsersController extends Controller
         $datas['status'] = AppConstant::USER_STATUS;
         $datas['types'] = AppConstant::EMPLOYMENT_TYPE;
 
-        return Inertia::render('Admin/Users/Index', [
+        return Inertia::render('Supervisor/Users/Index', [
             'users' => $users,
             'branches' => $branches,
             'datas' => $datas,
@@ -44,7 +48,7 @@ class UsersController extends Controller
     public function create()
     {
         $datas = $this->getData();
-        return Inertia::render('Admin/Users/Create',[
+        return Inertia::render('Supervisor/Users/Create',[
             'datas' => $datas,
         ]);
     }
@@ -73,7 +77,7 @@ class UsersController extends Controller
         $user = User::create($request->validated() + [
             'password' => bcrypt($request->user_password)
         ]);
-        return redirect()->route('admin.users.index')->with('success', 'User Added Successfully');
+        return redirect()->route('supervisor.users.index')->with('success', 'User Added Successfully');
     }
 
     /**
@@ -96,7 +100,7 @@ class UsersController extends Controller
     public function edit(User $user)
     {
         $datas = $this->getData();
-        return Inertia::render('Admin/Users/Edit', [
+        return Inertia::render('Supervisor/Users/Edit', [
             'user' => $user,
             'datas' => $datas,
         ]);
@@ -112,7 +116,7 @@ class UsersController extends Controller
     public function update(UsersRequest $request, User $user)
     {
         $user->update($request->validated());
-        return redirect()->route('admin.users.index')->with('success', 'User Detail Updated Successfully!');
+        return redirect()->route('supervisor.users.index')->with('success', 'User Detail Updated Successfully!');
     }
 
     /**

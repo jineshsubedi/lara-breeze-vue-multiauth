@@ -27,6 +27,14 @@
                     Attendance Handler
                 </NavLink>
             </li>
+            <li class="nav-item" v-if="$page.props.can.includes('StaffHandler') && !$page.props.can.includes('HrHandler')">
+                <NavLink 
+                    :href="route('staffs.users.index')" 
+                    :active="$page.component.startsWith('Staff/Users')"
+                >
+                    <i class="bi bi-person-fill"></i><span>Staffs</span>
+                </NavLink>
+            </li>
             <li class="nav-item" v-if="$page.props.can.includes('HrHandler')">
                 <a class="nav-link collapsed" data-bs-target="#hr-handler-nav" data-bs-toggle="collapse" href="#">
                     <i class="bi bi-briefcase-fill"></i><span>Hr Handler</span><i class="bi bi-chevron-down ms-auto"></i>
@@ -47,6 +55,14 @@
                             :active="$page.component.startsWith('Staff/Holiday')"
                         >
                             <i class="bi bi-balloon-heart"></i><span>Holiday</span>
+                        </NavLink>
+                    </li>
+                    <li>
+                        <NavLink 
+                            :href="route('staffs.users.index')" 
+                            :active="$page.component.startsWith('Staff/Users')"
+                        >
+                            <i class="bi bi-person-fill"></i><span>Staffs</span>
                         </NavLink>
                     </li>
                 </ul>
