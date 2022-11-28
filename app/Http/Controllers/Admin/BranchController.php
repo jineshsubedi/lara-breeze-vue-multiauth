@@ -69,10 +69,7 @@ class BranchController extends Controller
      */
     public function store(BranchRequest $request)
     {
-        $branch = Branch::create($request->validated());
-        BranchSetting::create([
-            'branch_id' => $branch->id
-        ]);
+        Branch::create($request->validated());
         return redirect()->route('admin.branches.index')->with('success', 'Branch Added Successfully');
     }
 

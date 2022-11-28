@@ -70,4 +70,6 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    protected $appends = ['status_label', 'primary_location'];
 }

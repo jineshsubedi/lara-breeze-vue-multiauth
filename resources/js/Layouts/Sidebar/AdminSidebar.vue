@@ -34,7 +34,7 @@
                             <i class="bi bi-gear-fill"></i><span>Setting</span>
                         </NavLink>
                     </li>
-                    <li v-if="$page.props.can.includes('SuperAdmin')">
+                    <li>
                         <NavLink 
                             :href="route('admin.branches.index')" 
                             :active="$page.component.startsWith('Admin/Branch')"
@@ -159,8 +159,8 @@
                 <ul id="hrm-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
                     <li>
                         <NavLink 
-                            :href="route('admin.setting.index')" 
-                            :active="route().current('admin.setting.index')"
+                            :href="route('admin.users.index')" 
+                            :active="$page.component.startsWith('Admin/Users')"
                         >
                             <i class="bi bi-person-fill"></i><span>Staffs</span>
                         </NavLink>
@@ -176,7 +176,7 @@
                     <li v-if="AttendanceMenu">
                         <NavLink 
                             :href="route('admin.attendances.index')" 
-                            :active="route().current('admin.attendances.index')"
+                            :active="$page.component.startsWith('Admin/Attendance')"
                         >
                             <i class="bi bi-calendar2-check"></i><span>Attendance</span>
                         </NavLink>
@@ -184,7 +184,7 @@
                     <li>
                         <NavLink 
                             :href="route('admin.dailytasks.index')" 
-                            :active="route().current('admin.dailytasks.index')"
+                            :active="$page.component.startsWith('Admin/DailyTasks')"
                         >
                             <i class="bi bi-calendar2-check"></i><span>Daily Tasks</span>
                         </NavLink>

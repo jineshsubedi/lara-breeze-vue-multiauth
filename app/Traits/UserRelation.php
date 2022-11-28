@@ -160,6 +160,37 @@ trait UserRelation {
             set: fn ($value) => implode(',', $value),
         );
     }
+    public function statusLabel(): Attribute
+    {
+        return Attribute::make(
+            get: fn () => $this->userStatusLabel(),
+        );
+    }
+    public function primaryLocation(): Attribute
+    {
+        return Attribute::make(
+            get: fn () => $this->address ? $this->address->primary_location : '27.6938264,85.3239504',
+        );
+    }
+    private function userStatusLabel()
+    {
+        if($this->status == User::CURRENTLY_WORKING)
+        {
+            return '<span class="badge bg-success">Active</span>';
+        }
+        if($this->status == User::ABSCONDING)
+        {
+            return '<span class="badge bg-warning">Absconding</span>';
+        }
+        if($this->status == User::RESIGNED)
+        {
+            return '<span class="badge bg-primary">Resigned</span>';
+        }
+        if($this->status == User::TERMINATED)
+        {
+            return '<span class="badge bg-danger">Terminated</span>';
+        }
+    }
     public static function setWeekend()
     {
         $weekend = auth()->user()->weekend;

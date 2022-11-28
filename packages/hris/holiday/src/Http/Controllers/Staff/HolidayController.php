@@ -11,6 +11,10 @@ use Inertia\Inertia;
 
 class HolidayController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('role:HrHandler');
+    }
     /**
      * Display a listing of the resource.
      *

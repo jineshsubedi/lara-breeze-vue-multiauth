@@ -1,6 +1,8 @@
 <?php
 namespace App\Enums;
 
+use App\Models\User;
+
 class AppConstant
 {
     const RATING_TIMES = [
@@ -83,6 +85,10 @@ class AppConstant
         ['id' => 12, 'title' => 'December'],
     ];
 
+    const WEEK = [
+        'SUNDAY', 'MONDAY', 'TUESDAY', 'WEDNESDAY', 'THURSDAY', 'FRIDAY', 'SATURDAY'
+    ];
+
     const NEPALIDATE = 1;
     const ENGLISHDATE = 2;
 
@@ -93,4 +99,16 @@ class AppConstant
         ['value' => 0, 'title' => 'Pending'],
         ['value' => 1, 'title' => 'Approved'],
     ];
+
+    const USER_STATUS = [
+        ['value' => User::CURRENTLY_WORKING, 'title' => 'Working'],
+        ['value' => User::RESIGNED, 'title' => 'Resigned'],
+        ['value' => User::TERMINATED, 'title' => 'Terminated'],
+        ['value' => User::ABSCONDING, 'title' => 'Absconding'],
+    ];
+
+    const EMPLOYMENT_TYPE = [
+        'Full Time', 'Part Time', 'Contract'
+    ];
+
 }

@@ -3,8 +3,11 @@
 namespace App\Http\Controllers\Common;
 
 use App\Http\Controllers\Controller;
+use App\Models\Department;
+use App\Models\Designation;
 use Illuminate\Http\Request;
 use App\Models\District;
+use App\Models\ShiftTime;
 use App\Models\User;
 use App\Models\UserKra;
 
@@ -25,6 +28,30 @@ class CommonController extends Controller
         ]);
         return User::where('branch_id', $request->branch)
             ->get(['id', 'name']); 
+    }
+    public function getShiftsByBranch(Request $request)
+    {
+        $this->validate($request, [
+            'branch' => ['required','integer'],
+        ]);
+        return ShiftTime::where('branch_id', $request->branch)
+            ->get(['id', 'title', 'start_time', 'end_time']); 
+    }
+    public function getDepartmentsByBranch(Request $request)
+    {
+        $this->validate($request, [
+            'branch' => ['required','integer'],
+        ]);
+        return Department::where('branch_id', $request->branch)
+            ->get(['id', 'title']); 
+    }
+    public function getDesignationByDepartment(Request $request)
+    {
+        $this->validate($request, [
+            'department' => ['required','integer'],
+        ]);
+        return Designation::where('department_id', $request->department)
+            ->get(['id', 'title']); 
     }
     public function getSubOrdinates(Request $request)
     {
