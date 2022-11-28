@@ -114,6 +114,10 @@ class ShifttimeController extends Controller
 
     private function filterQuery($query)
     {
+        if(!auth()->user()->roles->where('name', 'SuperAdmin')->first())
+        {
+            $query->where('branch_id', auth()->user()->branch_id);
+        }
         if(request()->filled('branch')) {
             $query->where('branch_id', request()->branch);
         }

@@ -112,6 +112,10 @@ class DepartmentController extends Controller
         if(request()->filled('title')) {
             $query->where('title', 'LIKE', '%'.request()->title.'%');
         }
+        if(!auth()->user()->roles->where('name', 'SuperAdmin')->first())
+        {
+            $query->where('branch_id', auth()->user()->branch_id);
+        }
         if(request()->filled('branch')) {
             $query->where('branch_id', request()->branch);
         }

@@ -132,8 +132,12 @@ class BranchController extends Controller
 
     private function filterQuery($query)
     {
+        if(!auth()->user()->roles->where('name', 'SuperAdmin')->first())
+        {
+            $query->where('id', auth()->user()->branch_id);
+        }
         if(request()->filled('province')) {
-             $query->where('province_id', request()->province);
+            $query->where('province_id', request()->province);
         }
         if(request()->filled('district')) {
             $query->where('district_id', request()->district);

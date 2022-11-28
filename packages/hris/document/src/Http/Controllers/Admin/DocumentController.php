@@ -108,7 +108,11 @@ class DocumentController extends Controller
     private function filterQuery($query)
     {
         if(request()->filled('branch')) {
-            $query->where('branch_id', request()->branch);
+            $query->whereIn('branch_id', request()->branch);
+        }
+        if(!auth()->user()->roles->where('name', 'SuperAdmin')->first())
+        {
+            $query->whereIn('branch_id', auth()->user()->branch_id);
         }
         return $query;
     }

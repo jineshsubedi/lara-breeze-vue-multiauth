@@ -61,7 +61,7 @@
                                 <i :class="notification.data.icon"></i>
                                 <div>
                                     <h4>{{toUpperCase(notification.data.title)}}</h4>
-                                    <p>{{notification.data.message}}</p>
+                                    <p v-html="notification.data.message"></p>
                                     <p>{{humanTime(notification.created_at)}}</p>
                                 </div>
                             </li>   

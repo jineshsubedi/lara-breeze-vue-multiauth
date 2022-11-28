@@ -135,7 +135,7 @@ function destroy(id) {
                                     :key="index"
                                 >
                                     <th scope="row">{{ ++index }}</th>
-                                    <td scope="row">{{ holiday.branch ? holiday.branch.name : '' }}</td>
+                                    <td scope="row" v-if="SuperAdmin">{{ holiday.branch ? holiday.branch.name : '' }}</td>
                                     <td scope="row">{{ holiday.title }}</td>
                                     <td scope="row">{{ holiday.start_date }}</td>
                                     <td scope="row">{{ holiday.end_date }}</td>

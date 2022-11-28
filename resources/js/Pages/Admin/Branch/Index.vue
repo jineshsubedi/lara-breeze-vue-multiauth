@@ -67,7 +67,7 @@ function loadFilter()
             </ol>
         </template>
         <div class="container">
-            <div class="text-right">
+            <div class="text-right" v-if="$page.props.can.includes('SuperAdmin')">
                 <Link :href="route('admin.branches.create')" class="btn btn-sm btn-outline-info">
                     <i class="bi bi-plus"></i> Add New Branch
                 </Link>
@@ -84,7 +84,7 @@ function loadFilter()
                                 <th scope="col">District</th>
                                 <th scope="col">Action</th>
                             </tr>
-                            <tr>
+                            <tr v-if="$page.props.can.includes('SuperAdmin')">
                                 <td></td>
                                 <td></td>
                                 <td>

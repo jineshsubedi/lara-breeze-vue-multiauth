@@ -132,6 +132,11 @@ class DesignationController extends Controller
         if(request()->filled('title')) {
             $query->where('title', 'LIKE', '%'.request()->title.'%');
         }
+        if(!auth()->user()->roles->where('name', 'SuperAdmin')->first())
+        {
+            $departmentIds = Department::where('branch_id', auth()->user()->branch_id)->pluck('id');
+            $query->whereIn('department_id', $departmentIds);
+        }
         return $query;
     }
 }
