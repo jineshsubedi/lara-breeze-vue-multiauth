@@ -2,15 +2,15 @@
 
 namespace App\Http\Controllers\Admin;
 
+use Inertia\Inertia;
+use App\Models\User;
+use App\Models\Branch;
 use App\Enums\AppConstant;
+use App\Models\LeaveSetting;
+use Illuminate\Http\Request;
+use Spatie\Permission\Models\Role;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\LeaveSettingRequest;
-use App\Models\Branch;
-use App\Models\LeaveSetting;
-use App\Models\User;
-use Illuminate\Http\Request;
-use Inertia\Inertia;
-use Spatie\Permission\Models\Role;
 
 class LeavesettingController extends Controller
 {

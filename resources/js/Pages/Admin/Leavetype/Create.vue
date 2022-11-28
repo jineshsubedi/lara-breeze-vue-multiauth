@@ -3,15 +3,16 @@ import AdminLayout from "@/Layouts/AdminLayout.vue";
 import { Head, Link, useForm } from "@inertiajs/inertia-vue3";
 
 const props = defineProps({
-    branches: Object
+    branches: Object,
+    datas: Object
 })
 const form = useForm({
     branch_id: 0,
-    leave_type: [{'title' : '', 'days': '0', 'apply_before': '0', 'eligible': '0', 'continuous': '0', 'accrual': '0'}],
+    leave_type: [{'title' : '', 'days': '0', 'apply_before': '0', 'eligible': '0', 'continuous': '0', 'accrual': '0', 'accrual_basis': '0'}],
 });
 function addLeaveType()
 {
-    form.leave_type.push({'title' : '', 'days': '0', 'apply_before': '0', 'eligible': '0', 'continuous': '0', 'accrual': '0'});
+    form.leave_type.push({'title' : '', 'days': '0', 'apply_before': '0', 'eligible': '0', 'continuous': '0', 'accrual': '0', 'accrual_basis': '0'});
 }
 function removeLeaveType(index)
 {
@@ -79,6 +80,7 @@ function removeLeaveType(index)
                                             <th>Eligible (Months)</th>
                                             <th>Continious (days)</th>
                                             <th>Accrual</th>
+                                            <th>Accrual Basis</th>
                                             <th>Title</th>
                                         </tr>
                                     </thead>
@@ -101,6 +103,11 @@ function removeLeaveType(index)
                                             </td>
                                             <td>
                                                 <input type="number" min="0" v-model="form.leave_type[index].accrual" class="form-control" placeholder="accrual" required>
+                                            </td>
+                                            <td>
+                                                <select v-model="form.leave_type[index].accrual_basis" id="accrual_basis" class="form-control" required>
+                                                    <option v-for="(accrual, index) in datas.accrual" :key="index" :value="accrual.value">{{accrual.title}}</option>
+                                                </select>
                                             </td>
                                             <td>
                                                 <button type="button" class="btn btn-sm btn-outline-danger" @click="removeLeaveType(index)"><i class="bi bi-trash"></i></button>

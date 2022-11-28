@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Enums\AppConstant;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\LeavetypeRequest;
 use App\Models\Branch;
@@ -37,8 +38,10 @@ class LeavetypeController extends Controller
     public function create()
     {
         $branches = Branch::branchList();
+        $datas['accrual'] = AppConstant::YN;
         return Inertia::render('Admin/Leavetype/Create',[
-            'branches' => $branches
+            'branches' => $branches,
+            'datas' => $datas
         ]);
     }
 
@@ -60,6 +63,7 @@ class LeavetypeController extends Controller
                 'eligible' => $st['eligible'],
                 'continuous' => $st['continuous'],
                 'accrual' => $st['accrual'],
+                'accrual_basis' => $st['accrual_basis'],
             ];
             LeaveType::create($data);
         }
@@ -85,8 +89,10 @@ class LeavetypeController extends Controller
      */
     public function edit(LeaveType $leaveType)
     {
+        $datas['accrual'] = AppConstant::YN;
         return Inertia::render('Admin/Leavetype/Edit', [
-            'leaveType' => $leaveType
+            'leaveType' => $leaveType,
+            'datas' => $datas
         ]);
     }
 

@@ -34,6 +34,7 @@ class LeavetypeRequest extends FormRequest
                 'leave_type.*.eligible' => 'required|integer',
                 'leave_type.*.continuous' => 'required|integer',
                 'leave_type.*.accrual' => 'required|integer',
+                'leave_type.*.accrual_basis' => 'required|integer',
             ];
         }
 
@@ -45,6 +46,7 @@ class LeavetypeRequest extends FormRequest
                 'eligible' => 'required|integer',
                 'continuous' => 'required|integer',
                 'accrual' => 'required|integer',
+                'accrual_basis' => 'required|integer',
             ];
         }
 

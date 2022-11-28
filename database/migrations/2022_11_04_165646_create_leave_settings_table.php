@@ -26,7 +26,7 @@ return new class extends Migration
             $table->boolean('s_approval')->default(0)->comment('1 => Required, 0 => Not Required (Supervisor Approval)');
             $table->boolean('h_approval')->default(0)->comment('1 => Required, 0 => Not Required (HR Approval)');
             $table->boolean('m_approval')->default(0)->comment('1 => Required, 0 => Not Required (Management Approval)');
-            $table->boolean('accrual_basis')->default(1)->comment('1 => yes, 0 => No (Management Approval)');
+            $table->boolean('accrual_basis')->default(0)->comment('1 => yes, 0 => No (Management Approval)');
             $table->bigInteger('hr_person')->default(0)->comment('hr person from user');
             $table->bigInteger('m_person')->default(0)->comment('management person from user');
             $table->bigInteger('leave_handler')->default(0);

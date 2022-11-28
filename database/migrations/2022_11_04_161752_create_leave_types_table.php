@@ -25,6 +25,7 @@ return new class extends Migration
             $table->tinyInteger('continuous')->comment('This is for continuous leave X days');
             $table->tinyInteger('apply_before')->comment('This is for apply before X days');
             $table->tinyInteger('accrual')->comment('This is for apply before X days');
+            $table->boolean('accrual_basis')->default(0)->comment('1 => yes, 0 => No (Management Approval)');
             $table->timestamps();
         });
     }

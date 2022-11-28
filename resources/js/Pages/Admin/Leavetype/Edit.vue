@@ -7,6 +7,7 @@ const props = defineProps({
         type: Object,
         default: () => ({}),
     },
+    datas: Object
 });
 
 const form = useForm({
@@ -16,6 +17,7 @@ const form = useForm({
     eligible: props.leaveType.eligible,
     continuous: props.leaveType.continuous,
     accrual: props.leaveType.accrual,
+    accrual_basis: props.leaveType.accrual_basis,
 });
 
 </script>
@@ -164,6 +166,24 @@ const form = useForm({
                                             v-if="form.errors.continuous"
                                         >
                                             {{ form.errors.continuous }}
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group row mb-3">
+                                    <label
+                                        for="accrual_basis"
+                                        class="col-sm-2 col-form-label"
+                                        >Accrual Basis</label
+                                    >
+                                    <div class="col-sm-10">
+                                        <select v-model="form.accrual_basis" id="accrual_basis" class="form-control">
+                                            <option v-for="(accrual, index) in datas.accrual" :key="index" :value="accrual.value">{{accrual.title}}</option>
+                                        </select>
+                                        <div
+                                            class="text-red-400 text-sm"
+                                            v-if="form.errors.accrual_basis"
+                                        >
+                                            {{ form.errors.accrual_basis }}
                                         </div>
                                     </div>
                                 </div>

@@ -78,6 +78,7 @@ function destroy(id) {
                                 <th scope="col">Eligible (Month)</th>
                                 <th scope="col">Continious (Days)</th>
                                 <th scope="col">Accrual Number</th>
+                                <th scope="col">Accrual Basis</th>
                                 <th scope="col">Action</th>
                             </tr>
                             <tr v-if="SuperAdmin">
@@ -88,6 +89,7 @@ function destroy(id) {
                                         <option v-for="(branch, bindex) in branches" :key="bindex" :value="branch.id">{{branch.name}}</option>
                                     </select>
                                 </th>
+                                <th></th>
                                 <th></th>
                                 <th></th>
                                 <th></th>
@@ -110,6 +112,7 @@ function destroy(id) {
                                 <td scope="row">{{ type.eligible }}</td>
                                 <td scope="row">{{ type.continuous }}</td>
                                 <td scope="row">{{ type.accrual }}</td>
+                                <td scope="row">{{ type.accrual_basis == '1' ? 'Yes' : 'No' }}</td>
                                 <td scope="row">
                                     <div class="btn-group">
                                         <Link :href="route('admin.leave_types.edit', type.id)"
