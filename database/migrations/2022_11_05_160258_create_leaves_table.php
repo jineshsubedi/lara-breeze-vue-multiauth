@@ -18,7 +18,9 @@ return new class extends Migration
             $table->foreignId('user_id')
                 ->constrained()
                 ->onUpdate('cascade')
-                ->onDelete('cascade');
+                ->onDelete('cascade')
+                ->index();
+            $table->unsignedBigInteger('branch_id')->index();
             $table->unsignedBigInteger('leave_type_id')->index();
             $table->tinyInteger('type')->default(1)->comment('1 => full day,2 => half day, 3 => quarter day');
             $table->date('compensation')->nullable();

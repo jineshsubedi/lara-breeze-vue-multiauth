@@ -82,6 +82,14 @@
                             <i class="bi bi-balloon-heart"></i><span>Holiday</span>
                         </NavLink>
                     </li>
+                    <li v-if="$page.props.can.includes('SuperAdmin')">
+                        <NavLink 
+                            :href="route('admin.fiscalyears.index')" 
+                            :active="$page.component.startsWith('Admin/Fiscal')"
+                        >
+                            <i class="bi bi-escape"></i><span>Fiscal Year</span>
+                        </NavLink>
+                    </li>
                     <li class="nav-heading">Leave Configuration</li>
                     <li>
                         <NavLink 
@@ -127,6 +135,21 @@
                     </li>
                 </ul>
             </li>
+            <li class="nav-item">
+                <a class="nav-link collapsed" data-bs-target="#requests-nav" data-bs-toggle="collapse" href="#">
+                    <i class="bi bi-pc-display"></i><span>Requests</span><i class="bi bi-chevron-down ms-auto"></i>
+                </a>
+                <ul id="requests-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
+                    <li>
+                        <NavLink 
+                            :href="route('admin.leaves.index')" 
+                            :active="$page.component.startsWith('Admin/Leave')"
+                        >
+                            <i class="bi bi-person-workspace"></i><span>Leave Requests</span>
+                        </NavLink>
+                    </li>
+                </ul>
+            </li>
             <li class="nav-item" v-if="AttendanceHandlerMenu && $page.props.can.includes('AttendanceHandler') && !$page.props.can.includes('HrHandler')">
                 <NavLink
                     :href="route('admin.attendanceHandler.index')"
@@ -148,6 +171,14 @@
                         >
                             <i class="bi bi-grid"></i>
                             Attendance Handler
+                        </NavLink>
+                    </li>
+                    <li>
+                        <NavLink 
+                            :href="route('admin.fiscalyears.index')" 
+                            :active="$page.component.startsWith('Admin/Fiscal')"
+                        >
+                            <i class="bi bi-escape"></i><span>Fiscal Year</span>
                         </NavLink>
                     </li>
                 </ul>

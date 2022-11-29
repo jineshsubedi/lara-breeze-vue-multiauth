@@ -27,3 +27,6 @@ Route::resource('designations', 'DesignationController');
 Route::resource('shift_times', 'ShifttimeController');
 Route::resource('leave_types', 'LeavetypeController');
 Route::resource('leave_setting', 'LeavesettingController');
+Route::resource('leaves', 'LeaveController');
+Route::resource('fiscalyears', 'FiscalYearController');
+

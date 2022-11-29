@@ -3,8 +3,10 @@
 namespace App\Providers;
 
 use App\Models\Branch;
+use App\Models\FiscalYear;
 use App\Models\User;
 use App\Observers\BranchObserver;
+use App\Observers\FiscalYearObserver;
 use App\Observers\UserObserver;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
@@ -33,6 +35,7 @@ class EventServiceProvider extends ServiceProvider
     {
         User::observe(UserObserver::class);
         Branch::observe(BranchObserver::class);
+        FiscalYear::observe(FiscalYearObserver::class);
     }
 
     /**

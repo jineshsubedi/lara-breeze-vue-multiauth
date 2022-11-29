@@ -31,7 +31,7 @@ class BranchController extends Controller
         $query = Branch::query();
         $query->with(['province:id,title','district:id,title']);
         $filter = $this->filterQuery($query);
-        $branches = $filter->latest('id')->paginate(15);
+        $branches = $filter->latest('id')->paginate(15)->withQueryString();
         $provinces = Province::titleList();
         $districts = District::when($request->province, function($q){
             return $q->where('province_id', request('province'));
