@@ -59,6 +59,14 @@
                     </li>
                     <li>
                         <NavLink 
+                            :href="route('supervisor.fiscalyears.index')" 
+                            :active="$page.component.startsWith('Supervisor/Fiscal')"
+                        >
+                            <i class="bi bi-escape"></i><span>Fiscal Year</span>
+                        </NavLink>
+                    </li>
+                    <li>
+                        <NavLink 
                             :href="route('supervisor.users.index')" 
                             :active="$page.component.startsWith('Supervisor/Users')"
                         >
@@ -86,6 +94,21 @@
                             :active="$page.component.startsWith('Supervisor/Helpdesk')"
                         >
                             <i class="bi bi-pc-horizontal"></i><span>Help Desk</span>
+                        </NavLink>
+                    </li>
+                </ul>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link collapsed" data-bs-target="#requests-nav" data-bs-toggle="collapse" href="#">
+                    <i class="bi bi-pc-display"></i><span>Requests</span><i class="bi bi-chevron-down ms-auto"></i>
+                </a>
+                <ul id="requests-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
+                    <li>
+                        <NavLink 
+                            :href="route('supervisor.compensatory.index')" 
+                            :active="$page.component.startsWith('Supervisor/Compensatory')"
+                        >
+                            <i class="bi bi-person-workspace"></i><span>Compensatory Off</span>
                         </NavLink>
                     </li>
                 </ul>

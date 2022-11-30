@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Branch;
+use App\Models\FiscalYear;
 use App\Models\Leave;
 use App\Models\LeaveSetting;
 use App\Models\LeaveType;
@@ -61,9 +62,10 @@ class LeaveController extends Controller
     }
     private function getFormData($branch, $leaveRequest)
     {
+        $authUser = request()->user();
         $leaveSetting = $leaveRequest->getApprovalPersons($branch);
         $leaveTypes = LeaveType::where('branch_id', $branch)->get();
-        // $fiscalYear = FiscalYear::where('current_year', '1')->first();
+        $fiscalYear = FiscalYear::where('current_year', '1')->first();
     }
 
     /**

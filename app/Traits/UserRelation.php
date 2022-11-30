@@ -120,7 +120,7 @@ trait UserRelation {
     }
     public function supervisor()
     {
-        return $this->belongsTo(User::class,'supervisor_id');
+        return $this->belongsTo(User::class,'supervisor_id')->select('id', 'name');
     }
 
     public function kra()

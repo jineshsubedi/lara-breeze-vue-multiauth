@@ -25,8 +25,11 @@ Route::post('branch/{id}/setting', 'BranchController@storeSetting')->name('branc
 Route::resource('departments', 'DepartmentController');
 Route::resource('designations', 'DesignationController');
 Route::resource('shift_times', 'ShifttimeController');
+
 Route::resource('leave_types', 'LeavetypeController');
 Route::resource('leave_setting', 'LeavesettingController');
 Route::resource('leaves', 'LeaveController');
 Route::resource('fiscalyears', 'FiscalYearController');
+Route::resource('compensatory', 'CompensatoryOffController');
+Route::post('compensatory/approve/{compensatory}', 'CompensatoryOffController@approval')->name('compensatory.approval');
 

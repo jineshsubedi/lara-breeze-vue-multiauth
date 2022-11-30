@@ -111,4 +111,9 @@ class AppConstant
         'Full Time', 'Part Time', 'Contract'
     ];
 
+    const COMPENSATORY_STATUS = [
+        ['value' => '1', 'title' => 'Approved'],
+        ['value' => '2', 'title' => 'Canceled']
+    ];
+
 }

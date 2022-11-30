@@ -148,6 +148,14 @@
                             <i class="bi bi-person-workspace"></i><span>Leave Requests</span>
                         </NavLink>
                     </li>
+                    <li>
+                        <NavLink 
+                            :href="route('admin.compensatory.index')" 
+                            :active="$page.component.startsWith('Admin/Compensatory')"
+                        >
+                            <i class="bi bi-person-workspace"></i><span>Compensatory Off</span>
+                        </NavLink>
+                    </li>
                 </ul>
             </li>
             <li class="nav-item" v-if="AttendanceHandlerMenu && $page.props.can.includes('AttendanceHandler') && !$page.props.can.includes('HrHandler')">

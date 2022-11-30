@@ -14,3 +14,7 @@ Route::prefix('profile')->controller(ProfileController::class)->group(function (
 Route::resource('dailytasks', 'DailyTaskController');
 
 Route::resource('users', 'UsersController');
+
+Route::resource('fiscalyears', 'FiscalYearController');
+Route::resource('compensatory', 'CompensatoryOffController');
+Route::post('compensatory/approve/{compensatory}', 'CompensatoryOffController@approval')->name('compensatory.approval');
