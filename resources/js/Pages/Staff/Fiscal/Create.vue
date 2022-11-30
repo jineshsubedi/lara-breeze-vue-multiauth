@@ -29,7 +29,7 @@ const form = useForm({
                     <Link :href="route('staffs.dashboard')"> Home </Link>
                 </li>
                 <li class="breadcrumb-item">
-                    <Link :href="route('staffs.fiscalyears.index')"> Role </Link>
+                    <Link :href="route('staffs.fiscalyears.index')"> Fiscal Year </Link>
                 </li>
                 <li class="breadcrumb-item active">
                     <Link :href="route('staffs.fiscalyears.create')"> Create </Link>
@@ -120,7 +120,7 @@ const form = useForm({
                                     >
                                     <div class="col-sm-10">
                                         <select v-model="form.current_year" id="current_year" class="form-control">
-                                            <option v-for="(year, yin) in cyears" :key="yind" :value="year.value">{{year.title}}</option>
+                                            <option v-for="(year, yin) in cyears" :key="yin" :value="year.value">{{year.title}}</option>
                                         </select>
                                         <div
                                             class="text-red-400 text-sm"

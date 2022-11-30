@@ -15,6 +15,8 @@ const props = defineProps({
     },
     can: Array
 });
+let SuperAdmin = props.can.includes('SuperAdmin');
+
 function destroy(id) {
     if (confirm("Are you sure you want to Delete")) {
         form.delete(route("supervisor.fiscalyears.destroy", id));
@@ -43,7 +45,7 @@ function destroy(id) {
         <div class="container">
             <div class="text-right">
                 <Link :href="route('supervisor.fiscalyears.create')" class="btn btn-sm btn-outline-info">
-                    <i class="bi bi-plus"></i> Add New Role
+                    <i class="bi bi-plus"></i> Add New Fiscal Year
                 </Link>
             </div>
             <div class="card">
@@ -79,6 +81,7 @@ function destroy(id) {
                                         <button
                                             class="btn btn-sm btn-outline-danger"
                                             @click="destroy(fyear.id)"
+                                            v-if="SuperAdmin"
                                         >
                                             <i class="bi bi-trash"></i>
                                         </button>
