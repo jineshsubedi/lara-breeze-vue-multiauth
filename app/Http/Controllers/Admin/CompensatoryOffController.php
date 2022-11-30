@@ -137,10 +137,13 @@ class CompensatoryOffController extends Controller
 
     private function filterQuery($query)
     {
+        if(!auth()->user()->roles->where('name', 'SuperAdmin')->first())
+        {
+            $query->where('user_id', auth()->id());
+        }
         if(request()->filled('name')) {
             $query->where('name','like', '%'. request()->name.'%');
         }
-
         return $query;
     }
     public function getData()

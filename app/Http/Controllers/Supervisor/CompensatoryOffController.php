@@ -26,12 +26,12 @@ class CompensatoryOffController extends Controller
     {
         $comp = new CompensatoryOff;
         $query = $comp;
-        $query = $query->with(['user:id,name', 'informTo:id,name']);
+        $query = $query->where('user_id', auth()->id())->with(['user:id,name', 'informTo:id,name']);
         $filter = $this->filterQuery($query);
         $compensatories = $filter->latest('id')->paginate(10)->withQueryString();
         $waitings = $comp->with(['user:id,name', 'informTo:id,name'])->where('inform_to', auth()->id())->where('status', '0')->get();
         $datas['status'] = AppConstant::COMPENSATORY_STATUS;
-        return Inertia::render('SupervisorCompensatory/Index', [
+        return Inertia::render('Supervisor/Compensatory/Index', [
             'compensatories' => $compensatories,
             'waitings' => $waitings,
             'datas' => $datas,
@@ -46,7 +46,7 @@ class CompensatoryOffController extends Controller
     public function create()
     {
         $datas = $this->getData();
-        return Inertia::render('SupervisorCompensatory/Create',[
+        return Inertia::render('Supervisor/Compensatory/Create',[
             'datas' => $datas
         ]);
     }
@@ -90,7 +90,7 @@ class CompensatoryOffController extends Controller
     public function edit(CompensatoryOff $compensatory)
     {
         $datas = $this->getData();
-        return Inertia::render('SupervisorCompensatory/Edit', [
+        return Inertia::render('Supervisor/Compensatory/Edit', [
             'compensatoryoff' => $compensatory,
             'datas' => $datas
         ]);
