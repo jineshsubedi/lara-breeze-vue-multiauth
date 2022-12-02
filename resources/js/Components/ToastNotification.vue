@@ -16,7 +16,6 @@
             toast.addEventListener('mouseleave', Swal.resumeTimer)
         }
     })
-    console.log(props.type)
 
     Toast.fire({
         icon: props.type,

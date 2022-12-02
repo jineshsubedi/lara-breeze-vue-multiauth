@@ -39,6 +39,10 @@ class LeavetypeController extends Controller
     {
         $branches = Branch::branchList();
         $datas['accrual'] = AppConstant::YN;
+        $datas['extra'] = [
+            ['value' => 0, 'title' => 'Date'],
+            ['value' => 1, 'title' => 'File'],
+        ];
         return Inertia::render('Admin/Leavetype/Create',[
             'branches' => $branches,
             'datas' => $datas
@@ -64,6 +68,7 @@ class LeavetypeController extends Controller
                 'continuous' => $st['continuous'],
                 'accrual' => $st['accrual'],
                 'accrual_basis' => $st['accrual_basis'],
+                'is_extra' => $st['is_extra'],
             ];
             LeaveType::create($data);
         }
@@ -90,6 +95,10 @@ class LeavetypeController extends Controller
     public function edit(LeaveType $leaveType)
     {
         $datas['accrual'] = AppConstant::YN;
+        $datas['extra'] = [
+            ['value' => 0, 'title' => 'Date'],
+            ['value' => 1, 'title' => 'File'],
+        ];
         return Inertia::render('Admin/Leavetype/Edit', [
             'leaveType' => $leaveType,
             'datas' => $datas

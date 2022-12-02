@@ -9,9 +9,12 @@ class LeaveType extends Model
 {
     use HasFactory;
 
-    protected $fillable = array('title', 'days', 'apply_before', 'eligible', 'continuous', 'accrual', 'accrual_basis', 'branch_id');
+    protected $fillable = array('title', 'days', 'apply_before', 'eligible', 'continuous', 'accrual', 'accrual_basis', 'branch_id','is_extra');
 
     protected $table = 'leave_types';
+
+    CONST FILE_FIELD = 1;
+    CONST DATE_FIELD = 0;
 
     public function branch()
     {

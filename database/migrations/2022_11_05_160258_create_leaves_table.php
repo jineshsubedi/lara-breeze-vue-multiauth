@@ -37,6 +37,7 @@ return new class extends Migration
             $table->string('m_remarks')->nullable();
             $table->enum('paid', ['0','1'])->default(0)->comment('0 => paid, 1 => unpaid');
             $table->enum('emergency', ['0','1'])->default(0)->comment('0 => No, 1 => Yes');
+            $table->string('document')->nullable();
             $table->timestamps();
         });
     }

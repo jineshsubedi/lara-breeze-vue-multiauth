@@ -18,6 +18,7 @@ const form = useForm({
     continuous: props.leaveType.continuous,
     accrual: props.leaveType.accrual,
     accrual_basis: props.leaveType.accrual_basis,
+    is_extra: props.leaveType.is_extra,
 });
 
 </script>
@@ -208,6 +209,25 @@ const form = useForm({
                                             v-if="form.errors.accrual"
                                         >
                                             {{ form.errors.accrual }}
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="form-group row mb-3">
+                                    <label
+                                        for="is_extra"
+                                        class="col-sm-2 col-form-label"
+                                        >Extra</label
+                                    >
+                                    <div class="col-sm-10">
+                                        <select v-model="form.is_extra" id="is_extra" class="form-control">
+                                            <option v-for="(extra, index) in datas.extra" :key="index" :value="extra.value">{{extra.title}}</option>
+                                        </select>
+                                        <div
+                                            class="text-red-400 text-sm"
+                                            v-if="form.errors.is_extra"
+                                        >
+                                            {{ form.errors.is_extra }}
                                         </div>
                                     </div>
                                 </div>

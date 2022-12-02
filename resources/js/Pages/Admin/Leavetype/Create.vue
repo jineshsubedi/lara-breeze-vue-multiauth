@@ -8,11 +8,11 @@ const props = defineProps({
 })
 const form = useForm({
     branch_id: 0,
-    leave_type: [{'title' : '', 'days': '0', 'apply_before': '0', 'eligible': '0', 'continuous': '0', 'accrual': '0', 'accrual_basis': '0'}],
+    leave_type: [{'title' : '', 'days': '0', 'apply_before': '0', 'eligible': '0', 'continuous': '0', 'accrual': '0', 'accrual_basis': '0', 'is_extra' : ''}],
 });
 function addLeaveType()
 {
-    form.leave_type.push({'title' : '', 'days': '0', 'apply_before': '0', 'eligible': '0', 'continuous': '0', 'accrual': '0', 'accrual_basis': '0'});
+    form.leave_type.push({'title' : '', 'days': '0', 'apply_before': '0', 'eligible': '0', 'continuous': '0', 'accrual': '0', 'accrual_basis': '0', 'is_extra' : ''});
 }
 function removeLeaveType(index)
 {
@@ -81,7 +81,7 @@ function removeLeaveType(index)
                                             <th>Continious (days)</th>
                                             <th>Accrual</th>
                                             <th>Accrual Basis</th>
-                                            <th>Title</th>
+                                            <th>Extra</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -107,6 +107,12 @@ function removeLeaveType(index)
                                             <td>
                                                 <select v-model="form.leave_type[index].accrual_basis" id="accrual_basis" class="form-control" required>
                                                     <option v-for="(accrual, index) in datas.accrual" :key="index" :value="accrual.value">{{accrual.title}}</option>
+                                                </select>
+                                            </td>
+                                            <td>
+                                                <select v-model="form.leave_type[index].is_extra" id="is_extra" class="form-control">
+                                                    <option value="">Default</option>
+                                                    <option v-for="(extra, index) in datas.extra" :key="index" :value="extra.value">{{extra.title}}</option>
                                                 </select>
                                             </td>
                                             <td>

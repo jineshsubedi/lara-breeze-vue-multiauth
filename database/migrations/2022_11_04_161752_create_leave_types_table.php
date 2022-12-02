@@ -26,6 +26,7 @@ return new class extends Migration
             $table->tinyInteger('apply_before')->comment('This is for apply before X days');
             $table->tinyInteger('accrual')->comment('This is for apply before X days');
             $table->boolean('accrual_basis')->default(0)->comment('1 => yes, 0 => No (Management Approval)');
+            $table->tinyInteger('is_extra')->nullable()->comment('1 => file, 0 => date');
             $table->timestamps();
         });
     }

@@ -18,6 +18,15 @@ class Leave extends Model
     CONST PAID_LEAVE = 1;
     CONST UNPAID_LEAVE = 0;
 
+    public static function getLeaveNatures()
+    {
+        return [
+            'Full Day' => self::LEAVE_NATURE_FULL,
+            'Half Day' => self::LEAVE_NATURE_HALF,
+            'Quarter Day' => self::LEAVE_NATURE_QUARTER
+        ];
+    }
+
     public function user()
     {
         return $this->belongsTo(User::class, 'user_id');
