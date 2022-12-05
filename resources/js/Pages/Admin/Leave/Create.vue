@@ -30,7 +30,7 @@ const form = useForm({
 
     status: null,
     emergency_leave: 0,
-    days: null,
+    duration: null,
 
     join_duration: props.datas.joinduration,
     total_compensation: props.datas.compensatory_off.length,
@@ -134,7 +134,7 @@ function calculateDays()
         }else{
             docField.value = 1;
         }
-        form.days = diffDays;
+        form.duration = diffDays;
     }
 }
 </script>
@@ -211,7 +211,7 @@ function calculateDays()
                                     >
                                     <div class="col-sm-10">
                                         <select v-model="form.compensation" id="compensation" class="form-control">
-                                            <option v-for="(comp, cin) in datas.compensatory_off" :key="cin" :value="comp">{{comp}}</option>
+                                            <option v-for="(comp, cin) in datas.compensatory_off" :key="cin" :value="comp.work_day">{{comp.work_day}}</option>
                                         </select>
                                         <div
                                             class="text-red-400 text-sm"

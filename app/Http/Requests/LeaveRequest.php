@@ -3,11 +3,10 @@
 namespace App\Http\Requests;
 
 use App\Models\Leave;
-use App\Models\LeaveSetting;
 use App\Models\LeaveType;
 use App\Rules\LeaveDateRule;
-use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
+use Illuminate\Foundation\Http\FormRequest;
 
 class LeaveRequest extends FormRequest
 {
@@ -26,11 +25,8 @@ class LeaveRequest extends FormRequest
      *
      * @return array<string, mixed>
      */
-    public function rules(LeaveType $leaveType, LeaveSetting $leaveSetting)
+    public function rules()
     {
-        $leaveType = $leaveType->find(request()->leave_type_id);
-        $field = $leaveType->is_extra ?? null;
-        $applyBefore = $leaveType->apply_before ?? 0;
         return [
             'leave_type_id' => ['required', 'integer', Rule::in(LeaveType::pluck('id'))],
             'document' => ['sometimes', 'mimes:jpg,png,jpeg', 'max:5120'],
@@ -38,9 +34,10 @@ class LeaveRequest extends FormRequest
             'type' => ['required', 'integer', Rule::in(Leave::getLeaveNatures())],
             'start_date' => ['required', 'date', 'date_format:Y-m-d'],
             'end_date' => ['required', 'date', 'date_format:Y-m-d', new LeaveDateRule(request()->start_date)],
-            'contact_no' => ['required', 'string'],
+            'duration' => ['required', 'integer'],
+            'contact_no' => ['required'],
             'description' => ['required', 'string', 'max:255'],
-            'documentFile' => ['required', 'mimes:jpg,png,jpeg', 'max:2048'],
+            'documentFile' => ['sometimes', 'nullable', 'image', 'mimes:jpg,png,jpeg', 'max:2048'],
         ];
     }
 }

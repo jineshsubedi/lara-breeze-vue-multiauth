@@ -2,12 +2,14 @@
 
 namespace App\Providers;
 
+use App\Models\User;
+use App\Models\Leave;
 use App\Models\Branch;
 use App\Models\FiscalYear;
-use App\Models\User;
+use App\Observers\UserObserver;
+use App\Observers\LeaveObserver;
 use App\Observers\BranchObserver;
 use App\Observers\FiscalYearObserver;
-use App\Observers\UserObserver;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
@@ -34,6 +36,7 @@ class EventServiceProvider extends ServiceProvider
     public function boot()
     {
         User::observe(UserObserver::class);
+        Leave::observe(LeaveObserver::class);
         Branch::observe(BranchObserver::class);
         FiscalYear::observe(FiscalYearObserver::class);
     }

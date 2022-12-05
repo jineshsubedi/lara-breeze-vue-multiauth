@@ -2,8 +2,12 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Carbon\Carbon;
+use App\Library\Imagetool;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Database\Eloquent\Casts\Attribute;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Leave extends Model
 {
@@ -18,6 +22,8 @@ class Leave extends Model
     CONST PAID_LEAVE = 1;
     CONST UNPAID_LEAVE = 0;
 
+    protected $appends = ['request_date', 'status'];
+
     public static function getLeaveNatures()
     {
         return [
@@ -31,8 +37,78 @@ class Leave extends Model
     {
         return $this->belongsTo(User::class, 'user_id');
     }
+    public function branch()
+    {
+        return $this->belongsTo(Branch::class, 'branch_id');
+    }
     public function leaveType()
     {
         return $this->belongsTo(LeaveType::class,'leave_type_id');
+    }
+
+    public function requestDate(): Attribute
+    {
+        return Attribute::make(
+            get: fn() => Carbon::parse($this->created_at)->format('d F, Y h:i a'), 
+        );
+    }
+    public function status(): Attribute
+    {
+        return Attribute::make(
+            get: fn() => $this->getStatus(), 
+        );
+    }
+    public function getStatus()
+    {
+        $setting = LeaveSetting::where('branch_id', auth()->user()->branch_id)->first();
+        if(!isset($setting->id))
+        {
+            return '<span class="badge bg-success">Approved</span>';
+        }
+        if($setting->s_approval == 1 && $this->s_approve == 0)
+        {
+            return '<span class="badge bg-secondary">Supervisor Approval Required</span>';
+        }
+        if($setting->h_approval == 1 && $this->h_approve == 0)
+        {
+            return '<span class="badge bg-secondary">HR Approval Required</span>';
+        }
+        if($setting->m_approval == 1 && $this->m_approve == 0)
+        {
+            return '<span class="badge bg-secondary">Manager Approval Required</span>';
+        }
+        return '<span class="badge bg-success">Approved</span>';
+    }
+
+    public function getDocumentPathAttribute()
+    {
+        $url = '';
+        if(!empty($this->document))
+        {
+            if (Storage::exists($this->document))
+            {
+                $url = Imagetool::mycrop($this->document, 300, 300);
+            }
+        }
+        return $url;
+    }
+    public static function getTypeLabel($type)
+    {
+        $label = '';
+        switch ($type) {
+            case 1:
+                $label = 'Full';
+                break;
+            case 2:
+                $label = 'Half';
+                break;
+            case 3:
+                $label = 'Quarter';
+                break;
+            default:
+                $label = '';
+                break;
+        }
+        return $label;
     }
 }

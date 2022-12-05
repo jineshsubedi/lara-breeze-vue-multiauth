@@ -30,7 +30,7 @@ let LeaveManager = props.can.includes('LeaveManager');
 let from = ref(props.filters.from);
 let to = ref(props.filters.to);
 let branch = ref(props.defBranch);
-let staff = ref(0);
+let staff = ref('');
 function loadFilter()
 {
     Inertia.get(
@@ -151,13 +151,18 @@ function destroy(id) {
                                     <th scope="row">{{ ++index }}</th>
                                     <td scope="row" v-if="SuperAdmin">{{ leave.branch ? leave.branch.name : '' }}</td>
                                     <td scope="row">{{ leave.user ? leave.user.name : '' }}</td>
-                                    <td scope="row">{{ leave.leave_type_id }}</td>
-                                    <td scope="row">{{ leave.created_at }}</td>
+                                    <td scope="row">{{ leave.leave_type.title }}</td>
+                                    <td scope="row">{{ leave.request_date }}</td>
                                     <td scope="row">{{ leave.start_date }}</td>
                                     <td scope="row">{{ leave.end_date }}</td>
-                                    <td scope="row"></td>
+                                    <td scope="row">{{ leave.duration }} Days</td>
                                     <td scope="row">
                                         <div class="btn-group">
+                                            <Link :href="route('admin.leaves.show', leave.id)"
+                                                class="btn btn-sm btn-outline-info"
+                                            >
+                                                <i class="bi bi-eye"></i>
+                                            </Link>
                                             <Link :href="route('admin.leaves.edit', leave.id)"
                                                 class="btn btn-sm btn-outline-warning"
                                                 v-if="leave.user_id === $page.props.auth.user.id"

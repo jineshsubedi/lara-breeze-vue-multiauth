@@ -32,7 +32,7 @@ class LeaveController extends Controller
     {
         $branchId = auth()->user()->branch_id;
         $query = Leave::query();
-        $query->with(['user:id,name','branch:id,name']);
+        $query->with(['user:id,name','branch:id,name', 'leaveType:id,title']);
         $filter = $this->filterQuery($query);
         $leaves = $filter->latest('id')->paginate(20)->withQueryString();
         $branches = Branch::branchList();
@@ -58,13 +58,143 @@ class LeaveController extends Controller
         $branchId = auth()->user()->branch_id;
         $staffs = User::active()->where('branch_id', $branchId)->where('id', '!=', auth()->id())->get(['id', 'name']);
         $datas = $this->getFormData($branchId, $leaveRequest, $leaveSetting);
-        // return $datas;
         return Inertia::render('Admin/Leave/Create', [
             'staffs' => $staffs,
             'datas' => $datas,
             'defBranch' => fn () => $branchId,
         ]);
     }
+
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function store(LeaveRequest $request)
+    {
+        return $request->all();
+        $leave = Leave::create($request->validated());
+        $this->updateApproval($leave);
+        return redirect()->route('admin.leaves.index')->with('success', 'Leave Requested Successfully');
+    }
+
+    /**
+     * Display the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function show($id)
+    {
+        $leave = Leave::findOrFail($id);
+        $leave->load(['user:id,name','branch:id,name', 'leaveType:id,title']);
+        $leave->document = $leave->document_path;
+        $leave->type = Leave::getTypeLabel($leave->type);
+        return Inertia::render('Admin/Leave/Show', [
+            'leave' => $leave
+        ]);
+    }
+
+    /**
+     * Show the form for editing the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function edit(Leave $leave)
+    {
+        //
+    }
+
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function update(Request $request, Leave $leave)
+    {
+        //
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function destroy($id)
+    {
+        $leave = Leave::findOrFail($id);
+        $leave->delete();
+        return back()->with('success', 'Leave Request Deleted');
+    }
+
+    private function filterQuery($query)
+    {
+        if(!auth()->user()->roles->where('name', 'SuperAdmin')->first())
+        {
+            $query->where('branch_id', auth()->user()->branch_id);
+        }
+        if(request()->filled('branch') && auth()->user()->roles->where('name', 'SuperAdmin')->first())
+        {
+            $query->where('branch_id', request()->branch);
+        }
+        if(request()->filled('staff'))
+        {
+            $query->where('user_id', request()->staff);
+        }
+        if(request()->filled('from'))
+        {
+            $query->whereDate('start_date', '<=', request()->from);
+        }
+        if(request()->filled('to'))
+        {
+            $query->whereDate('end_date', '>=', request()->to);
+        }
+        if(request()->type == 1) // for my leave request
+        {
+            $query->where('user_id', auth()->id());
+        }
+        else if(request()->type == 2) // for leave approval supervisor
+        {
+            $subOrdinates = User::where('supervisor_id', auth()->id())->pluck('id');
+            $query->whereIn('user_id', $subOrdinates)->where('s_approve', 0);
+        }
+        else if(request()->type == 3) // for leave approval HR
+        {
+            $query->where('s_approve', 1)->where('h_approve', 0);
+        }
+        else if(request()->type == 4) // for leave approval Chairman
+        {
+            $query->where('s_approve', 1)->where('h_approve', 1)->where('m_approve', 0);
+        }
+        else{
+        }
+        return $query;
+    }
+
+    public function updateApproval($leave)
+    {
+        $setting = LeaveSetting::where('branch_id', auth()->user()->branch_id)->first();
+        if(isset($setting->id))
+        {
+            $leave->update([
+                's_approve' => $setting->s_approval == '1' ? '0' : '1',
+                'h_approve' => $setting->h_approval == '1' ? '0' : '1',
+                'm_approve' => $setting->m_approval == '1' ? '0' : '1',
+            ]);
+        }else{
+            $leave->update([
+                's_approve' => '1',
+                'h_approve' => '1',
+                'm_approve' => '1',
+            ]);
+        }
+    }
+
     private function getFormData($branch, $leaveService, $leaveSettingService)
     {
         $authUser = request()->user();
@@ -172,7 +302,7 @@ class LeaveController extends Controller
 
             $accrual = 0;
             $accuralTitle = '';
-            if ($leaveSetting['accrual_basis'] == 1) {
+            if ($leaveType->accrual_basis == 1) {
                 $accrual = $totalAccrual;
                 $accuralTitle = 'Remaining Accrual(' . number_format($totalAccrual, 2) . ')';
             }
@@ -194,135 +324,10 @@ class LeaveController extends Controller
 
 
         $data['joinduration'] = Carbon::parse($authUser->join_date)->diffInMonths($today);
-        $data['compensatory_off'] = CompensatoryOff::select('work_day')->where('user_id',$authUser->id)->where('status', '1')->where('leave_status', '2')->get();
+        $data['compensatory_off'] = CompensatoryOff::select('work_day')->where('user_id',$authUser->id)->where('status', '1')->where('leave_status', '0')->get();
 
         $data['handover_required'] = $leaveSetting['handover'];
 
         return $data;
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(LeaveRequest $request)
-    {
-        $doc = null;
-        if ($request->hasFile('documentFile')) {
-            $doc = $request->file('documentFile')->store($this->path, $this->disk);
-        }
-        $setting = LeaveSetting::where('branch_id', auth()->user()->branch_id)->first();
-        if(!isset($setting->id))
-        {
-            return back()->with('danger', 'Branch Leave Setting Not Found!');
-        }
-        if ($setting->h_approval == '1') {
-            $h_approve = '0';
-        } else {
-            $h_approve = '1';
-        }
-        if ($setting->s_approval == '1') {
-            $s_approve = '0';
-        } else {
-            $s_approve = '1';
-        }
-        if ($setting->m_approval == '1') {
-            $m_approve = '0';
-        } else {
-            $m_approve = '1';
-        }
-        $ddata = array_merge($request->validated(), [
-            'user_id' => auth()->user()->id,
-            's_approve' => $s_approve,
-            'h_approve' => $h_approve,
-            'm_approve' => $m_approve,
-            'duration' => $request->days,
-            'document' =>  $doc
-        ]);
-        Leave::create($ddata);
-        return redirect()->route('admin.leaves.index')->with('success', 'Leave Requested Successfully');
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        //
-    }
-
-    private function filterQuery($query)
-    {
-        if(!auth()->user()->roles->where('name', 'SuperAdmin')->first())
-        {
-            $query->where('branch_id', auth()->user()->branch_id);
-        }
-        if(request()->filled('branch') && auth()->user()->roles->where('name', 'SuperAdmin')->first())
-        {
-            $query->where('branch_id', request()->branch);
-        }
-        if(request()->filled('staff'))
-        {
-            $query->where('user_id', request()->staff);
-        }
-        if(request()->type == 1) // for my leave request
-        {
-            $query->where('user_id', auth()->id());
-        }
-        else if(request()->type == 2) // for leave approval supervisor
-        {
-            $subOrdinates = User::where('supervisor_id', auth()->id())->pluck('id');
-            $query->whereIn('user_id', $subOrdinates)->where('s_approve', 0);
-        }
-        else if(request()->type == 3) // for leave approval HR
-        {
-            $query->where('s_approve', 1)->where('h_approve', 0);
-        }
-        else if(request()->type == 4) // for leave approval Chairman
-        {
-            $query->where('s_approve', 1)->where('h_approve', 1)->where('m_approve', 0);
-        }
-        else{
-        }
-        return $query;
     }
 }
