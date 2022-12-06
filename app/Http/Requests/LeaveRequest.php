@@ -4,6 +4,7 @@ namespace App\Http\Requests;
 
 use App\Models\Leave;
 use App\Models\LeaveType;
+use App\Rules\HandoverRule;
 use App\Rules\LeaveDateRule;
 use Illuminate\Validation\Rule;
 use Illuminate\Foundation\Http\FormRequest;
@@ -38,6 +39,7 @@ class LeaveRequest extends FormRequest
             'contact_no' => ['required'],
             'description' => ['required', 'string', 'max:255'],
             'documentFile' => ['sometimes', 'nullable', 'image', 'mimes:jpg,png,jpeg', 'max:2048'],
+            'handover_staff' => [new HandoverRule(request()->handover_staff)]
         ];
     }
 }

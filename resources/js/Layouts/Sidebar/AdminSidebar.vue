@@ -156,6 +156,14 @@
                             <i class="bi bi-person-workspace"></i><span>Compensatory Off</span>
                         </NavLink>
                     </li>
+                    <li>
+                        <NavLink 
+                            :href="route('admin.handovers.index')" 
+                            :active="$page.component.startsWith('Admin/Handover')"
+                        >
+                            <i class="bi bi-person-workspace"></i><span>Handover</span>
+                        </NavLink>
+                    </li>
                 </ul>
             </li>
             <li class="nav-item" v-if="AttendanceHandlerMenu && $page.props.can.includes('AttendanceHandler') && !$page.props.can.includes('HrHandler')">

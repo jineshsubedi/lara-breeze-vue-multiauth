@@ -4,7 +4,11 @@ namespace App\Observers;
 
 use App\Models\CompensatoryOff;
 use App\Models\Leave;
+use App\Models\LeaveHandover;
 use App\Models\LeaveSetting;
+use App\Models\User;
+use App\Notifications\LeaveRequestNotification;
+use Illuminate\Support\Facades\Notification;
 use Illuminate\Support\Facades\Storage;
 
 class LeaveObserver
@@ -38,7 +42,19 @@ class LeaveObserver
      */
     public function created(Leave $leave)
     {
-        //
+        $leave->load(['leaveType:id,title']);
+        $user = User::find(auth()->id());
+        $message = auth()->user()->name.' Your Leave Request is Submitted Successfully!';
+        $link = $this->staffUrl($user, $leave->id);
+        Notification::send($user, new LeaveRequestNotification($leave, $message, $link));
+
+        if($user->supervisor_id != '')
+        {
+            $supervisor = User::find($user->supervisor_id);
+            $message = auth()->user()->name.' Has Requested a Leave Request';
+            $link = $this->staffUrl($supervisor, $leave->id);
+            Notification::send($supervisor, new LeaveRequestNotification($leave, $message, $link));
+        }
     }
 
     /**
@@ -86,5 +102,20 @@ class LeaveObserver
     public function forceDeleted(Leave $leave)
     {
         //
+    }
+    private function staffUrl($user, $id)
+    {
+        if($user->staff_type == 1)
+        {
+            return route('admin.leaves.show', $id);
+        }
+        if($user->staff_type == 2)
+        {
+            return route('supervisor.leaves.show', $id);
+        }
+        if($user->staff_type == 3)
+        {
+            return route('staffs.leaves.show', $id);
+        }
     }
 }

@@ -32,6 +32,8 @@ const form = useForm({
     emergency_leave: 0,
     duration: null,
 
+    handover_staff: '',
+
     join_duration: props.datas.joinduration,
     total_compensation: props.datas.compensatory_off.length,
 });
@@ -347,7 +349,7 @@ function calculateDays()
                                         >Handover</label
                                     >
                                     <div class="col-sm-10">
-                                        <select v-model="form.handover_staff" id="handover_staff" class="form-control" required>
+                                        <select v-model="form.handover_staff" id="handover_staff" class="form-control">
                                             <option value="">Select Staff</option>
                                             <option v-for="(staff, sindex) in staffs" :key="sindex" :value="staff.id">{{staff.name}}</option>
                                         </select>

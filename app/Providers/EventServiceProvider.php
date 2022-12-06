@@ -6,10 +6,12 @@ use App\Models\User;
 use App\Models\Leave;
 use App\Models\Branch;
 use App\Models\FiscalYear;
+use App\Models\LeaveHandover;
 use App\Observers\UserObserver;
 use App\Observers\LeaveObserver;
 use App\Observers\BranchObserver;
 use App\Observers\FiscalYearObserver;
+use App\Observers\LeaveHandoverObserver;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
@@ -39,6 +41,7 @@ class EventServiceProvider extends ServiceProvider
         Leave::observe(LeaveObserver::class);
         Branch::observe(BranchObserver::class);
         FiscalYear::observe(FiscalYearObserver::class);
+        LeaveHandover::observe(LeaveHandoverObserver::class);
     }
 
     /**

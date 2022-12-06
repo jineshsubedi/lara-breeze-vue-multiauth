@@ -8,6 +8,7 @@ use App\Models\Branch;
 use App\Models\CompensatoryOff;
 use App\Models\FiscalYear;
 use App\Models\Leave;
+use App\Models\LeaveHandover;
 use App\Models\LeaveSetting;
 use App\Models\LeaveType;
 use App\Models\User;
@@ -56,7 +57,10 @@ class LeaveController extends Controller
     public function create(LeaveRequestService $leaveRequest, LeaveSettingService $leaveSetting)
     {
         $branchId = auth()->user()->branch_id;
-        $staffs = User::active()->where('branch_id', $branchId)->where('id', '!=', auth()->id())->get(['id', 'name']);
+        $staffs = User::active()
+            ->where('branch_id', $branchId)
+            // ->where('id', '!=', auth()->id())
+            ->get(['id', 'name']);
         $datas = $this->getFormData($branchId, $leaveRequest, $leaveSetting);
         return Inertia::render('Admin/Leave/Create', [
             'staffs' => $staffs,
@@ -73,9 +77,13 @@ class LeaveController extends Controller
      */
     public function store(LeaveRequest $request)
     {
-        return $request->all();
         $leave = Leave::create($request->validated());
         $this->updateApproval($leave);
+        LeaveHandover::create([
+            'leave_id' => $leave->id,
+            'user_id' => $request->handover_staff,
+            'status' => '0'
+        ]);
         return redirect()->route('admin.leaves.index')->with('success', 'Leave Requested Successfully');
     }
 

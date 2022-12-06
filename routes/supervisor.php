@@ -18,3 +18,6 @@ Route::resource('users', 'UsersController');
 Route::resource('fiscalyears', 'FiscalYearController');
 Route::resource('compensatory', 'CompensatoryOffController');
 Route::post('compensatory/approve/{compensatory}', 'CompensatoryOffController@approval')->name('compensatory.approval');
+
+Route::get('/handovers', 'LeaveHandoverController@index')->name('handovers.index');
+Route::post('/handovers/acceptAll', 'LeaveHandoverController@acceptAll')->name('handovers.accept');
