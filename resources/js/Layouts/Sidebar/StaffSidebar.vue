@@ -105,6 +105,37 @@
                 <ul id="requests-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
                     <li>
                         <NavLink 
+                            :href="route('staffs.leaves.index')" 
+                            :active="$page.component.startsWith('Staff/Leave')"
+                        >
+                            <i class="bi bi-person-workspace"></i><span>Leave Requests</span>
+                        </NavLink>
+                    </li>
+                    <li>
+                        <NavLink 
+                            :href="route('staffs.compensatory.index')" 
+                            :active="$page.component.startsWith('Staff/Compensatory')"
+                        >
+                            <i class="bi bi-person-workspace"></i><span>Compensatory Off</span>
+                        </NavLink>
+                    </li>
+                    <li>
+                        <NavLink 
+                            :href="route('staffs.handovers.index')" 
+                            :active="$page.component.startsWith('Staff/Handover')"
+                        >
+                            <i class="bi bi-person-workspace"></i><span>Handover</span>
+                        </NavLink>
+                    </li>
+                </ul>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link collapsed" data-bs-target="#requests-nav" data-bs-toggle="collapse" href="#">
+                    <i class="bi bi-pc-display"></i><span>Requests</span><i class="bi bi-chevron-down ms-auto"></i>
+                </a>
+                <ul id="requests-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
+                    <li>
+                        <NavLink 
                             :href="route('staffs.compensatory.index')" 
                             :active="$page.component.startsWith('Staff/Compensatory')"
                         >

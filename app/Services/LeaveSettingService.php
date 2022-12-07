@@ -67,12 +67,10 @@ class LeaveSettingService
     public function getCountApprovalList($branchId)
     {
         $setting = $this->getApprovalPersons($branchId);
-        $leave = new Leave();
-        $leave = $leave->where('branch_id', $branchId);
         return [
-            's_count' => $setting['s_approval'] == 1 ? $leave->where('s_approve', 0)->count() : 0,
-            'h_count' => $setting['h_approval'] == 1 ? $leave->where('h_approve', 0)->count() : 0,
-            'm_count' => $setting['m_approval'] == 1 ?  $leave->where('m_approve', 0)->count() : 0,
+            's_count' => $setting['s_approval'] == 1 ? Leave::where('branch_id', $branchId)->where('s_approve', '0')->count() : 0,
+            'h_count' => $setting['h_approval'] == 1 ? Leave::where('branch_id', $branchId)->where('s_approve', '1')->where('h_approve', '0')->count() : 0,
+            'm_count' => $setting['m_approval'] == 1 ?  Leave::where('branch_id', $branchId)->where('h_approve', '1')->where('m_approve', '0')->count() : 0,
         ];
     }
 }

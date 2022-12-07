@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Admin;
+namespace App\Http\Controllers\Staff;
 
 use App\Services\LeaveRequestService;
 use App\Services\LeaveSettingService;
@@ -37,7 +37,7 @@ class LeaveController extends Controller
         $leaves = $filter->latest('id')->paginate(20)->withQueryString();
         $branches = Branch::branchList();
         $staffs = User::active()->where('branch_id', $branchId)->get(['id', 'name']);
-        return Inertia::render('Admin/Leave/Index', [
+        return Inertia::render('Staff/Leave/Index', [
             'leaves' => $leaves,
             'branches' => $branches,
             'staffs' => $staffs,
@@ -61,7 +61,7 @@ class LeaveController extends Controller
             ->where('id', '!=', auth()->id())
             ->get(['id', 'name']);
         $datas = $this->getFormData($branchId, $leaveRequest, $leaveSetting);
-        return Inertia::render('Admin/Leave/Create', [
+        return Inertia::render('Staff/Leave/Create', [
             'staffs' => $staffs,
             'datas' => $datas,
             'defBranch' => fn () => $branchId,
@@ -83,7 +83,7 @@ class LeaveController extends Controller
             'user_id' => $request->handover_staff,
             'status' => '0'
         ]);
-        return redirect()->route('admin.leaves.index')->with('success', 'Leave Requested Successfully');
+        return redirect()->route('staffs.leaves.index')->with('success', 'Leave Requested Successfully');
     }
 
     /**
@@ -98,7 +98,7 @@ class LeaveController extends Controller
         $leave->load(['user:id,name','branch:id,name', 'leaveType:id,title']);
         $leave->document = $leave->document_path;
         $leave->type = Leave::getTypeLabel($leave->type);
-        return Inertia::render('Admin/Leave/Show', [
+        return Inertia::render('Staff/Leave/Show', [
             'leave' => $leave
         ]);
     }

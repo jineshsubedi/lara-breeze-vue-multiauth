@@ -1,5 +1,5 @@
 <script setup>
-import AdminLayout from "@/Layouts/AdminLayout.vue";
+import StaffLayout from "@/Layouts/StaffLayout.vue";
 import { Head, Link, useForm } from "@inertiajs/inertia-vue3";
 import Pagination from "@/Components/Pagination.vue";
 import { ref } from "vue";
@@ -38,7 +38,7 @@ let staff = ref('');
 function loadFilter()
 {
     Inertia.get(
-        route('admin.leaves.index'),
+        route('staffs.leaves.index'),
         { from: from.value, to: to.value, branch: branch.value, staff: staff.value},
         {
             preserveState: true,
@@ -49,7 +49,7 @@ function loadFilter()
 
 function destroy(id) {
     if (confirm("Are you sure you want to Delete")) {
-        form.delete(route("admin.leaves.destroy", id));
+        form.delete(route("staffs.leaves.destroy", id));
     }
 }
 function approvalLeaveRequest(id, supervisor, hr, manager) {
@@ -57,13 +57,13 @@ function approvalLeaveRequest(id, supervisor, hr, manager) {
     approveForm.h_approve = hr;
     approveForm.m_approve = manager;
     
-    approveForm.patch(route("admin.leaves.approval", id));
+    approveForm.patch(route("staffs.leaves.approval", id));
 }
 </script>
 <template>
     <Head title="Leave Request Page" />
 
-    <AdminLayout>
+    <StaffLayout>
         <template #header>
             <h2 class="font-semibold text-xl text-gray-800 leading-tight">
                 Leave Request
@@ -72,16 +72,16 @@ function approvalLeaveRequest(id, supervisor, hr, manager) {
         <template #breadcrum>
             <ol class="breadcrumb">
                 <li class="breadcrumb-item">
-                    <Link :href="route('admin.dashboard')"> Home </Link>
+                    <Link :href="route('staffs.dashboard')"> Home </Link>
                 </li>
                 <li class="breadcrumb-item active">
-                    <Link :href="route('admin.leaves.index')"> Leave Request </Link>
+                    <Link :href="route('staffs.leaves.index')"> Leave Request </Link>
                 </li>
             </ol>
         </template>
         <div class="container">
             <div class="text-right">
-                <Link :href="route('admin.leaves.create')" class="btn btn-sm btn-outline-info">
+                <Link :href="route('staffs.leaves.create')" class="btn btn-sm btn-outline-info">
                     <i class="bi bi-plus"></i> Request Leave
                 </Link>
             </div>
@@ -89,19 +89,19 @@ function approvalLeaveRequest(id, supervisor, hr, manager) {
                 <div class="card-body">
                     <ul class="nav nav-tabs">
                         <li class="nav-item">
-                            <NavLink :active="filters.type == 0 || filters.type == null" :href="route('admin.leaves.index',{type: 0})" >All</NavLink>
+                            <NavLink :active="filters.type == 0 || filters.type == null" :href="route('staffs.leaves.index',{type: 0})" >All</NavLink>
                         </li>
                         <li class="nav-item">
-                            <NavLink :active="filters.type == 1" :href="route('admin.leaves.index', {type:1})" >My Requests</NavLink>
+                            <NavLink :active="filters.type == 1" :href="route('staffs.leaves.index', {type:1})" >My Requests</NavLink>
                         </li>
                         <li class="nav-item" v-if="leaveSetting.s_approval == '1'">
-                            <NavLink :active="filters.type == 2" :href="route('admin.leaves.index', {type:2})">Approval <span class="badge bg-danger">{{countData.s_count}}</span></NavLink>
+                            <NavLink :active="filters.type == 2" :href="route('staffs.leaves.index', {type:2})">Approval <span class="badge bg-danger">{{countData.s_count}}</span></NavLink>
                         </li>
                         <li class="nav-item" v-if="leaveSetting.h_approval == '1' && leaveSetting.hr_person == $page.props.auth.user.id">
-                            <NavLink :active="filters.type == 3" :href="route('admin.leaves.index', {type:3})">HR Approval <span class="badge bg-danger">{{countData.h_count}}</span></NavLink>
+                            <NavLink :active="filters.type == 3" :href="route('staffs.leaves.index', {type:3})">HR Approval <span class="badge bg-danger">{{countData.h_count}}</span></NavLink>
                         </li>
                         <li class="nav-item" v-if="leaveSetting.m_approval == '1' && leaveSetting.m_person == $page.props.auth.user.id">
-                            <NavLink :active="filters.type == 4" :href="route('admin.leaves.index', {type:4})">Chairman Approval <span class="badge bg-danger">{{countData.m_count}}</span> </NavLink>
+                            <NavLink :active="filters.type == 4" :href="route('staffs.leaves.index', {type:4})">Chairman Approval <span class="badge bg-danger">{{countData.m_count}}</span> </NavLink>
                         </li>
                     </ul>
                     <div class="table-responsive">
@@ -172,7 +172,7 @@ function approvalLeaveRequest(id, supervisor, hr, manager) {
                                     <td scope="row"><p v-html="leave.status"></p> </td>
                                     <td scope="row">
                                         <div class="btn-group">
-                                            <Link :href="route('admin.leaves.show', leave.id)"
+                                            <Link :href="route('staffs.leaves.show', leave.id)"
                                                 class="btn btn-sm btn-outline-info"
                                             >
                                                 <i class="bi bi-eye"></i>
@@ -243,5 +243,5 @@ function approvalLeaveRequest(id, supervisor, hr, manager) {
             </div>
         </div>
         
-    </AdminLayout>
+    </StaffLayout>
 </template>

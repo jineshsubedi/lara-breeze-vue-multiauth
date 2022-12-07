@@ -69,13 +69,25 @@ class Leave extends Model
         {
             return '<span class="badge bg-secondary">Supervisor Approval Required</span>';
         }
+        if($this->s_approve == 2 && $this->h_approve == 0)
+        {
+            return '<span class="badge bg-danger">Supervisor Rejected</span>';
+        }
         if($setting->h_approval == 1 && $this->h_approve == 0)
         {
             return '<span class="badge bg-secondary">HR Approval Required</span>';
         }
+        if($this->s_approve == 1 && $this->h_approve == 2 && $this->m_approve == 0)
+        {
+            return '<span class="badge bg-danger">HR Rejected</span>';
+        }
         if($setting->m_approval == 1 && $this->m_approve == 0)
         {
             return '<span class="badge bg-secondary">Manager Approval Required</span>';
+        }
+        if($this->s_approve == 1 && $this->h_approve == 1 && $this->m_approve == 2)
+        {
+            return '<span class="badge bg-danger">Manager Rejected</span>';
         }
         return '<span class="badge bg-success">Approved</span>';
     }

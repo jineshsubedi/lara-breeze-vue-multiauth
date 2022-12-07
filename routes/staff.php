@@ -15,6 +15,8 @@ Route::resource('dailytasks', 'DailyTaskController');
 
 Route::resource('users', 'UsersController');
 
+Route::resource('leaves', 'LeaveController')->only(['index', 'create', 'show', 'store', 'destroy']);
+Route::patch('leaves/{id}/approval','LeaveController@approval')->name('leaves.approval');
 Route::resource('fiscalyears', 'FiscalYearController');
 Route::resource('compensatory', 'CompensatoryOffController');
 Route::post('compensatory/approve/{compensatory}', 'CompensatoryOffController@approval')->name('compensatory.approval');

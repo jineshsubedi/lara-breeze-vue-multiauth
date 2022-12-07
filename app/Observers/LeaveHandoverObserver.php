@@ -32,6 +32,10 @@ class LeaveHandoverObserver
      */
     public function updated(LeaveHandover $leaveHandover)
     {
+        $this->changeStatus(($leaveHandover));
+    }
+    private function changeStatus($leaveHandover)
+    {
         if($leaveHandover->isDirty('status') && $leaveHandover->status == '1'){
             $leaveHandover->load('leave');
             if($leaveHandover->leave){

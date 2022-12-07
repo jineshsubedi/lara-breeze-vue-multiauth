@@ -65,7 +65,32 @@ class LeaveObserver
      */
     public function updated(Leave $leave)
     {
-        //
+        $this->approvalUpdate($leave);
+    }
+
+    private function approvalUpdate($leave)
+    {
+        if($leave->isDirty('s_approve')){
+            if($leave->s_approve == '1')
+                $message = 'Supervisor Approved your Leave Request';
+            else 
+                $message = 'Supervisor Rejected your Leave Request';
+        }
+        if($leave->isDirty('h_approve')){
+            if($leave->h_approve == '1')
+                $message = 'HR Approved your Leave Request';
+            else 
+                $message = 'HR Rejected your Leave Request';
+        }
+        if($leave->isDirty('m_approve')){
+            if($leave->m_approve == '1')
+                $message = 'Manager Approved your Leave Request';
+            else 
+                $message = 'Manager Rejected your Leave Request';
+        }
+        $user = User::find($leave->user_id);
+        $link = $this->staffUrl($user, $leave->id);
+        Notification::send($user, new LeaveRequestNotification($leave, $message, $link));
     }
 
     /**

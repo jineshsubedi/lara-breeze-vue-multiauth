@@ -28,7 +28,8 @@ Route::resource('shift_times', 'ShifttimeController');
 
 Route::resource('leave_types', 'LeavetypeController');
 Route::resource('leave_setting', 'LeavesettingController');
-Route::resource('leaves', 'LeaveController');
+Route::resource('leaves', 'LeaveController')->only(['index', 'create', 'show', 'store', 'destroy']);
+Route::patch('leaves/{id}/approval','LeaveController@approval')->name('leaves.approval');
 Route::resource('fiscalyears', 'FiscalYearController');
 Route::resource('compensatory', 'CompensatoryOffController');
 Route::post('compensatory/approve/{compensatory}', 'CompensatoryOffController@approval')->name('compensatory.approval');
