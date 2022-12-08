@@ -157,6 +157,8 @@ class LeaveController extends Controller
         }
         else{
         }
+        $subIds = User::where('supervisor_id', auth()->id())->orWhere('id', auth()->id())->pluck('id');
+        $query->whereIn('user_id', $subIds);
         return $query;
     }
 

@@ -36,7 +36,11 @@ class LeaveController extends Controller
         $filter = $this->filterQuery($query);
         $leaves = $filter->latest('id')->paginate(20)->withQueryString();
         $branches = Branch::branchList();
-        $staffs = User::active()->where('branch_id', $branchId)->get(['id', 'name']);
+        $staffs = User::active()
+            ->where('branch_id', $branchId)
+            ->where('supervisor_id', auth()->id())
+            ->get(['id', 'name']);
+
         return Inertia::render('Staff/Leave/Index', [
             'leaves' => $leaves,
             'branches' => $branches,
@@ -157,6 +161,8 @@ class LeaveController extends Controller
         }
         else{
         }
+        $subIds = User::where('supervisor_id', auth()->id())->orWhere('id', auth()->id())->pluck('id');
+        $query->whereIn('user_id', $subIds);
         return $query;
     }
 

@@ -4,6 +4,7 @@ namespace App\Services;
 
 use App\Models\Leave;
 use App\Models\LeaveSetting;
+use App\Models\User;
 use Carbon\Carbon;
 
 
@@ -67,8 +68,9 @@ class LeaveSettingService
     public function getCountApprovalList($branchId)
     {
         $setting = $this->getApprovalPersons($branchId);
+        $subordinate = User::active()->where('branch_id', auth()->user()->branch_id)->where('supervisor_id', auth()->id())->pluck('id');
         return [
-            's_count' => $setting['s_approval'] == 1 ? Leave::where('branch_id', $branchId)->where('s_approve', '0')->count() : 0,
+            's_count' => $setting['s_approval'] == 1 ? Leave::where('branch_id', $branchId)->whereIn('user_id', $subordinate)->where('s_approve', '0')->count() : 0,
             'h_count' => $setting['h_approval'] == 1 ? Leave::where('branch_id', $branchId)->where('s_approve', '1')->where('h_approve', '0')->count() : 0,
             'm_count' => $setting['m_approval'] == 1 ?  Leave::where('branch_id', $branchId)->where('h_approve', '1')->where('m_approve', '0')->count() : 0,
         ];

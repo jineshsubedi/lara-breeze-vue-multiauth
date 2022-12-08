@@ -1,11 +1,13 @@
 <script setup>
     import NavLink from "@/Components/AdminLteNavLink.vue"
+    import {SidebarIcon} from "@/Layouts/Common/Icons.vue"
 
     let DocumentMenu = Ziggy.routes['admin.documents.index'] ? true : false;
     let TaskMenu = Ziggy.routes['admin.tasks.index'] ? true : false;
     let AttendanceMenu = Ziggy.routes['admin.attendances.index'] ? true : false;
     let AttendanceHandlerMenu = Ziggy.routes['admin.attendanceHandler.index'] ? true : false;
     let HolidayMenu = Ziggy.routes['admin.holidays.index'] ? true : false;
+
 </script>
 <template>
     <aside id="sidebar" class="sidebar">
@@ -16,14 +18,14 @@
                     :href="route('admin.dashboard')"
                     :active="$page.component.startsWith('Admin/Dashboard')"
                 >
-                    <i class="bi bi-grid"></i>
+                    <i :class="SidebarIcon.DASHBOARD"></i>
                     Dashboard
                 </NavLink>
             </li>
 
             <li class="nav-item">
                 <a class="nav-link collapsed" data-bs-target="#setting-nav" data-bs-toggle="collapse" href="#">
-                    <i class="bi bi-gear"></i><span>Configuration</span><i class="bi bi-chevron-down ms-auto"></i>
+                    <i :class="SidebarIcon.CONFIGURATION"></i><span>Configuration</span><i class="bi bi-chevron-down ms-auto"></i>
                 </a>
                 <ul id="setting-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
                     <li v-if="$page.props.can.includes('SuperAdmin')">
@@ -31,7 +33,7 @@
                             :href="route('admin.setting.index')" 
                             :active="$page.component.startsWith('Admin/Setting')"
                         >
-                            <i class="bi bi-gear-fill"></i><span>Setting</span>
+                            <i :class="SidebarIcon.SETTING"></i><span>Setting</span>
                         </NavLink>
                     </li>
                     <li>
@@ -39,7 +41,7 @@
                             :href="route('admin.branches.index')" 
                             :active="$page.component.startsWith('Admin/Branch')"
                         >
-                            <i class="bi bi-diagram-3"></i><span>Branch</span>
+                            <i :class="SidebarIcon.BRANCH"></i><span>Branch</span>
                         </NavLink>
                     </li>
                     <li>
@@ -47,7 +49,7 @@
                             :href="route('admin.departments.index')" 
                             :active="$page.component.startsWith('Admin/Department')"
                         >
-                            <i class="bi bi-node-plus"></i><span>Department</span>
+                            <i :class="SidebarIcon.DEPARTMENT"></i><span>Department</span>
                         </NavLink>
                     </li>
                     <li>
@@ -55,7 +57,7 @@
                             :href="route('admin.designations.index')" 
                             :active="$page.component.startsWith('Admin/Designation')"
                         >
-                            <i class="bi bi-mortarboard-fill"></i><span>Designation</span>
+                            <i :class="SidebarIcon.DESIGNATION"></i><span>Designation</span>
                         </NavLink>
                     </li>
                     <li v-if="DocumentMenu">
@@ -63,7 +65,7 @@
                             :href="route('admin.documents.index')" 
                             :active="$page.component.startsWith('Admin/Document')"
                         >
-                            <i class="bi bi-escape"></i><span>Document</span>
+                            <i :class="SidebarIcon.DOCUMENT"></i><span>Document</span>
                         </NavLink>
                     </li>
                     <li>
@@ -71,7 +73,7 @@
                             :href="route('admin.shift_times.index')" 
                             :active="$page.component.startsWith('Admin/Shifttime')"
                         >
-                            <i class="bi bi-alarm-fill"></i><span>Shift Time</span>
+                            <i :class="SidebarIcon.SHIFT"></i><span>Shift Time</span>
                         </NavLink>
                     </li>
                     <li v-if="HolidayMenu">
@@ -79,7 +81,7 @@
                             :href="route('admin.holidays.index')" 
                             :active="$page.component.startsWith('Admin/Holiday')"
                         >
-                            <i class="bi bi-balloon-heart"></i><span>Holiday</span>
+                            <i :class="SidebarIcon.HOLIDAY"></i><span>Holiday</span>
                         </NavLink>
                     </li>
                     <li v-if="$page.props.can.includes('SuperAdmin')">
@@ -87,7 +89,7 @@
                             :href="route('admin.fiscalyears.index')" 
                             :active="$page.component.startsWith('Admin/Fiscal')"
                         >
-                            <i class="bi bi-escape"></i><span>Fiscal Year</span>
+                            <i :class="SidebarIcon.FISCAL_YEAR"></i><span>Fiscal Year</span>
                         </NavLink>
                     </li>
                     <li class="nav-heading">Leave Configuration</li>
@@ -96,7 +98,7 @@
                             :href="route('admin.leave_types.index')" 
                             :active="$page.component.startsWith('Admin/Leavetype')"
                         >
-                            <i class="bi bi-escape"></i><span>Leave Type</span>
+                            <i :class="SidebarIcon.LEAVE_TYPE"></i><span>Leave Type</span>
                         </NavLink>
                     </li>
                     <li>
@@ -104,7 +106,7 @@
                             :href="route('admin.leave_setting.index')" 
                             :active="$page.component.startsWith('Admin/Leavesetting')"
                         >
-                            <i class="bi bi-escape"></i><span>Leave Setting</span>
+                            <i :class="SidebarIcon.LEAVE_SETTING"></i><span>Leave Setting</span>
                         </NavLink>
                     </li>
                     <li class="nav-heading">Booking Configuration</li>
@@ -114,7 +116,7 @@
 
             <li class="nav-item" v-if="TaskMenu">
                 <a class="nav-link collapsed" data-bs-target="#tasks-nav" data-bs-toggle="collapse" href="#">
-                    <i class="bi bi-pc-display"></i><span>Tasks</span><i class="bi bi-chevron-down ms-auto"></i>
+                    <i :class="SidebarIcon.TASK"></i><span>Tasks</span><i class="bi bi-chevron-down ms-auto"></i>
                 </a>
                 <ul id="tasks-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
                     <li>
@@ -122,7 +124,7 @@
                             :href="route('admin.tasks.index')" 
                             :active="$page.component.startsWith('Admin/Tasks')"
                         >
-                            <i class="bi bi-person-workspace"></i><span>Home</span>
+                            <i :class="SidebarIcon.TASK_HOME"></i><span>Home</span>
                         </NavLink>
                     </li>
                     <li>
@@ -130,14 +132,14 @@
                             :href="route('admin.helpdesks.index')" 
                             :active="$page.component.startsWith('Admin/Helpdesk')"
                         >
-                            <i class="bi bi-pc-horizontal"></i><span>Help Desk</span>
+                            <i :class="SidebarIcon.HELP_DESK"></i><span>Help Desk</span>
                         </NavLink>
                     </li>
                 </ul>
             </li>
             <li class="nav-item">
                 <a class="nav-link collapsed" data-bs-target="#requests-nav" data-bs-toggle="collapse" href="#">
-                    <i class="bi bi-pc-display"></i><span>Requests</span><i class="bi bi-chevron-down ms-auto"></i>
+                    <i :class="SidebarIcon.REQUESTS"></i><span>Requests</span><i class="bi bi-chevron-down ms-auto"></i>
                 </a>
                 <ul id="requests-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
                     <li>
@@ -145,7 +147,7 @@
                             :href="route('admin.leaves.index')" 
                             :active="$page.component.startsWith('Admin/Leave')"
                         >
-                            <i class="bi bi-person-workspace"></i><span>Leave Requests</span>
+                            <i :class="SidebarIcon.LEAVE_REQUEST"></i><span>Leave Requests</span>
                         </NavLink>
                     </li>
                     <li>
@@ -153,7 +155,7 @@
                             :href="route('admin.compensatory.index')" 
                             :active="$page.component.startsWith('Admin/Compensatory')"
                         >
-                            <i class="bi bi-person-workspace"></i><span>Compensatory Off</span>
+                            <i :class="SidebarIcon.COMPENSATORY"></i><span>Compensatory Off</span>
                         </NavLink>
                     </li>
                     <li>
@@ -161,7 +163,7 @@
                             :href="route('admin.handovers.index')" 
                             :active="$page.component.startsWith('Admin/Handover')"
                         >
-                            <i class="bi bi-person-workspace"></i><span>Handover</span>
+                            <i :class="SidebarIcon.HANDOVER"></i><span>Handover</span>
                         </NavLink>
                     </li>
                 </ul>
@@ -171,13 +173,13 @@
                     :href="route('admin.attendanceHandler.index')"
                     :active="$page.component.startsWith('Admin/Attendance/Main')"
                 >
-                    <i class="bi bi-calendar-check-fill"></i>
+                    <i :class="SidebarIcon.ATTENDANCE_HANDLER"></i>
                     Attendance Handler
                 </NavLink>
             </li>
             <li class="nav-item" v-if="$page.props.can.includes('HrHandler')">
                 <a class="nav-link collapsed" data-bs-target="#hr-handler-nav" data-bs-toggle="collapse" href="#">
-                    <i class="bi bi-briefcase-fill"></i><span>Hr Handler</span><i class="bi bi-chevron-down ms-auto"></i>
+                    <i :class="SidebarIcon.HR_HANDLER"></i><span>Hr Handler</span><i class="bi bi-chevron-down ms-auto"></i>
                 </a>
                 <ul id="hr-handler-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
                     <li v-if="AttendanceHandlerMenu">
@@ -185,7 +187,7 @@
                             :href="route('admin.attendanceHandler.index')"
                             :active="$page.component.startsWith('Admin/Attendance/Main')"
                         >
-                            <i class="bi bi-grid"></i>
+                            <i :class="SidebarIcon.ATTENDANCE_HANDLER"></i>
                             Attendance Handler
                         </NavLink>
                     </li>
@@ -194,14 +196,14 @@
                             :href="route('admin.fiscalyears.index')" 
                             :active="$page.component.startsWith('Admin/Fiscal')"
                         >
-                            <i class="bi bi-escape"></i><span>Fiscal Year</span>
+                            <i :class="SidebarIcon.FISCAL_YEAR"></i><span>Fiscal Year</span>
                         </NavLink>
                     </li>
                 </ul>
             </li>
             <li class="nav-item">
                 <a class="nav-link collapsed" data-bs-target="#hrm-nav" data-bs-toggle="collapse" href="#">
-                    <i class="bi bi-briefcase-fill"></i><span>HRM</span><i class="bi bi-chevron-down ms-auto"></i>
+                    <i :class="SidebarIcon.HRM"></i><span>HRM</span><i class="bi bi-chevron-down ms-auto"></i>
                 </a>
                 <ul id="hrm-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
                     <li>
@@ -209,7 +211,7 @@
                             :href="route('admin.users.index')" 
                             :active="$page.component.startsWith('Admin/Users')"
                         >
-                            <i class="bi bi-person-fill"></i><span>Staffs</span>
+                            <i :class="SidebarIcon.STAFFS"></i><span>Staffs</span>
                         </NavLink>
                     </li>
                     <li>
@@ -217,7 +219,7 @@
                             :href="route('admin.setting.index')" 
                             :active="route().current('admin.setting.index')"
                         >
-                            <i class="bi bi-card-text"></i><span>Report</span>
+                            <i :class="SidebarIcon.REPORT"></i><span>Report</span>
                         </NavLink>
                     </li>
                     <li v-if="AttendanceMenu">
@@ -225,7 +227,7 @@
                             :href="route('admin.attendances.index')" 
                             :active="$page.component.startsWith('Admin/Attendance')"
                         >
-                            <i class="bi bi-calendar2-check"></i><span>Attendance</span>
+                            <i :class="SidebarIcon.ATTENDANCE"></i><span>Attendance</span>
                         </NavLink>
                     </li>
                     <li>
@@ -233,7 +235,7 @@
                             :href="route('admin.dailytasks.index')" 
                             :active="$page.component.startsWith('Admin/DailyTasks')"
                         >
-                            <i class="bi bi-calendar2-check"></i><span>Daily Tasks</span>
+                            <i :class="SidebarIcon.DAILY_TASK"></i><span>Daily Tasks</span>
                         </NavLink>
                     </li>
                 </ul>

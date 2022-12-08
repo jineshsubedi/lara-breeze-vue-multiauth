@@ -1,0 +1,32 @@
+<script>
+
+export const SidebarIcon = Object.freeze({
+    DASHBOARD: "bi bi-grid",
+    SETTING: "bi bi-gear-fill",
+    CONFIGURATION: "bi bi-gear",
+    BRANCH: "bi bi-diagram-3",
+    DEPARTMENT: "bi bi-node-plus",
+    DESIGNATION: "bi bi-mortarboard-fill",
+    DOCUMENT: "bi bi-escape",
+    SHIFT: "bi bi-alarm-fill",
+    HOLIDAY: "bi bi-balloon-heart",
+    FISCAL_YEAR: "bi bi-calendar2-minus",
+    LEAVE_TYPE: "bi bi-calendar2",
+    LEAVE_SETTING: "bi bi-calendar2-event-fill",
+    TASK: "bi bi-pc-display",
+    TASK_HOME: "bi bi-person-workspace",
+    HELP_DESK: "bi bi-pc-horizontal",
+    REQUESTS: "bi bi-calendar2-check",
+    LEAVE_REQUEST: "bi bi-calendar2-range",
+    COMPENSATORY: "bi bi-calendar2-event",
+    HANDOVER: "bi bi-send-plus-fill",
+    ATTENDANCE_HANDLER: "bi bi-briefcase-fill",
+    HR_HANDLER: "bi bi-briefcase-fill",
+    HRM: "bi bi-briefcase-fill",
+    STAFFS: "bi bi-person-fill",
+    REPORT: "bi bi-card-text",
+    ATTENDANCE: "bi bi-calendar2-check",
+    DAILY_TASK: "bi bi-bar-chart-steps",
+});
+
+</script>
