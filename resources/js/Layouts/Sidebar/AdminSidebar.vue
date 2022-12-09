@@ -7,6 +7,7 @@
     let AttendanceMenu = Ziggy.routes['admin.attendances.index'] ? true : false;
     let AttendanceHandlerMenu = Ziggy.routes['admin.attendanceHandler.index'] ? true : false;
     let HolidayMenu = Ziggy.routes['admin.holidays.index'] ? true : false;
+    let SuggestionForMenu = Ziggy.routes['admin.suggestionfor.index'] ? true : false;
 
 </script>
 <template>
@@ -107,6 +108,15 @@
                             :active="$page.component.startsWith('Admin/Leavesetting')"
                         >
                             <i :class="SidebarIcon.LEAVE_SETTING"></i><span>Leave Setting</span>
+                        </NavLink>
+                    </li>
+                    <li class="nav-heading">Suggestion</li>
+                    <li v-if="SuggestionForMenu">
+                        <NavLink 
+                            :href="route('admin.suggestionfor.index')" 
+                            :active="$page.component.startsWith('Admin/Suggestionfor')"
+                        >
+                            <i :class="SidebarIcon.SUGGESTION_FOR"></i><span>Suggestion Category</span>
                         </NavLink>
                     </li>
                     <li class="nav-heading">Booking Configuration</li>

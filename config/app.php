@@ -197,7 +197,8 @@ return [
         Hris\Document\DocumentServiceProvider::class,
         Hris\Task\TaskServiceProvider::class,
         Hris\Attendance\AttendanceServiceProvider::class,
-        Hris\Holiday\HolidayServiceProvider::class
+        Hris\Holiday\HolidayServiceProvider::class,
+        Hris\Suggestion\SuggestionServiceProvider::class
     ],
 
     /*

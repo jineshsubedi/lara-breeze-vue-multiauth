@@ -28,6 +28,7 @@ export const SidebarIcon = Object.freeze({
     ATTENDANCE: "bi bi-calendar2-check",
     DAILY_TASK: "bi bi-bar-chart-steps",
     CALENDAR: "bi bi-calendar3",
+    SUGGESTION_FOR: "bi bi-tags",
 });
 
 </script>

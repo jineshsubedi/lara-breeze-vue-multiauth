@@ -1,0 +1,25 @@
+{
+    "name": "hris/suggestion",
+    "description": "this is suggestion section for organization",
+    "type": "project",
+    "license": "MIT",
+    "autoload": {
+        "psr-4": {
+            "Hris\\Suggestion\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "jinesh subedi",
+            "email": "jinesh1094@gmail.com"
+        }
+    ],
+    "require": {},
+    "extra": {
+        "Laravel": {
+            "Providers" : [
+                "Hris\\Suggestion\\SuggestionServiceProvider"
+            ]
+        }
+    }
+}
