@@ -5,6 +5,8 @@
     let TaskMenu = Ziggy.routes['staffs.tasks.index'] ? true : false;
     let AttendanceHandlerMenu = Ziggy.routes['staffs.attendanceHandler.index'] ? true : false;
     let HolidayMenu = Ziggy.routes['staffs.holidays.index'] ? true : false;
+    let SuggestionForMenu = Ziggy.routes['staffs.suggestionfor.index'] ? true : false;
+
 </script>
 <template>
     <aside id="sidebar" class="sidebar">
@@ -72,6 +74,14 @@
                             :active="$page.component.startsWith('Staff/Users')"
                         >
                             <i :class="SidebarIcon.STAFFS"></i><span>Staffs</span>
+                        </NavLink>
+                    </li>
+                    <li v-if="SuggestionForMenu">
+                        <NavLink 
+                            :href="route('staffs.suggestionfor.index')" 
+                            :active="$page.component.startsWith('Staff/Suggestionfor')"
+                        >
+                            <i :class="SidebarIcon.SUGGESTION_FOR"></i><span>Suggestion Category</span>
                         </NavLink>
                     </li>
                 </ul>

@@ -2,11 +2,17 @@
 
 namespace Hris\Suggestion\Http\Controllers\Supervisor;
 
+use Hris\Suggestion\Requests\SuggestionForRequest;
+use Hris\Suggestion\Models\SuggestionFor;
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
+use Inertia\Inertia;
 
 class SuggestionForController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('role:HrHandler');
+    }
     /**
      * Display a listing of the resource.
      *
@@ -14,7 +20,10 @@ class SuggestionForController extends Controller
      */
     public function index()
     {
-        //
+        $categories = SuggestionFor::orderBy('title')->paginate(20)->withQueryString();
+        return Inertia::render('Supervisor/Suggestionfor/Index', [
+            'categories' => $categories
+        ]);
     }
 
     /**
@@ -24,7 +33,7 @@ class SuggestionForController extends Controller
      */
     public function create()
     {
-        //
+        return Inertia::render('Supervisor/Suggestionfor/Create');
     }
 
     /**
@@ -33,9 +42,16 @@ class SuggestionForController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(SuggestionForRequest $request)
     {
-        //
+        foreach($request->category as $st)
+        {
+            $data = [
+                'title' => $st['title'],
+            ];
+            SuggestionFor::create($data);
+        }
+        return redirect()->route('supervisor.suggestionfor.index')->with('success', 'Suggestion Category Added Successfully!');
     }
 
     /**
@@ -44,7 +60,7 @@ class SuggestionForController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(SuggestionFor $suggestionfor)
     {
         //
     }
@@ -55,9 +71,11 @@ class SuggestionForController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(SuggestionFor $suggestionfor)
     {
-        //
+        return Inertia::render('Supervisor/Suggestionfor/Edit', [
+            'suggestionfor' => $suggestionfor
+        ]);
     }
 
     /**
@@ -67,9 +85,10 @@ class SuggestionForController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(SuggestionForRequest $request, SuggestionFor $suggestionfor)
     {
-        //
+        $suggestionfor->update($request->validated());
+        return redirect()->route('supervisor.suggestionfor.index')->with('success', 'Suggetion Category Updated Successfully!');
     }
 
     /**
@@ -78,8 +97,9 @@ class SuggestionForController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(SuggestionFor $suggestionfor)
     {
-        //
+        $suggestionfor->delete();
+        return back()->with('success', 'Suggestion Category Deleted Successfully!');
     }
 }

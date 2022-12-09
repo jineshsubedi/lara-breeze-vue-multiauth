@@ -2,10 +2,9 @@
 
 namespace Hris\Suggestion\Http\Controllers\Admin;
 
-use App\Http\Controllers\Controller;
-use Hris\Suggestion\Models\SuggestionFor;
 use Hris\Suggestion\Requests\SuggestionForRequest;
-use Illuminate\Http\Request;
+use Hris\Suggestion\Models\SuggestionFor;
+use App\Http\Controllers\Controller;
 use Inertia\Inertia;
 
 class SuggestionForController extends Controller
