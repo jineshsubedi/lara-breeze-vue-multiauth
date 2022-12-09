@@ -23,3 +23,5 @@ Route::post('compensatory/approve/{compensatory}', 'CompensatoryOffController@ap
 
 Route::get('/handovers', 'LeaveHandoverController@index')->name('handovers.index');
 Route::post('/handovers/acceptAll', 'LeaveHandoverController@acceptAll')->name('handovers.accept');
+
+Route::get('/calender', 'CalendarController@index')->name('calendar');

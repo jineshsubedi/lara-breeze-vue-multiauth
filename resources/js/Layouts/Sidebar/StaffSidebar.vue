@@ -153,6 +153,15 @@
                     </li>
                 </ul>
             </li>
+            <li class="nav-item">
+                <NavLink
+                    :href="route('staffs.calendar')"
+                    :active="$page.component.startsWith('Staff/Calendar')"
+                >
+                    <i :class="SidebarIcon.CALENDAR"></i>
+                    Calendar
+                </NavLink>
+            </li>
         </ul>
     </aside>
 </template>

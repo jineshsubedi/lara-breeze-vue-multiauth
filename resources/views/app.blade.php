@@ -16,6 +16,7 @@
         <link href="{{asset('assets/vendor/quill/quill.bubble.css')}}" rel="stylesheet">
         <link href="{{asset('assets/vendor/remixicon/remixicon.css')}}" rel="stylesheet">
         <link href="{{asset('assets/vendor/simple-datatables/style.css')}}" rel="stylesheet">
+        <link rel="stylesheet" href="{{asset('assets/vendor/fullcalendar/main.min.css')}}">
 
         <!-- Template Main CSS File -->
         <link href="{{asset('assets/css/style.css')}}" rel="stylesheet">
@@ -37,6 +38,7 @@
         <script src="{{asset('assets/vendor/tinymce/tinymce.min.js')}}"></script>
         <script src="{{asset('assets/vendor/php-email-form/validate.js')}}"></script>
 
+        <script src="{{asset('assets/vendor/fullcalendar/main.min.js')}}"></script>
         <!-- Template Main JS File -->
         <script src="{{asset('assets/js/main.js')}}"></script>
     </body>

@@ -63,4 +63,22 @@ trait PackageManager
         }
         return $datas;
     }
+    public function getAllHolidaysWithTitle()
+    {
+        try {
+            $datas = [];
+            $holiday = Holiday::where('branch_id', auth()->user()->branch_id)->get();
+            foreach($holiday as $h)
+            {
+                $datas[] = [
+                    'title' => $h->title,
+                    'start' => $h->start_date,
+                    'end' => $h->end_date,
+                ];
+            }
+            return $datas;
+        } catch (\Throwable $th) {
+            return [];
+        }
+    }
 }

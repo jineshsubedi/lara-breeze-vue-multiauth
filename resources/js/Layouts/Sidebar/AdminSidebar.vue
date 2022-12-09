@@ -240,6 +240,15 @@
                     </li>
                 </ul>
             </li>
+            <li class="nav-item">
+                <NavLink
+                    :href="route('admin.calendar')"
+                    :active="$page.component.startsWith('Admin/Calendar')"
+                >
+                    <i :class="SidebarIcon.CALENDAR"></i>
+                    Calendar
+                </NavLink>
+            </li>
 
 
             <!-- <li class="nav-heading">Pages</li> -->

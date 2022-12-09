@@ -153,6 +153,15 @@
                     </li>
                 </ul>
             </li>
+            <li class="nav-item">
+                <NavLink
+                    :href="route('supervisor.calendar')"
+                    :active="$page.component.startsWith('Supervisor/Calendar')"
+                >
+                    <i :class="SidebarIcon.CALENDAR"></i>
+                    Calendar
+                </NavLink>
+            </li>
         </ul>
     </aside>
 </template>
