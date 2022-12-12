@@ -25,3 +25,4 @@ Route::get('/handovers', 'LeaveHandoverController@index')->name('handovers.index
 Route::post('/handovers/acceptAll', 'LeaveHandoverController@acceptAll')->name('handovers.accept');
 
 Route::get('/calender', 'CalendarController@index')->name('calendar');
+Route::resource('/notices', 'NoticeController');

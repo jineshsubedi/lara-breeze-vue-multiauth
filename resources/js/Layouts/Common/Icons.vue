@@ -30,6 +30,7 @@ export const SidebarIcon = Object.freeze({
     CALENDAR: "bi bi-calendar3",
     SUGGESTION_FOR: "bi bi-tags",
     SUGGESTION: "bi bi-chat-left-quote",
+    NOTICE: "bi bi-journal-text",
 });
 
 </script>

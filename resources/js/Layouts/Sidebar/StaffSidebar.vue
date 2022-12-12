@@ -93,6 +93,14 @@
                             <i :class="SidebarIcon.SUGGESTION"></i><span>Suggestion</span>
                         </NavLink>
                     </li>
+                    <li>
+                        <NavLink 
+                            :href="route('staffs.notices.index')" 
+                            :active="$page.component.startsWith('Staff/Notices')"
+                        >
+                            <i :class="SidebarIcon.NOTICE"></i><span>Notice</span>
+                        </NavLink>
+                    </li>
                 </ul>
             </li>
             <li class="nav-item" v-if="TaskMenu">

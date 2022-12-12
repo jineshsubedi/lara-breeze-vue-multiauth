@@ -93,6 +93,14 @@
                             <i :class="SidebarIcon.SUGGESTION"></i><span>Suggestion</span>
                         </NavLink>
                     </li>
+                    <li>
+                        <NavLink 
+                            :href="route('supervisor.notices.index')" 
+                            :active="$page.component.startsWith('Supervisor/Notices')"
+                        >
+                            <i :class="SidebarIcon.NOTICE"></i><span>Notice</span>
+                        </NavLink>
+                    </li>
                 </ul>
             </li>
             <li class="nav-item" v-if="TaskMenu">

@@ -7,6 +7,8 @@ use App\Models\Leave;
 use App\Models\Branch;
 use App\Models\FiscalYear;
 use App\Models\LeaveHandover;
+use App\Models\Notice;
+use App\Observers\NoticeObserver;
 use App\Observers\UserObserver;
 use App\Observers\LeaveObserver;
 use App\Observers\BranchObserver;
@@ -39,6 +41,7 @@ class EventServiceProvider extends ServiceProvider
     {
         User::observe(UserObserver::class);
         Leave::observe(LeaveObserver::class);
+        Notice::observe(NoticeObserver::class);
         Branch::observe(BranchObserver::class);
         FiscalYear::observe(FiscalYearObserver::class);
         LeaveHandover::observe(LeaveHandoverObserver::class);

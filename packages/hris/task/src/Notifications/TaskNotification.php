@@ -5,6 +5,7 @@ namespace Hris\Task\Notifications;
 use Illuminate\Bus\Queueable;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
+use Illuminate\Support\Str;
 
 class TaskNotification extends Notification
 {
@@ -61,7 +62,7 @@ class TaskNotification extends Notification
         return [
             'id' => $this->task->id,
             'title' => $this->task->title,
-            'message' => $this->message,
+            'message' => Str::limit($this->message, 100),
             'url' => $this->link,
             'diff_time' => $this->task->updated_at,
             'module' => 'TASK',

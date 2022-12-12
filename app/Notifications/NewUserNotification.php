@@ -6,6 +6,7 @@ use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
+use Illuminate\Support\Str;
 
 class NewUserNotification extends Notification
 {
@@ -63,7 +64,7 @@ class NewUserNotification extends Notification
         return [
             'id' => $this->user->id,
             'title' => 'WELCOME',
-            'message' => $this->message,
+            'message' => Str::limit($this->message, 100),
             'url' => $this->link,
             'diff_time' => $this->user->updated_at,
             'module' => 'USER',

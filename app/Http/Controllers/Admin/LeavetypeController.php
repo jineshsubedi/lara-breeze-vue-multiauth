@@ -23,7 +23,7 @@ class LeavetypeController extends Controller
         $query = LeaveType::query();
         $query->with(['branch:id,name']);
         $filter = $this->filterQuery($query);
-        $ltypes = $filter->latest('id')->paginate(15);
+        $ltypes = $filter->latest('id', 'desc')->paginate(15)->withQueryString();
         return Inertia::render('Admin/Leavetype/Index', [
             'ltypes' => $ltypes,
             'branches' => $branches,

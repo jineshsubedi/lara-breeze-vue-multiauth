@@ -3,15 +3,16 @@
 namespace App\Notifications;
 
 use Illuminate\Bus\Queueable;
+use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 use Illuminate\Support\Str;
 
-class LeaveHandoverNotification extends Notification
+class NoticeNotification extends Notification
 {
     use Queueable;
 
-    protected $leave;
+    protected $notice;
     protected $message;
     protected $link;
 
@@ -20,9 +21,9 @@ class LeaveHandoverNotification extends Notification
      *
      * @return void
      */
-    public function __construct($leave, $message, $link)
+    public function __construct($notice, $message, $link)
     {
-        $this->leave = $leave;
+        $this->notice = $notice;
         $this->link = $link;
         $this->message = $message;
     }
@@ -61,13 +62,13 @@ class LeaveHandoverNotification extends Notification
     public function toArray($notifiable)
     {
         return [
-            'id' => $this->leave->id,
-            'title' => 'Handover Request',
+            'id' => $this->notice->id,
+            'title' => $this->notice->title,
             'message' => Str::limit($this->message, 100),
             'url' => $this->link,
-            'diff_time' => $this->leave->created_at,
-            'module' => 'HANDOVER REQUEST',
-            'icon' => 'bi bi-pc-display text-info'
+            'diff_time' => $this->notice->created_at,
+            'module' => 'NOTICE',
+            'icon' => 'bi bi-journal-text'
         ];
     }
 }

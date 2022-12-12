@@ -210,6 +210,14 @@
                             <i :class="SidebarIcon.FISCAL_YEAR"></i><span>Fiscal Year</span>
                         </NavLink>
                     </li>
+                    <li>
+                        <NavLink 
+                            :href="route('admin.notices.index')" 
+                            :active="$page.component.startsWith('Admin/Notices')"
+                        >
+                            <i :class="SidebarIcon.NOTICE"></i><span>Notice</span>
+                        </NavLink>
+                    </li>
                 </ul>
             </li>
             <li class="nav-item">
@@ -255,6 +263,14 @@
                             :active="$page.component.startsWith('Admin/Suggestion/Index')"
                         >
                             <i :class="SidebarIcon.SUGGESTION"></i><span>Suggestion</span>
+                        </NavLink>
+                    </li>
+                    <li>
+                        <NavLink 
+                            :href="route('admin.notices.index')" 
+                            :active="$page.component.startsWith('Admin/Notices')"
+                        >
+                            <i :class="SidebarIcon.NOTICE"></i><span>Notice</span>
                         </NavLink>
                     </li>
                 </ul>

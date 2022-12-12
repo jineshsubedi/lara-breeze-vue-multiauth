@@ -5,6 +5,7 @@ namespace App\Notifications;
 use Illuminate\Bus\Queueable;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
+use Illuminate\Support\Str;
 
 class LeaveRequestNotification extends Notification
 {
@@ -62,7 +63,7 @@ class LeaveRequestNotification extends Notification
         return [
             'id' => $this->leave->id,
             'title' => $this->leave->leave_type ? $this->leave->leave_type->title : 'Leave Request',
-            'message' => $this->message,
+            'message' => Str::limit($this->message, 100),
             'url' => $this->link,
             'diff_time' => $this->leave->created_at,
             'module' => 'LEAVE REQUEST',
