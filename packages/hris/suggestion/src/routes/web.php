@@ -9,6 +9,7 @@ Route::group([
     'middleware' => ['web', 'auth', 'verified', 'isAdmin']
 ], function() {
     Route::resource('suggestionfor', 'SuggestionForController');
+    Route::resource('suggestions', 'SuggestionController');
 });
 
 Route::group([
@@ -18,6 +19,7 @@ Route::group([
     'middleware' => ['web', 'auth', 'verified', 'isSupervisor']
 ], function() {
     Route::resource('suggestionfor', 'SuggestionForController');
+    Route::resource('suggestions', 'SuggestionController');
 });
 
 Route::group([
@@ -27,5 +29,5 @@ Route::group([
     'middleware' => ['web', 'auth', 'verified', 'isStaff']
 ], function() {
     Route::resource('suggestionfor', 'SuggestionForController');
-    
+    Route::resource('suggestions', 'SuggestionController');
 });

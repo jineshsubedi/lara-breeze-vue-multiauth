@@ -29,6 +29,7 @@ export const SidebarIcon = Object.freeze({
     DAILY_TASK: "bi bi-bar-chart-steps",
     CALENDAR: "bi bi-calendar3",
     SUGGESTION_FOR: "bi bi-tags",
+    SUGGESTION: "bi bi-chat-left-quote",
 });
 
 </script>

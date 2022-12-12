@@ -8,6 +8,7 @@
     let AttendanceHandlerMenu = Ziggy.routes['admin.attendanceHandler.index'] ? true : false;
     let HolidayMenu = Ziggy.routes['admin.holidays.index'] ? true : false;
     let SuggestionForMenu = Ziggy.routes['admin.suggestionfor.index'] ? true : false;
+    let SuggestionMenu = Ziggy.routes['admin.suggestions.index'] ? true : false;
 
 </script>
 <template>
@@ -246,6 +247,14 @@
                             :active="$page.component.startsWith('Admin/DailyTasks')"
                         >
                             <i :class="SidebarIcon.DAILY_TASK"></i><span>Daily Tasks</span>
+                        </NavLink>
+                    </li>
+                    <li v-if="SuggestionMenu">
+                        <NavLink 
+                            :href="route('admin.suggestions.index')" 
+                            :active="$page.component.startsWith('Admin/Suggestion/Index')"
+                        >
+                            <i :class="SidebarIcon.SUGGESTION"></i><span>Suggestion</span>
                         </NavLink>
                     </li>
                 </ul>
