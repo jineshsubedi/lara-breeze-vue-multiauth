@@ -17,13 +17,14 @@ use App\Models\District;
 use App\Models\UserBank;
 use Inertia\Inertia;
 use App\Models\User;
+use Carbon\Carbon;
 
 class ProfileController extends Controller
 {
     protected $disk = 'public';
     protected $path = 'user';
 
-    public function index()
+    public function index(Request $request)
     {
         $user = User::with(['documents','address','detail','bank'])->find(auth()->id());
         $user = request()->user();
@@ -35,7 +36,7 @@ class ProfileController extends Controller
             $document[$k]['document'] = $doc->document;
             $document[$k]['document_path'] = $doc->document_path;
         }
-        $detail = [
+            $detail = [
             'marital_status' => $user->detail ? $user->detail->marital_status : '',
             'citizenship_no' => $user->detail ? $user->detail->citizenship_no : '',
             'blood_group' => $user->detail ? $user->detail->blood_group : '',
@@ -63,6 +64,7 @@ class ProfileController extends Controller
         $datas['marital_status'] = AppConstant::MARITAL_STATUS;
         $districts = District::get(['id', 'title']);
 
+        $notification = request()->user()->notifications()->paginate(10);
         return Inertia::render('Admin/Profile', [
             'user' => $user,
             'datas' => $datas,
@@ -71,6 +73,7 @@ class ProfileController extends Controller
             'address' => $address,
             'bank' => $bank,
             'document' => $document,
+            'notification' => $notification,
         ]);
     }
     public function updateProfile(ProfileRequest $request)

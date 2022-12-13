@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Common;
 
 use App\Http\Controllers\Controller;
 use App\Models\DailyTask;
+use App\Models\Notice;
 use App\Models\User;
 use App\Traits\PackageManager;
 use Carbon\Carbon;
@@ -67,6 +68,18 @@ class CalendarController extends Controller
                 'title' => '['.$ann->name.'] Work Anniversary',
                 'start' => $adate,
                 'end' => $adate,
+            ];
+        }
+        $notices = Notice::where('branch_id', auth()->user()->branch_id)
+                ->whereDate('start_date', '>=', $request->start)
+                ->whereDate('end_date', '<=', $request->end)
+                ->get(['id', 'title', 'start_date', 'end_date']);
+        foreach($notices as $notice)
+        {
+            $events[] = [
+                'title' => '[Notice] '.$notice->title,
+                'start' => $notice->start_date,
+                'end' => $notice->end_date,
             ];
         }
         return response($events);

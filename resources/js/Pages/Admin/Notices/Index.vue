@@ -72,6 +72,10 @@ function destroy(id) {
                                 <td scope="row">{{ notice.end_date }}</td>
                                 <td scope="row">
                                     <div class="btn-group">
+                                        <Link :href="route('admin.notices.show', notice.id)"
+                                            class="btn btn-sm btn-outline-info">
+                                            <i class="bi bi-eye"></i>
+                                        </Link>
                                         <Link :href="route('admin.notices.edit', notice.id)"
                                             class="btn btn-sm btn-outline-warning">
                                             <i class="bi bi-pencil-square"></i>

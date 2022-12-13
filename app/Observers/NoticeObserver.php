@@ -15,11 +15,11 @@ class NoticeObserver
     }
     public function created(Notice $notice)
     {
-        $this->noticeNotification($notice);
+        // $this->noticeNotification($notice);
     }
     public function updated(Notice $notice)
     {
-        $this->noticeNotification($notice);
+        // $this->noticeNotification($notice);
     }
 
     public function noticeNotification($notice)
@@ -36,15 +36,15 @@ class NoticeObserver
     {
         if($user->staff_type == 1)
         {
-            return route('admin.attendances.show', $id);
+            return route('admin.notices.show', $id);
         }
         if($user->staff_type == 2)
         {
-            return route('supervisor.attendances.show', $id);
+            return route('supervisor.notices.show', $id);
         }
         if($user->staff_type == 3)
         {
-            return route('staffs.attendances.show', $id);
+            return route('staffs.notices.show', $id);
         }
     }
 }

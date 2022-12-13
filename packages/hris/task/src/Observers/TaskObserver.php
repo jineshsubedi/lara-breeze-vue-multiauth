@@ -63,7 +63,7 @@ class TaskObserver
     {
         $task->load(['fromUser:id,name', 'toUser:id,name']);
         $user = User::find($task->task_to);
-        $message = $task->fromUser->name.' Has Deleted a Task Assigned to You]';
+        $message = $task->fromUser->name.' Has Deleted a Task Assigned to You';
         $link = '';
         Notification::send($user, new TaskNotification($task, $message, $link));
     }

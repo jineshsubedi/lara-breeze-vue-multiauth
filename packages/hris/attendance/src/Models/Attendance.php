@@ -249,7 +249,7 @@ class Attendance extends Model
     }
     private function generateClass($location)
     {
-        $primary_location = auth()->user()->address ? auth()->user()->address->primary_location : '27.6660224, 85.377024';
+        $primary_location = auth()->user()->address->primary_location ? auth()->user()->address->primary_location : '27.6660224, 85.377024';
         $primary = array_map('trim', explode(',', $primary_location));
         $mylocation = array_map('trim', explode(',', $location));
         $distance = $this->getDistance($primary[0], $primary[1], $mylocation[0], $mylocation[1], 'K');
@@ -262,7 +262,7 @@ class Attendance extends Model
     } 
     private function generateDistanceClass($location)
     {
-        $primary_location = auth()->user()->address ? auth()->user()->address->primary_location : '27.6660224, 85.377024';
+        $primary_location = auth()->user()->address->primary_location ? auth()->user()->address->primary_location : '27.6660224, 85.377024';
         $primary = array_map('trim', explode(',', $primary_location));
         $mylocation = array_map('trim', explode(',', $location));
         $distance = $this->getDistance($primary[0], $primary[1], $mylocation[0], $mylocation[1], 'K');
@@ -271,7 +271,7 @@ class Attendance extends Model
     } 
     public function generateDistance($location)
     {
-        $primary_location = auth()->user()->address ? auth()->user()->address->primary_location : '27.6660224, 85.377024';
+        $primary_location = auth()->user()->address->primary_location ? auth()->user()->address->primary_location : '27.6660224, 85.377024';
         $primary = array_map('trim', explode(',', $primary_location));
         $mylocation = array_map('trim', explode(',', $location));
         $distance = $this->getDistance($primary[0], $primary[1], $mylocation[0], $mylocation[1], 'K');

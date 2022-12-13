@@ -14,18 +14,10 @@ class UserDocument extends Model
 
     public function getDocumentPathAttribute()
     {
-        $findme   = 'http';
-        $pos = strpos($this->document, $findme);
-
-        if ($pos !== false)
-        {
-            return $this->document;
-        }
-        if (Storage::exists($this->document))
+        if ($this->document != '' && Storage::exists($this->document))
         {
             return Storage::url($this->document);
         }
-
         return '';
     }
 }

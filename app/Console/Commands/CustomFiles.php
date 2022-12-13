@@ -12,7 +12,7 @@ class CustomFiles extends Command
      *
      * @var string
      */
-    protected $signature = 'make:jns {model} {--m} {controllerDir?} {viewDir?}';
+    protected $signature = 'make:hris {model} {--m} {controllerDir?} {viewDir?}';
 
     /**
      * The console command description.
