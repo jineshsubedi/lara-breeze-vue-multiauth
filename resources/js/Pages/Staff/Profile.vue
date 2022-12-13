@@ -1,6 +1,9 @@
 <script setup>
 import StaffLayout from "@/Layouts/StaffLayout.vue";
 import { Head, Link, useForm  } from "@inertiajs/inertia-vue3";
+import moment from 'moment';
+import { Inertia } from '@inertiajs/inertia'
+import Pagination from "@/Components/Pagination.vue";
 
 const props = defineProps({
     'user' : Object,
@@ -10,6 +13,7 @@ const props = defineProps({
     'address' : Object,
     'bank' : Object,
     'document' : Object,
+    'notification': Object
 });
 
 const form = useForm({
@@ -102,6 +106,29 @@ function mapLocation(location)
 {
     form.home_location = location.latLng.lat()+','+location.latLng.lng()
 }
+function toUpperCase(value)
+{
+    return value.toUpperCase();
+}
+function humanTime(value)
+{
+    return moment(value).fromNow();
+}
+function markAsRead(id = '', url = '')
+{
+    axios.post(route('markNotification'), 
+        {
+            id: id
+        }
+    )
+    .then(res => {
+        Inertia.visit(url, {
+            method: 'get'
+        })
+    }).catch(err => {
+        console.log(err)
+    })
+}
 </script>
 <template>
     <Head title="Profile" />
@@ -156,10 +183,10 @@ function mapLocation(location)
                         <div class="card-header">
                             <ul class="nav nav-tabs nav-tabs-bordered">
                                 <li class="nav-item">
-                                    <button class="nav-link" data-bs-toggle="tab" data-bs-target="#profile-overview">Notification</button>
+                                    <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#profile-overview">Notification</button>
                                 </li>
                                 <li class="nav-item">
-                                    <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#profile-edit">Basic Information</button>
+                                    <button class="nav-link" data-bs-toggle="tab" data-bs-target="#profile-edit">Basic Information</button>
                                 </li>
                                 <li class="nav-item">
                                     <button class="nav-link" data-bs-toggle="tab" data-bs-target="#contact">Contact Information</button>
@@ -178,11 +205,19 @@ function mapLocation(location)
                         <form class="form-horizontal" @submit.prevent="submitProfileUpdateForm" enctype="multipart/form-data">
                         <div class="card-body pt-3">
                             <div class="tab-content pt-2">
-                                <div class="tab-pane fade profile-overview" id="profile-overview">
+                                <div class="tab-pane fade show active profile-overview" id="profile-overview">
                                     <h5 class="card-title">Notification</h5>
-                                    <p class="small fst-italic">Sunt est soluta temporibus accusantium neque nam maiores cumque temporibus. Tempora libero non est unde veniam est qui dolor. Ut sunt iure rerum quae quisquam autem eveniet perspiciatis odit. Fuga sequi sed ea saepe at unde.</p>
+                                    <div v-for="(notify,index) in notification.data"  @click="markAsRead(notify.id, notify.data.url)">
+                                        <div class="alert border-success alert-dismissible fade show">
+                                            <i :class="notify.data.icon"></i>
+                                            {{notify.data.title}}
+                                            <p v-html="notify.data.message"></p>   
+                                            <button type="button" class="btn-close text-primary"><i class="bi bi-eye"></i></button>
+                                        </div>
+                                    </div>
+                                    <Pagination class="mt-6" :links="notification.links" :only="['notification']" preseveState="true" />
                                 </div>
-                                <div class="tab-pane fade show active profile-edit pt-3" id="profile-edit">
+                                <div class="tab-pane fade profile-edit pt-3" id="profile-edit">
                                     <div class="row mb-3">
                                         <label for="fullName" class="col-md-4 col-lg-3 col-form-label">Full Name</label>
                                         <div class="col-md-8 col-lg-9">

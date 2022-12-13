@@ -12,6 +12,8 @@ Route::prefix('profile')->controller(ProfileController::class)->group(function (
 });
 
 Route::resource('dailytasks', 'DailyTaskController');
+Route::post('dailytasks_approve', 'DailyTaskController@approve')->name('dailytasks.approve');
+Route::post('dailytasks_approveById/{id}', 'DailyTaskController@approveById')->name('dailytasks.approveById');
 
 Route::resource('users', 'UsersController');
 

@@ -210,7 +210,7 @@ function markAsRead(id = '', url = '')
                                     <div v-for="(notify,index) in notification.data"  @click="markAsRead(notify.id, notify.data.url)">
                                         <div class="alert border-success alert-dismissible fade show">
                                             <i :class="notify.data.icon"></i>
-                                            {{notify.data.title}}
+                                            {{toUpperCase(notify.data.title)}}
                                             <p v-html="notify.data.message"></p>   
                                             <button type="button" class="btn-close text-primary"><i class="bi bi-eye"></i></button>
                                         </div>

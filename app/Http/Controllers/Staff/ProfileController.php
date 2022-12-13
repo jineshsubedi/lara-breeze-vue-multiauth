@@ -63,6 +63,7 @@ class ProfileController extends Controller
         $datas['genders'] = ['Male','Female'];
         $datas['marital_status'] = ['Married','Unmarried'];
         $districts = District::get(['id', 'title']);
+        $notification = request()->user()->notifications()->paginate(10);
 
         return Inertia::render('Staff/Profile', [
             'user' => $user,
@@ -72,6 +73,7 @@ class ProfileController extends Controller
             'address' => $address,
             'bank' => $bank,
             'document' => $document,
+            'notification' => $notification,
         ]);
     }
     public function updateProfile(ProfileRequest $request)

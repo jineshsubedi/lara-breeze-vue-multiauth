@@ -9,8 +9,9 @@ use Illuminate\Http\Request;
 use App\Library\MyFunction;
 use App\Models\DailyTask;
 use App\Models\UserKra;
-use Carbon\Carbon;
 use Inertia\Inertia;
+use App\Models\User;
+use Carbon\Carbon;
 
 class DailyTaskController extends Controller
 {
@@ -20,16 +21,25 @@ class DailyTaskController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $query = DailyTask::with(['kra']);
-
-        $filter = $this->filterQuery($query);
+        $userIds = User::active()->where('supervisor_id', auth()->id())->pluck('id');
+        $query = DailyTask::with(['kra', 'user']);
+        $filter = $this->filterQuery($query, $userIds);
         $dtasks = $filter->orderBy('created_at', 'desc')->paginate(20)->withQueryString();
         $kras = UserKra::where('user_id', auth()->id())->get(['id', 'title']);
+        $staffs = User::active()
+                ->where('supervisor_id', auth()->id())
+                ->orWhere('id', auth()->id())
+                ->get(['id', 'name']);
+        $aprovalCount = DailyTask::whereIn('user_id', $userIds)->where('status', '0')->count();
+
         return Inertia::render('Admin/DailyTasks/Index', [
             'dtasks' => $dtasks,
             'kras' => $kras,
+            'staffs' => $staffs,
+            'aprovalCount' => $aprovalCount,
+            'filters' => $request->only(['work_date', 'staff', 'status', 'type'])
         ]);
     }
 
@@ -98,9 +108,12 @@ class DailyTaskController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(DailyTask $dailytask)
     {
-        //
+        $dailytask->load(['kra:id,title', 'user:id,name']);
+        return Inertia::render('Admin/DailyTasks/Show', [
+            'dailytask' => $dailytask,
+        ]);
     }
 
     /**
@@ -180,23 +193,58 @@ class DailyTaskController extends Controller
         return back()->with('success', 'Daily Task Deleted Successfully');
     }
 
-    private function filterQuery($query)
+    public function approve(Request $request)
     {
-        if(request()->filled('staff')) {
+        if (is_array($request->selected) && count($request->selected) > 0) {
+            for ($i = 0; $i < count($request->selected); $i++) {
+                $dtask = DailyTask::where('id', $request->selected[$i])
+                ->where('user_id', '!=', auth()->id())->where('status', '0')->first();
+                if(isset($dtask->id))
+                    $dtask->update(['status' => '1', 'estimated_duration'=> $dtask->duration]);
+            }
+            return back()->with('info', 'Approved');
+        }
+    }
+
+    public function approveById(Request $request, $id)
+    {
+        $this->validate($request, [
+            'estimated_duration' => 'required'
+        ]);
+        $dtask = DailyTask::findOrFail($id);
+        $dtask->update(['estimated_duration' => $request->estimated_duration, 'status' => '1']);
+        return back()->with('success', 'Daily Task Approved');
+    }
+
+    private function filterQuery($query, $userIds)
+    {
+        
+        if(request()->filled('type')) {
+            if(request()->type == 1)
+            {
+                $query->where('user_id', auth()->id());
+            }
+            else if(request()->type == 2)
+            {
+                $query->whereIn('user_id', $userIds)->where('status', '0');
+            }else{
+                $query->whereIn('user_id', $userIds)->orWhere('user_id', auth()->id());
+            }   
+        }else if(request()->filled('staff')) {
             $query->where('user_id', request()->staff);
+        }
+        else{
+            $query->whereIn('user_id', $userIds)->orWhere('user_id', auth()->id());
+        }
+        if(request()->filled('work_date')) {
+            $query->whereDate('start_time', request()->work_date);
         }
         if(request()->filled('status')){
             if(request()->status != 'all')
             {
                 $query->where('status', request()->status);
             }
-        }else{
-            $query->where('status', '0');
         }
-        if(request()->filled('work_date')) {
-            $query->whereDate('start_time', request()->work_date);
-        }
-
         return $query;
     }
 }

@@ -1,12 +1,13 @@
 <script setup>
 import { useForm } from "@inertiajs/inertia-vue3";
+import moment from 'moment';
 
 const props = defineProps({
     url: String,
     kras: Array
 })
 const form = useForm({
-    work_date: null,
+    work_date: moment().format("YYYY-MM-DD"),
     start_time: null,
     end_time: null,
     kra: null,
@@ -36,7 +37,7 @@ function submitTodayTask() {
                     <div class="row g-3">
                         <div class="col-md-12">
                             <label for="workdate" class="form-label">Work Date</label>
-                            <input type="date" class="form-control" id="workdate" max="" v-model="form.work_date" >
+                            <input type="date" class="form-control" id="workdate" v-model="form.work_date" disabled>
                             <div
                                 class="text-red-400 text-sm"
                                 v-if="form.errors.work_date"

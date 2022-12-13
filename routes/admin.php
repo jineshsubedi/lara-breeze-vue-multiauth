@@ -17,6 +17,8 @@ Route::resource('setting', 'SettingController')->only(['index', 'update']);
 Route::resource('users', 'UsersController');
 
 Route::resource('dailytasks', 'DailyTaskController');
+Route::post('dailytasks_approve', 'DailyTaskController@approve')->name('dailytasks.approve');
+Route::post('dailytasks_approveById/{id}', 'DailyTaskController@approveById')->name('dailytasks.approveById');
 Route::resource('branches', 'BranchController');
 
 Route::get('branch/{id}/setting', 'BranchController@getSetting')->name('branch.getSetting');
