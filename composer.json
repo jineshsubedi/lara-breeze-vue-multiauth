@@ -40,7 +40,8 @@
             "Hris\\Task\\" : "packages/hris/task/src",
             "Hris\\Attendance\\" : "packages/hris/attendance/src",
             "Hris\\Holiday\\" : "packages/hris/holiday/src",
-            "Hris\\Suggestion\\" : "packages/hris/suggestion/src"
+            "Hris\\Suggestion\\" : "packages/hris/suggestion/src",
+            "Hris\\Survey\\" : "packages/hris/survey/src"
         }
     },
     "scripts": {

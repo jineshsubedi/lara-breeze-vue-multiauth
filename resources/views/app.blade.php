@@ -22,6 +22,9 @@
         <link href="{{asset('assets/css/style.css')}}" rel="stylesheet">
         <!-- Scripts -->
         <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+        <style>
+            .pull-right{float:right}
+        </style>
         @routes
         @vite('resources/js/app.js')
         @inertiaHead

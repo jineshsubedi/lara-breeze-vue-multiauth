@@ -198,7 +198,8 @@ return [
         Hris\Task\TaskServiceProvider::class,
         Hris\Attendance\AttendanceServiceProvider::class,
         Hris\Holiday\HolidayServiceProvider::class,
-        Hris\Suggestion\SuggestionServiceProvider::class
+        Hris\Suggestion\SuggestionServiceProvider::class,
+        Hris\Survey\SurveyServiceProvider::class
     ],
 
     /*

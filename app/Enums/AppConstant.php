@@ -116,4 +116,15 @@ class AppConstant
         ['value' => '2', 'title' => 'Canceled']
     ];
 
+    const FORM_TYPE = [
+        ['value' => 'text', 'title' => 'Text'],
+        ['value' => 'select', 'title' => 'Select'],
+        ['value' => 'textarea', 'title' => 'Textarea'],
+        ['value' => 'radio', 'title' => 'Radio'],
+        ['value' => 'checkbox', 'title' => 'Checkbox'],
+        ['value' => 'email', 'title' => 'Email'],
+        ['value' => 'date', 'title' => 'Date'],
+        ['value' => 'file', 'title' => 'File'],
+    ];
+
 }

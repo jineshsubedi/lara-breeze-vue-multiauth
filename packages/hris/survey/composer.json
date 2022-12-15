@@ -1,0 +1,25 @@
+{
+    "name": "hris/survey",
+    "description": "this is hris dynamic survey form",
+    "type": "project",
+    "license": "MIT",
+    "autoload": {
+        "psr-4": {
+            "Hris\\Survey\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "jinesh subedi",
+            "email": "jinesh1094@gmail.com"
+        }
+    ],
+    "require": {},
+    "extra": {
+        "Laravel": {
+            "Providers" : [
+                "Hris\\Survey\\SurveyServiceProvider"
+            ]
+        }
+    }
+}
