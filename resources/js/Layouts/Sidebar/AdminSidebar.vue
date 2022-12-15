@@ -124,6 +124,14 @@
                     <li class="nav-heading">Booking Configuration</li>
                     <li class="nav-heading">Travel Configuration</li>
                     <li class="nav-heading">Survey Configuration</li>
+                    <li v-if="SurveyMenu && $page.props.can.includes('SuperAdmin')">
+                        <NavLink 
+                            :href="route('admin.surveys.index')" 
+                            :active="$page.component.startsWith('Admin/Surveys')"
+                        >
+                            <i :class="SidebarIcon.SURVEY"></i><span>Custom Survey</span>
+                        </NavLink>
+                    </li>
                 </ul>
             </li>
 
@@ -220,6 +228,14 @@
                             <i :class="SidebarIcon.NOTICE"></i><span>Notice</span>
                         </NavLink>
                     </li>
+                    <li v-if="SurveyMenu">
+                        <NavLink 
+                            :href="route('admin.surveys.index')" 
+                            :active="$page.component.startsWith('Admin/Surveys')"
+                        >
+                            <i :class="SidebarIcon.SURVEY"></i><span>Custom Survey</span>
+                        </NavLink>
+                    </li>
                 </ul>
             </li>
             <li class="nav-item">
@@ -273,14 +289,6 @@
                             :active="$page.component.startsWith('Admin/Notices')"
                         >
                             <i :class="SidebarIcon.NOTICE"></i><span>Notice</span>
-                        </NavLink>
-                    </li>
-                    <li v-if="SurveyMenu">
-                        <NavLink 
-                            :href="route('admin.surveys.index')" 
-                            :active="$page.component.startsWith('Admin/Surveys')"
-                        >
-                            <i :class="SidebarIcon.SURVEY"></i><span>Custom Survey</span>
                         </NavLink>
                     </li>
                 </ul>

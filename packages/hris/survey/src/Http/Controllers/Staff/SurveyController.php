@@ -2,28 +2,42 @@
 
 namespace Hris\Survey\Http\Controllers\Staff;
 
+use Hris\Survey\Imports\SurveyQuestionBulkImport;
+use Hris\Survey\Requests\SurveyQuestionRequest;
 use Hris\Survey\Requests\SurveyRequest;
+use Hris\Survey\Models\SurveyQuestion;
 use App\Http\Controllers\Controller;
+use Maatwebsite\Excel\Facades\Excel;
 use Hris\Survey\Models\Survey;
+use Illuminate\Http\Request;
+use App\Enums\AppConstant;
+use App\Models\Branch;
 use Inertia\Inertia;
 
 class SurveyController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('role:HrHandler');
+    }
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
         $query = Survey::query();
+        $query->with(['branch:id,name'])->withCount('question');
         $filter = $this->filterQuery($query);
         $surveys = $filter->latest('id', 'desc')
                           ->paginate(20)
                           ->withQueryString();
-
+        $branches = Branch::branchList();
         return Inertia::render('Staff/Surveys/Index', [
-            'surveys' => $surveys
+            'surveys' => $surveys,
+            'branches' => $branches,
+            'filters' => $request->only(['title', 'branch', 'from', 'to'])
         ]);
 
     }
@@ -35,7 +49,10 @@ class SurveyController extends Controller
      */
     public function create()
     {
-        return Inertia::render('Staff/Surveys/Create');
+        $data['status'] = AppConstant::YN;
+        return Inertia::render('Staff/Surveys/Create', [
+            'data' => $data
+        ]);
     }
 
 
@@ -81,8 +98,10 @@ class SurveyController extends Controller
      */
     public function edit(Survey $survey)
     {
+        $data['status'] = AppConstant::YN;
         return Inertia::render('Staff/Surveys/Edit', [
-            'survey' => $survey
+            'survey' => $survey,
+            'data' => $data,
         ]);
     }
 
@@ -109,11 +128,83 @@ class SurveyController extends Controller
         if(!auth()->user()->roles->where('name', 'SuperAdmin')->first())
         {
             $query->where('branch_id', auth()->user()->branch_id);
+        }else{
+            if(request()->filled('branch')) {
+                $query->where('branch_id', request()->branch);
+            }
         }
-        if(request()->filled('branch')) {
-            $query->where('branch_id', request()->branch);
+        if(request()->filled('title')) {
+            $query->where('title', 'LIKE', '%'.request()->title.'%');
+        }
+        if(request()->filled('from')) {
+            $query->whereDate('start_date', '>=', request()->from);
+        }
+        if(request()->filled('to')) {
+            $query->whereDate('start_date', '<=', request()->to);
         }
         return $query;
+    }
+
+    public function getQuestion($id)
+    {
+        $survey = Survey::findOrFail($id);
+        $questions = SurveyQuestion::where('survey_id', $id)->orderBy('sort')->get();
+        $data['required'] = AppConstant::YN;
+        $data['type'] = AppConstant::FORM_TYPE;
+        $data['sample'] = url('assets/files/sampleSurveyQuestion.xlsx');
+        return Inertia::render('Staff/Surveys/Question', [
+            'survey' => $survey,
+            'questions' => $questions,
+            'data' => $data,
+        ]);
+    }
+
+    public function postQuestion(SurveyQuestionRequest $request, $id)
+    {
+        $survey = Survey::findOrFail($id);
+        SurveyQuestion::create([
+            'survey_id' => $survey->id
+        ]   + $request->validated()); 
+        return back()->with('success', 'Question Added');
+    }
+
+    public function deleteQuestion($id)
+    {
+        $question = SurveyQuestion::find($id);
+        $question->delete();
+        return back()->with('success', 'Question Deleted');
+    }
+
+    public function autocomplete(Request $request, $id)
+    {
+        $survey = Survey::findOrFail($id);
+        $results[] = ['id' => 0, 'value' => 'ROOT'];
+        $term = $request->term;
+        $queries = SurveyQuestion::where('label', 'LIKE', $term.'%')
+                            ->where('survey_id', $survey->id)
+                            ->select('id','label')
+                            ->groupBy('label', 'id')
+                            ->take(10)
+                            ->get();
+
+        foreach ($queries as $query)
+        {
+            $results[] = [ 'id' => $query->id, 'value' => $query->label ];
+        }
+        return response()->json($results);
+    }
+    public function bulkimport(Request $request, $id)
+    {
+        $this->validate($request, [
+            'document' => 'required|mimes:xlsx,xls'
+        ]);
+        $survey = Survey::findOrFail($id);
+        $import = Excel::import(new SurveyQuestionBulkImport($id), request()->file('document'));
+		if(!$import)
+		{
+			return back()->with('danger', 'Something Went Wrong!');
+		}
+		return back()->with('success', 'Bulk Import Complete!');
     }
 
 }

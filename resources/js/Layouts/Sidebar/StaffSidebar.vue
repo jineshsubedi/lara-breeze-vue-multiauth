@@ -7,6 +7,7 @@
     let HolidayMenu = Ziggy.routes['staffs.holidays.index'] ? true : false;
     let SuggestionForMenu = Ziggy.routes['staffs.suggestionfor.index'] ? true : false;
     let SuggestionMenu = Ziggy.routes['staffs.suggestions.index'] ? true : false;
+    let SurveyMenu = Ziggy.routes['staffs.surveys.index'] ? true : false;
 
 </script>
 <template>
@@ -99,6 +100,14 @@
                             :active="$page.component.startsWith('Staff/Notices')"
                         >
                             <i :class="SidebarIcon.NOTICE"></i><span>Notice</span>
+                        </NavLink>
+                    </li>
+                    <li v-if="SurveyMenu">
+                        <NavLink 
+                            :href="route('staffs.surveys.index')" 
+                            :active="$page.component.startsWith('Staff/Surveys')"
+                        >
+                            <i :class="SidebarIcon.SURVEY"></i><span>Custom Survey</span>
                         </NavLink>
                     </li>
                 </ul>

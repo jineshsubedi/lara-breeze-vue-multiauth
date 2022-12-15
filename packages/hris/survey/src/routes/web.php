@@ -26,6 +26,9 @@ Route::group([
     Route::resource('surveys', 'SurveyController');
     Route::get('survey/{id}/question', 'SurveyController@getQuestion')->name('surveys.getQuestion');
     Route::post('survey/{id}/question', 'SurveyController@postQuestion')->name('surveys.postQuestion');
+    Route::delete('survey_question/{id}', 'SurveyController@deleteQuestion')->name('surveys.deleteQuestion');
+    Route::post('survey_question/{id}', 'SurveyController@autocomplete')->name('surveys.autocomplete');
+    Route::post('survey_question/bulk/{id}', 'SurveyController@bulkimport')->name('surveys.bulkimport');
     
     
 });
@@ -39,5 +42,8 @@ Route::group([
     Route::resource('surveys', 'SurveyController');
     Route::get('survey/{id}/question', 'SurveyController@getQuestion')->name('surveys.getQuestion');
     Route::post('survey/{id}/question', 'SurveyController@postQuestion')->name('surveys.postQuestion');
+    Route::delete('survey_question/{id}', 'SurveyController@deleteQuestion')->name('surveys.deleteQuestion');
+    Route::post('survey_question/{id}', 'SurveyController@autocomplete')->name('surveys.autocomplete');
+    Route::post('survey_question/bulk/{id}', 'SurveyController@bulkimport')->name('surveys.bulkimport');
     
 });
