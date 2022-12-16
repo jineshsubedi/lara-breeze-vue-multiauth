@@ -68,7 +68,7 @@ class NoticeNotification extends Notification
             'url' => $this->link,
             'diff_time' => $this->notice->created_at,
             'module' => 'NOTICE',
-            'icon' => 'bi bi-journal-text'
+            'icon' => 'bi bi-journal-text text-primary'
         ];
     }
 }

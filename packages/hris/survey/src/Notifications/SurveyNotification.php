@@ -6,19 +6,26 @@ use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
+use Illuminate\Support\Str;
 
 class SurveyNotification extends Notification
 {
     use Queueable;
+
+    protected $survey;
+    protected $message;
+    protected $link;
 
     /**
      * Create a new notification instance.
      *
      * @return void
      */
-    public function __construct()
+    public function __construct($survey, $message, $link)
     {
-        //
+        $this->survey = $survey;
+        $this->link = $link;
+        $this->message = $message;
     }
 
     /**
@@ -55,7 +62,13 @@ class SurveyNotification extends Notification
     public function toArray($notifiable)
     {
         return [
-            //
+            'id' => $this->survey->id,
+            'title' => $this->survey->title,
+            'message' => Str::limit($this->message, 100),
+            'url' => $this->link,
+            'diff_time' => $this->survey->created_at,
+            'module' => 'SURVEY',
+            'icon' => 'bi bi-chat-right-text text-info'
         ];
     }
 }

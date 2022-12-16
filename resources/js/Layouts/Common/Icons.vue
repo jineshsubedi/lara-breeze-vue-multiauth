@@ -31,7 +31,7 @@ export const SidebarIcon = Object.freeze({
     SUGGESTION_FOR: "bi bi-tags",
     SUGGESTION: "bi bi-chat-left-quote",
     NOTICE: "bi bi-journal-text",
-    SURVEY: "bi bi-journal-text",
+    SURVEY: "bi bi-chat-right-text",
 });
 
 </script>
