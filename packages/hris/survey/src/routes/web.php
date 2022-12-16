@@ -15,6 +15,13 @@ Route::group([
     Route::post('survey_question/{id}', 'SurveyController@autocomplete')->name('surveys.autocomplete');
     Route::post('survey_question/bulk/{id}', 'SurveyController@bulkimport')->name('surveys.bulkimport');
 
+    Route::get('mysurveys', 'SurveyAnswerController@index')->name('mysurveys.index');
+    Route::get('mysurveys/{id}', 'SurveyAnswerController@show')->name('mysurveys.show');
+    Route::post('mysurveys/{id}', 'SurveyAnswerController@store')->name('mysurveys.store');
+
+    Route::get('surveys/{id}/applicants', 'SurveyController@participants')->name('surveys.participants');
+    Route::get('surveys/{id}/applicants/{user_id}', 'SurveyController@participants_detail')->name('surveys.participants_detail');
+
 });
 
 Route::group([
@@ -30,7 +37,12 @@ Route::group([
     Route::post('survey_question/{id}', 'SurveyController@autocomplete')->name('surveys.autocomplete');
     Route::post('survey_question/bulk/{id}', 'SurveyController@bulkimport')->name('surveys.bulkimport');
     
-    
+    Route::get('mysurveys', 'SurveyAnswerController@index')->name('mysurveys.index');
+    Route::get('mysurveys/{id}', 'SurveyAnswerController@show')->name('mysurveys.show');
+    Route::post('mysurveys/{id}', 'SurveyAnswerController@store')->name('mysurveys.store');
+
+    Route::get('surveys/{id}/applicants', 'SurveyController@participants')->name('surveys.participants');
+    Route::get('surveys/{id}/applicants/{user_id}', 'SurveyController@participants_detail')->name('surveys.participants_detail');
 });
 
 Route::group([
@@ -46,4 +58,10 @@ Route::group([
     Route::post('survey_question/{id}', 'SurveyController@autocomplete')->name('surveys.autocomplete');
     Route::post('survey_question/bulk/{id}', 'SurveyController@bulkimport')->name('surveys.bulkimport');
     
+    Route::get('mysurveys', 'SurveyAnswerController@index')->name('mysurveys.index');
+    Route::get('mysurveys/{id}', 'SurveyAnswerController@show')->name('mysurveys.show');
+    Route::post('mysurveys/{id}', 'SurveyAnswerController@store')->name('mysurveys.store');
+
+    Route::get('surveys/{id}/applicants', 'SurveyController@participants')->name('surveys.participants');
+    Route::get('surveys/{id}/applicants/{user_id}', 'SurveyController@participants_detail')->name('surveys.participants_detail');
 });

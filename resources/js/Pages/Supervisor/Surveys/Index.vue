@@ -226,9 +226,9 @@ watch(
                                                 <hr class="dropdown-divider" />
                                             </li>
                                             <li>
-                                                <Link :href="route('supervisor.surveys.edit', survey.id)"
+                                                <Link :href="route('supervisor.surveys.participants', survey.id)"
                                                     class="dropdown-item d-flex align-items-center">
-                                                    <i class="bi bi-person-lines-fill"></i> PARTICIPANTS
+                                                    <i class="bi bi-person-lines-fill"></i> PARTICIPANTS &nbsp; <span class="badge bg-danger">{{survey.answer.length}}</span>
                                                 </Link>
                                             </li>
                                             <li>

@@ -195,6 +195,14 @@
                             <i :class="SidebarIcon.SUGGESTION"></i><span>Suggestion</span>
                         </NavLink>
                     </li>
+                    <li v-if="SurveyMenu">
+                        <NavLink 
+                            :href="route('staffs.mysurveys.index')" 
+                            :active="$page.component.startsWith('Staff/Mysurveys')"
+                        >
+                            <i :class="SidebarIcon.SURVEY"></i><span>Survey</span>
+                        </NavLink>
+                    </li>
                 </ul>
             </li>
             <li class="nav-item">

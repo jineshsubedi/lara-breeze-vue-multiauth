@@ -1,5 +1,5 @@
 <script setup>
-import AdminLayout from "@/Layouts/AdminLayout.vue";
+import SupervisorLayout from "@/Layouts/SupervisorLayout.vue";
 import { Head, Link, useForm } from "@inertiajs/inertia-vue3";
 
 const form = useForm();
@@ -12,29 +12,26 @@ const props = defineProps({
 
 </script>
 <template>
-    <Head title="Survey Page" />
+    <Head title="My Survey Page" />
 
-    <AdminLayout>
+    <SupervisorLayout>
         <template #header>
             <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-               Survey
+               My Survey
             </h2>
         </template>
         <template #breadcrum>
             <ol class="breadcrumb">
                 <li class="breadcrumb-item">
-                    <Link :href="route('admin.dashboard')"> Home </Link>
+                    <Link :href="route('supervisor.dashboard')"> Home </Link>
                 </li>
-                <li class="breadcrumb-item">
+                <li class="breadcrumb-item active">
                     <Link
-                        :href="route('admin.surveys.index')"
+                        :href="route('supervisor.mysurveys.index')"
                         :only="['survey']"
                     >
                         My Survey
                     </Link>
-                </li>
-                <li class="breadcrumb-item active">
-                    <Link :href="route('admin.surveys.participants', survey.id)"> Participants </Link>
                 </li>
             </ol>
         </template>
@@ -49,7 +46,7 @@ const props = defineProps({
                 </div>
             </div>
         </div>
-    </AdminLayout>
+    </SupervisorLayout>
 </template>
 <style scoped>
 .question-box{

@@ -2,6 +2,7 @@
 
 namespace App\Console\Commands;
 
+use App\Enums\StaffType;
 use App\Models\Notice;
 use App\Models\User;
 use App\Notifications\NoticeNotification;
@@ -51,15 +52,15 @@ class NoticeCommand extends Command
 
     private function staffUrl($user, $id)
     {
-        if($user->staff_type == 1)
+        if($user->staff_type == StaffType::ADMIN->value)
         {
             return route('admin.notices.show', $id);
         }
-        if($user->staff_type == 2)
+        if($user->staff_type == StaffType::SUPERVISOR->value)
         {
             return route('supervisor.notices.show', $id);
         }
-        if($user->staff_type == 3)
+        if($user->staff_type == StaffType::STAFF->value)
         {
             return route('staffs.notices.show', $id);
         }

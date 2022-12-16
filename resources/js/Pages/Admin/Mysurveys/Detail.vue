@@ -1,6 +1,7 @@
 <script setup>
 import AdminLayout from "@/Layouts/AdminLayout.vue";
 import { Head, Link, useForm } from "@inertiajs/inertia-vue3";
+import Pagination from "@/Components/Pagination.vue";
 
 const form = useForm();
 const props = defineProps({
@@ -12,12 +13,12 @@ const props = defineProps({
 
 </script>
 <template>
-    <Head title="Survey Page" />
+    <Head title="My Survey Page" />
 
     <AdminLayout>
         <template #header>
             <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-               Survey
+               My Survey
             </h2>
         </template>
         <template #breadcrum>
@@ -25,16 +26,13 @@ const props = defineProps({
                 <li class="breadcrumb-item">
                     <Link :href="route('admin.dashboard')"> Home </Link>
                 </li>
-                <li class="breadcrumb-item">
+                <li class="breadcrumb-item active">
                     <Link
-                        :href="route('admin.surveys.index')"
+                        :href="route('admin.mysurveys.index')"
                         :only="['survey']"
                     >
                         My Survey
                     </Link>
-                </li>
-                <li class="breadcrumb-item active">
-                    <Link :href="route('admin.surveys.participants', survey.id)"> Participants </Link>
                 </li>
             </ol>
         </template>

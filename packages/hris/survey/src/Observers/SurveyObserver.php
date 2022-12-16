@@ -44,15 +44,15 @@ class SurveyObserver
     {
         if($user->staff_type == 1)
         {
-            return route('admin.surveys.show', $id);
+            return route('admin.mysurveys.show', $id);
         }
         if($user->staff_type == 2)
         {
-            return route('supervisor.surveys.show', $id);
+            return route('supervisor.mysurveys.show', $id);
         }
         if($user->staff_type == 3)
         {
-            return route('staffs.surveys.show', $id);
+            return route('staffs.mysurveys.show', $id);
         }
     }
 }

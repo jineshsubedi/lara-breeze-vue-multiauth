@@ -8,6 +8,7 @@ use Hris\Survey\Requests\SurveyRequest;
 use Hris\Survey\Models\SurveyQuestion;
 use App\Http\Controllers\Controller;
 use Maatwebsite\Excel\Facades\Excel;
+use Hris\Survey\Models\SurveyAnswer;
 use Hris\Survey\Models\Survey;
 use Illuminate\Http\Request;
 use App\Enums\AppConstant;
@@ -28,7 +29,9 @@ class SurveyController extends Controller
     public function index(Request $request)
     {
         $query = Survey::query();
-        $query->with(['branch:id,name'])->withCount('question');
+        $query->with(['answer' => function($query){
+            $query->groupBy('user_id', 'survey_id')->select('id', 'user_id', 'survey_id');
+        }])->withCount(['question']);
         $filter = $this->filterQuery($query);
         $surveys = $filter->latest('id', 'desc')
                           ->paginate(20)
@@ -205,6 +208,33 @@ class SurveyController extends Controller
 			return back()->with('danger', 'Something Went Wrong!');
 		}
 		return back()->with('success', 'Bulk Import Complete!');
+    }
+
+    public function participants($id)
+    {
+        $survey = Survey::findOrFail($id);
+        $participants = SurveyAnswer::with('user:id,name')->where('survey_id', $survey->id)
+                    ->groupBy('survey_id', 'user_id')
+                    ->get();
+        return Inertia::render('Staff/Surveys/Participants', [
+            'survey' => $survey,
+            'participants' => $participants,
+        ]);
+    }
+    public function participants_detail($id, $user_id)
+    {
+        $survey = Survey::findOrFail($id);
+        if($survey->branch_id != auth()->user()->branch_id)
+        {
+            return back()->with('warning', 'Invalid Survey');
+        }
+        $survey->load(['answer' => function($q) use($user_id){
+            $q->where('user_id', $user_id);
+        }]);
+        
+        return Inertia::render('Supervisor/Surveys/Show', [
+            'survey' => $survey
+        ]);
     }
 
 }
