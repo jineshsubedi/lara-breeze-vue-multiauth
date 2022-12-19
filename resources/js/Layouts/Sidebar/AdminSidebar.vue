@@ -299,6 +299,14 @@
                             <i :class="SidebarIcon.SURVEY"></i><span>Survey</span>
                         </NavLink>
                     </li>
+                    <li>
+                        <NavLink 
+                            :href="route('admin.organization_chart')" 
+                            :active="$page.component.startsWith('Admin/Orgchart')"
+                        >
+                            <i :class="SidebarIcon.ORG_CHART"></i><span>Organization Chart</span>
+                        </NavLink>
+                    </li>
                 </ul>
             </li>
             <li class="nav-item">

@@ -22,6 +22,7 @@
         <link href="{{asset('assets/css/style.css')}}" rel="stylesheet">
         <!-- Scripts -->
         <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+        <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
         <style>
             .pull-right{float:right}
         </style>

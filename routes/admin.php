@@ -41,3 +41,5 @@ Route::post('/handovers/acceptAll', 'LeaveHandoverController@acceptAll')->name('
 
 Route::get('/calender', 'CalendarController@index')->name('calendar');
 Route::resource('/notices', 'NoticeController');
+
+Route::get('/organization_chart', 'OrgChartController@index')->name('organization_chart');
