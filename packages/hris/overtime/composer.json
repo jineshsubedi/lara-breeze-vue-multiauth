@@ -1,11 +1,11 @@
 {
-    "name": "hris/adjustment",
-    "description": "hris adjuestment request",
+    "name": "hris/overtime",
+    "description": "hris overtime request",
     "type": "project",
     "license": "MIT",
     "autoload": {
         "psr-4": {
-            "Hris\\Adjustment\\": "src/"
+            "Hris\\Overtime\\": "src/"
         }
     },
     "authors": [
@@ -18,7 +18,7 @@
     "extra": {
         "Laravel": {
             "Providers" : [
-                "Hris\\Adjustment\\AdjustmentServiceProvider"
+                "Hris\\Overtime\\OvertimeServiceProvider"
             ]
         }
     }

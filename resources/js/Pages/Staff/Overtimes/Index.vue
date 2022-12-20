@@ -1,5 +1,5 @@
 <script setup>
-import AdminLayout from "@/Layouts/AdminLayout.vue";
+import StaffLayout from "@/Layouts/StaffLayout.vue";
 import { Head, Link, useForm } from "@inertiajs/inertia-vue3";
 import Pagination from "@/Components/Pagination.vue";
 import NavLink from "@/Components/NavLink.vue";
@@ -18,7 +18,7 @@ const rejectForm = useForm({
 const form = useForm();
 
 const props = defineProps({
-    adjustments: {
+    overtimes: {
         type: Object,
         default: () => ({}),
     },
@@ -36,25 +36,25 @@ let HrHandler = props.can.includes('HrHandler');
 
 function destroy(id) {
     if (confirm("Are you sure you want to Delete")) {
-        form.delete(route("admin.adjustments.destroy", id));
+        form.delete(route("staffs.overtimes.destroy", id));
     }
 }
 function sApproveForm(id)
 {
     if (confirm("Are you sure you want to Approve")) {
-        sApproveform.patch(route("admin.adjustments.status", id));
+        sApproveform.patch(route("staffs.overtimes.status", id));
     }
 }
 function hrApproveForm(id)
 {
     if (confirm("Are you sure you want to Approve")) {
-        hrApproveform.patch(route("admin.adjustments.status", id));
+        hrApproveform.patch(route("staffs.overtimes.status", id));
     }
 }
-function rejectAdjustmentForm(id)
+function rejectovertimeForm(id)
 {
     if (confirm("Are you sure you want to Reject")) {
-        rejectForm.patch(route("admin.adjustments.status", id));
+        rejectForm.patch(route("staffs.overtimes.status", id));
     }
 }
 let branch = ref(props.filters.branch)
@@ -66,7 +66,7 @@ let to = ref(props.filters.to)
 function loadFilter()
 {
     Inertia.get(
-        route('admin.adjustments.index'),
+        route('staffs.overtimes.index'),
         { branch: branch.value, from: from.value, to: to.value, category: category.value, staff: staff.value, type: props.filters.type },
         {
             preserveState: true,
@@ -78,42 +78,42 @@ function loadFilter()
 
 </script>
 <template>
-    <Head title="Adjustment Page" />
+    <Head title="Overtime Page" />
 
-    <AdminLayout>
+    <StaffLayout>
         <template #header>
             <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-                Adjustment
+                Overtime
             </h2>
         </template>
         <template #breadcrum>
             <ol class="breadcrumb">
                 <li class="breadcrumb-item">
-                    <Link :href="route('admin.dashboard')"> Home </Link>
+                    <Link :href="route('staffs.dashboard')"> Home </Link>
                 </li>
                 <li class="breadcrumb-item active">
-                    <Link :href="route('admin.adjustments.index')" :only="['adjustments']"> Adjustment </Link>
+                    <Link :href="route('staffs.overtimes.index')" :only="['overtimes']"> Overtime </Link>
                 </li>
             </ol>
         </template>
         <div class="container">
             <div class="text-right">
-                <Link :href="route('admin.adjustments.create')" class="btn btn-sm btn-outline-info">
-                    <i class="bi bi-plus"></i> New Adjustment
+                <Link :href="route('staffs.overtimes.create')" class="btn btn-sm btn-outline-info">
+                    <i class="bi bi-plus"></i> New Overtime
                 </Link>
             </div>
             <div class="card">
                 <div class="card-body">
-                    <h5 class="card-title">Adjustment</h5>
+                    <h5 class="card-title">Overtime</h5>
                     <ul class="nav nav-tabs">
                         <li class="nav-item">
-                            <NavLink :active="filters.type == 0 || filters.type == null" :href="route('admin.adjustments.index',{type: null})" >My Adjustments</NavLink>
+                            <NavLink :active="filters.type == 0 || filters.type == null" :href="route('staffs.overtimes.index',{type: null})" >My Overtimes</NavLink>
                         </li>
                         <li class="nav-item">
-                            <NavLink :active="filters.type == 1" :href="route('admin.adjustments.index', {type:1})" >SubOrdinate Adjustments</NavLink>
+                            <NavLink :active="filters.type == 1" :href="route('staffs.overtimes.index', {type:1})" >SubOrdinate Overtimes</NavLink>
                         </li>
                         <li class="nav-item" v-if="HrHandler">
-                            <NavLink :active="filters.type == 2" :href="route('admin.adjustments.index', {type:2})">Staffs Adjustment</NavLink>
+                            <NavLink :active="filters.type == 2" :href="route('staffs.overtimes.index', {type:2})">Staffs Overtime</NavLink>
                         </li>
                     </ul>
                     <div class="row mt-3">
@@ -154,59 +154,59 @@ function loadFilter()
                                 <th scope="col" v-if="SuperAdmin">Branch</th>
                                 <th scope="col">Name</th>
                                 <th scope="col">Login (Login - Logout)</th>
-                                <th scope="col">Time To Adjust</th>
-                                <th scope="col">Adjustment Reason</th>
-                                <th scope="col">Inform To</th>
+                                <th scope="col">Overtime Hour</th>
+                                <th scope="col">Overtime Reason</th>
+                                <th scope="col">Holiday</th>
                                 <th scope="col">Status</th>
                                 <th scope="col">Action</th>
                             </tr>
                         </thead>
                         <tbody>
                             <tr 
-                                v-for="(adjustment, index) in adjustments.data"
-                                :key="adjustment.id"
+                                v-for="(overtime, index) in overtimes.data"
+                                :key="overtime.id"
                             >
                                 <th scope="row">{{ ++index }}</th>
-                                <td scope="row" v-if="SuperAdmin">{{ adjustment.branch ? adjustment.branch.name : '' }}</td>
-                                <td scope="row">{{ adjustment.user ? adjustment.user.name : '' }}</td>
-                                <td scope="row">{{ adjustment.login_date }} ({{ adjustment.login_time }} - {{ adjustment.logout_time }})</td>
-                                <td scope="row">{{ adjustment.time_to_be_adjusted }}</td>
-                                <td scope="row">{{ adjustment.category ? adjustment.category.title : '' }}</td>
-                                <td scope="row">{{ adjustment.inform ? adjustment.inform.name : '' }}</td>
-                                <td scope="row"><p v-html="adjustment.status_label"></p></td>
+                                <td scope="row" v-if="SuperAdmin">{{ overtime.branch ? overtime.branch.name : '' }}</td>
+                                <td scope="row">{{ overtime.user ? overtime.user.name : '' }}</td>
+                                <td scope="row">{{ overtime.login_date }} ({{ overtime.login_time }} - {{ overtime.logout_time }})</td>
+                                <td scope="row">{{ overtime.ot_hour }}</td>
+                                <td scope="row">{{ overtime.category ? overtime.category.title : '' }}</td>
+                                <td scope="row">{{ overtime.holiday == 1 ? 'Yes' : 'No' }}</td>
+                                <td scope="row"><p v-html="overtime.status_label"></p></td>
                                 <td scope="row">
-                                    <div class="btn-group"  v-if="adjustment.user_id == $page.props.auth.user.id">
-                                        <Link :href="route('admin.adjustments.show', adjustment.id)"
+                                    <div class="btn-group"  v-if="overtime.user_id == $page.props.auth.user.id">
+                                        <Link :href="route('staffs.overtimes.show', overtime.id)"
                                             class="btn btn-sm btn-outline-info">
                                             <i class="bi bi-eye"></i>
                                         </Link>
-                                        <Link :href="route('admin.adjustments.edit', adjustment.id)"
+                                        <Link :href="route('staffs.overtimes.edit', overtime.id)"
                                             class="btn btn-sm btn-outline-warning"
-                                            v-if="adjustment.status == '0'">
+                                            v-if="overtime.status == '0'">
                                             <i class="bi bi-pencil-square"></i>
                                         </Link>
                                         <button
                                             class="btn btn-sm btn-outline-danger"
-                                            @click="destroy(adjustment.id)"
+                                            @click="destroy(overtime.id)"
                                         >
                                             <i class="bi bi-trash"></i>
                                         </button>
                                     </div>
-                                    <div class="btn-group" v-if="filters.type == '1' && adjustment.status == '0'">
-                                        <Link :href="route('admin.adjustments.show', adjustment.id)"
+                                    <div class="btn-group" v-if="filters.type == '1' && overtime.status == '0'">
+                                        <Link :href="route('staffs.overtimes.show', overtime.id)"
                                             class="btn btn-sm btn-outline-info">
                                             <i class="bi bi-eye"></i>
                                         </Link>
-                                        <button type="button" @click="sApproveForm(adjustment.id)" class="btn btn-sm btn-outline-success"><i class="bi bi-check2"></i></button>
-                                        <button type="button" @click="rejectAdjustmentForm(adjustment.id)" class="btn btn-sm btn-outline-danger"><i class="bi bi-x-lg"></i></button>
+                                        <button type="button" @click="sApproveForm(overtime.id)" class="btn btn-sm btn-outline-success"><i class="bi bi-check2"></i></button>
+                                        <button type="button" @click="rejectovertimeForm(overtime.id)" class="btn btn-sm btn-outline-danger"><i class="bi bi-x-lg"></i></button>
                                     </div>
-                                    <div class="btn-group" v-if="HrHandler && adjustment.status == '1'">
-                                        <Link :href="route('admin.adjustments.show', adjustment.id)"
+                                    <div class="btn-group" v-if="HrHandler && overtime.status == '1'">
+                                        <Link :href="route('staffs.overtimes.show', overtime.id)"
                                             class="btn btn-sm btn-outline-info">
                                             <i class="bi bi-eye"></i>
                                         </Link>
-                                        <button type="button" @click="hrApproveForm(adjustment.id)" class="btn btn-sm btn-outline-success"><i class="bi bi-check2"></i></button>
-                                        <button type="button" @click="rejectAdjustmentForm(adjustment.id)" class="btn btn-sm btn-outline-danger"><i class="bi bi-x-lg"></i></button>
+                                        <button type="button" @click="hrApproveForm(overtime.id)" class="btn btn-sm btn-outline-success"><i class="bi bi-check2"></i></button>
+                                        <button type="button" @click="rejectovertimeForm(overtime.id)" class="btn btn-sm btn-outline-danger"><i class="bi bi-x-lg"></i></button>
                                     </div>
                                 </td>
                             </tr>
@@ -214,7 +214,7 @@ function loadFilter()
                         <tfoot>
                             <tr>
                                 <td colspan="8">
-                                    <Pagination class="mt-6" :links="adjustments.links" />
+                                    <Pagination class="mt-6" :links="overtimes.links" />
                                 </td>
                             </tr>
                         </tfoot>
@@ -222,5 +222,5 @@ function loadFilter()
                 </div>
             </div>
         </div>
-    </AdminLayout>
+    </StaffLayout>
 </template>

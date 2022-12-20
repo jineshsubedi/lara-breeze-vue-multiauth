@@ -9,6 +9,7 @@
     let SuggestionMenu = Ziggy.routes['staffs.suggestions.index'] ? true : false;
     let SurveyMenu = Ziggy.routes['staffs.surveys.index'] ? true : false;
     let AdjustmentMenu = Ziggy.routes['staffs.adjustments.index'] ? true : false;
+    let OvertimeMenu = Ziggy.routes['staffs.overtimes.index'] ? true : false;
 
 </script>
 <template>
@@ -115,9 +116,18 @@
                     <li v-if="AdjustmentMenu">
                         <NavLink 
                             :href="route('staffs.adjustmentreasons.index')" 
-                            :active="$page.component.startsWith('Staff/adjustmentreasons')"
+                            :active="$page.component.startsWith('Staff/Adjustmentreasons')"
                         >
                             <i :class="SidebarIcon.ADJUSTMENT_FOR"></i><span>Adjustment Category</span>
+                        </NavLink>
+                    </li>
+                    <li class="nav-heading">Overtime Configuration</li>
+                    <li v-if="OvertimeMenu">
+                        <NavLink 
+                            :href="route('staffs.overtimereasons.index')" 
+                            :active="$page.component.startsWith('Staff/Overtimereasons')"
+                        >
+                            <i :class="SidebarIcon.OVERTIME_FOR"></i><span>Overtime Category</span>
                         </NavLink>
                     </li>
                 </ul>
@@ -177,9 +187,17 @@
                     <li v-if="AdjustmentMenu">
                         <NavLink 
                             :href="route('staffs.adjustments.index')" 
-                            :active="$page.component.startsWith('Staff/adjustments')"
+                            :active="$page.component.startsWith('Staff/Adjustments')"
                         >
                             <i :class="SidebarIcon.ADJUSTMENT"></i><span>Adjustment</span>
+                        </NavLink>
+                    </li>
+                    <li v-if="OvertimeMenu">
+                        <NavLink 
+                            :href="route('staffs.overtimes.index')" 
+                            :active="$page.component.startsWith('Staff/Overtimes')"
+                        >
+                            <i :class="SidebarIcon.OVERTIME"></i><span>Overtime</span>
                         </NavLink>
                     </li>
                 </ul>

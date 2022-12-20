@@ -9,6 +9,10 @@ use Inertia\Inertia;
 
 class AdjustmentreasonController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('role:HrHandler');
+    }
     /**
      * Display a listing of the resource.
      *

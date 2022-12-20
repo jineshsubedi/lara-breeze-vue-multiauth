@@ -1,13 +1,13 @@
 <?php
 
-namespace Hris\Adjustment\Http\Controllers\Supervisor;
+namespace Hris\Overtime\Http\Controllers\Supervisor;
 
 use App\Http\Controllers\Controller;
-use Hris\Adjustment\Models\Adjustmentreason;
-use Hris\Adjustment\Requests\AdjustmentreasonRequest;
+use Hris\Overtime\Models\Overtimereason;
+use Hris\Overtime\Requests\OvertimereasonRequest;
 use Inertia\Inertia;
 
-class AdjustmentreasonController extends Controller
+class OvertimereasonController extends Controller
 {
     public function __construct()
     {
@@ -20,14 +20,14 @@ class AdjustmentreasonController extends Controller
      */
     public function index()
     {
-        $query = Adjustmentreason::query();
+        $query = Overtimereason::query();
         $filter = $this->filterQuery($query);
-        $adjustmentreasons = $filter->latest('id', 'desc')
+        $overtimereasons = $filter->latest('id', 'desc')
                           ->paginate(20)
                           ->withQueryString();
 
-        return Inertia::render('Supervisor/Adjustmentreasons/Index', [
-            'adjustmentreasons' => $adjustmentreasons,
+        return Inertia::render('Supervisor/Overtimereasons/Index', [
+            'overtimereasons' => $overtimereasons,
         ]);
 
     }
@@ -39,37 +39,37 @@ class AdjustmentreasonController extends Controller
      */
     public function create()
     {
-        return Inertia::render('Supervisor/Adjustmentreasons/Create');
+        return Inertia::render('Supervisor/Overtimereasons/Create');
     }
 
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \App\Http\Requests\Adjustmentreason\AdjustmentreasonRequest $request
+     * @param  \App\Http\Requests\Overtimereason\OvertimereasonRequest $request
      *
      * @return \Illuminate\Http\Response
      */
-    public function store(AdjustmentreasonRequest $request)
+    public function store(OvertimereasonRequest $request)
     {
         foreach($request->category as $st)
         {
             $data = [
                 'title' => $st['title'],
             ];
-            Adjustmentreason::create($data);
+            Overtimereason::create($data);
         }
-        return redirect()->route('supervisor.adjustmentreasons.index')->with('success', 'Record Added!');
+        return redirect()->route('supervisor.overtimereasons.index')->with('success', 'Record Added!');
     }
 
 
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\Adjustmentreason  $adjustmentreason
+     * @param  \App\Models\Overtimereason  $overtimereason
      * @return \Illuminate\Http\Response
      */
-    public function show(Adjustmentreason $adjustmentreason)
+    public function show(Overtimereason $overtimereason)
     {
         //
     }
@@ -77,7 +77,7 @@ class AdjustmentreasonController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \App\Http\Requests\AdjustmentreasonRequest $request
+     * @param  \App\Http\Requests\OvertimereasonRequest $request
      *
      * @return \Illuminate\Http\Response
      */
@@ -86,31 +86,31 @@ class AdjustmentreasonController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Adjustmentreason  $adjustmentreason
+     * @param  \App\Overtimereason  $overtimereason
      * @return \Illuminate\Http\Response
      */
-    public function edit(Adjustmentreason $adjustmentreason)
+    public function edit(Overtimereason $overtimereason)
     {
-        return Inertia::render('Supervisor/Adjustmentreasons/Edit', [
-            'adjustmentreason' => $adjustmentreason
+        return Inertia::render('Supervisor/Overtimereasons/Edit', [
+            'overtimereason' => $overtimereason
         ]);
     }
 
-    public function update(AdjustmentreasonRequest $request, Adjustmentreason $adjustmentreason)
+    public function update(OvertimereasonRequest $request, Overtimereason $overtimereason)
     {
-        $adjustmentreason->update($request->validated());
-        return redirect()->route('supervisor.adjustmentreasons.index')->with('success', 'Record Updated');
+        $overtimereason->update($request->validated());
+        return redirect()->route('supervisor.overtimereasons.index')->with('success', 'Record Updated');
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\Adjustmentreason  $adjustmentreason
+     * @param  \App\Models\Overtimereason  $overtimereason
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Adjustmentreason $adjustmentreason)
+    public function destroy(Overtimereason $overtimereason)
     {
-        $adjustmentreason->delete();
+        $overtimereason->delete();
         return back()->with('success', 'Record Deleted');
     }
 

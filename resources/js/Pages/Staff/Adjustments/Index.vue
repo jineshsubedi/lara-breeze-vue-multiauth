@@ -192,7 +192,7 @@ function loadFilter()
                                             <i class="bi bi-trash"></i>
                                         </button>
                                     </div>
-                                    <div class="btn-group" v-if="adjustment.type == 1 && adjustment.status == '0'">
+                                    <div class="btn-group" v-if="filters.type == 1 && adjustment.status == '0'">
                                         <Link :href="route('staffs.adjustments.show', adjustment.id)"
                                             class="btn btn-sm btn-outline-info">
                                             <i class="bi bi-eye"></i>

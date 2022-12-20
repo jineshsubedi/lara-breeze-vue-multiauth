@@ -11,6 +11,7 @@
     let SuggestionMenu = Ziggy.routes['admin.suggestions.index'] ? true : false;
     let SurveyMenu = Ziggy.routes['admin.surveys.index'] ? true : false;
     let AdjustmentMenu = Ziggy.routes['admin.adjustments.index'] ? true : false;
+    let OvertimeMenu = Ziggy.routes['admin.overtimes.index'] ? true : false;
 
 </script>
 <template>
@@ -131,6 +132,15 @@
                             <i :class="SidebarIcon.ADJUSTMENT_FOR"></i><span>Adjustment Category</span>
                         </NavLink>
                     </li>
+                    <li class="nav-heading">Overtime Configuration</li>
+                    <li v-if="OvertimeMenu">
+                        <NavLink 
+                            :href="route('admin.overtimereasons.index')" 
+                            :active="$page.component.startsWith('Admin/overtimereasons')"
+                        >
+                            <i :class="SidebarIcon.OVERTIME_FOR"></i><span>Overtime Category</span>
+                        </NavLink>
+                    </li>
                     <li class="nav-heading">Booking Configuration</li>
                     <li class="nav-heading">Travel Configuration</li>
                     <li class="nav-heading">Survey Configuration</li>
@@ -204,6 +214,14 @@
                             :active="$page.component.startsWith('Admin/adjustments')"
                         >
                             <i :class="SidebarIcon.ADJUSTMENT"></i><span>Adjustment</span>
+                        </NavLink>
+                    </li>
+                    <li v-if="OvertimeMenu">
+                        <NavLink 
+                            :href="route('admin.overtimes.index')" 
+                            :active="$page.component.startsWith('Admin/overtimes')"
+                        >
+                            <i :class="SidebarIcon.OVERTIME"></i><span>Overtime</span>
                         </NavLink>
                     </li>
                 </ul>
