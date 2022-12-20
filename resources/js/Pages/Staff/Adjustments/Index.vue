@@ -188,6 +188,7 @@ function loadFilter()
                                         <button
                                             class="btn btn-sm btn-outline-danger"
                                             @click="destroy(adjustment.id)"
+                                            v-if="adjustment.status == '0'"
                                         >
                                             <i class="bi bi-trash"></i>
                                         </button>
