@@ -8,6 +8,7 @@
     let SuggestionForMenu = Ziggy.routes['supervisor.suggestionfor.index'] ? true : false;
     let SuggestionMenu = Ziggy.routes['supervisor.suggestions.index'] ? true : false;
     let SurveyMenu = Ziggy.routes['supervisor.surveys.index'] ? true : false;
+    let AdjustmentMenu = Ziggy.routes['supervisor.adjustments.index'] ? true : false;
 
 </script>
 <template>
@@ -110,6 +111,15 @@
                             <i :class="SidebarIcon.SURVEY"></i><span>Custom Survey</span>
                         </NavLink>
                     </li>
+                    <li class="nav-heading">Adjustment Configuration</li>
+                    <li v-if="AdjustmentMenu">
+                        <NavLink 
+                            :href="route('supervisor.adjustmentreasons.index')" 
+                            :active="$page.component.startsWith('Supervisor/adjustmentreasons')"
+                        >
+                            <i :class="SidebarIcon.ADJUSTMENT_FOR"></i><span>Adjustment Category</span>
+                        </NavLink>
+                    </li>
                 </ul>
             </li>
             <li class="nav-item" v-if="TaskMenu">
@@ -162,6 +172,14 @@
                             :active="$page.component.startsWith('Supervisor/Handover')"
                         >
                             <i :class="SidebarIcon.HANDOVER"></i><span>Handover</span>
+                        </NavLink>
+                    </li>
+                    <li v-if="AdjustmentMenu">
+                        <NavLink 
+                            :href="route('supervisor.adjustments.index')" 
+                            :active="$page.component.startsWith('Supervisor/adjustments')"
+                        >
+                            <i :class="SidebarIcon.ADJUSTMENT"></i><span>Adjustment</span>
                         </NavLink>
                     </li>
                 </ul>

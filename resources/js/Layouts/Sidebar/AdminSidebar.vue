@@ -10,6 +10,7 @@
     let SuggestionForMenu = Ziggy.routes['admin.suggestionfor.index'] ? true : false;
     let SuggestionMenu = Ziggy.routes['admin.suggestions.index'] ? true : false;
     let SurveyMenu = Ziggy.routes['admin.surveys.index'] ? true : false;
+    let AdjustmentMenu = Ziggy.routes['admin.adjustments.index'] ? true : false;
 
 </script>
 <template>
@@ -121,6 +122,15 @@
                             <i :class="SidebarIcon.SUGGESTION_FOR"></i><span>Suggestion Category</span>
                         </NavLink>
                     </li>
+                    <li class="nav-heading">Adjustment Configuration</li>
+                    <li v-if="AdjustmentMenu">
+                        <NavLink 
+                            :href="route('admin.adjustmentreasons.index')" 
+                            :active="$page.component.startsWith('Admin/adjustmentreasons')"
+                        >
+                            <i :class="SidebarIcon.ADJUSTMENT_FOR"></i><span>Adjustment Category</span>
+                        </NavLink>
+                    </li>
                     <li class="nav-heading">Booking Configuration</li>
                     <li class="nav-heading">Travel Configuration</li>
                     <li class="nav-heading">Survey Configuration</li>
@@ -158,7 +168,8 @@
                     </li>
                 </ul>
             </li>
-            <li class="nav-item">
+            <!-- requests  -->
+            <li class="nav-item"> 
                 <a class="nav-link collapsed" data-bs-target="#requests-nav" data-bs-toggle="collapse" href="#">
                     <i :class="SidebarIcon.REQUESTS"></i><span>Requests</span><i class="bi bi-chevron-down ms-auto"></i>
                 </a>
@@ -185,6 +196,14 @@
                             :active="$page.component.startsWith('Admin/Handover')"
                         >
                             <i :class="SidebarIcon.HANDOVER"></i><span>Handover</span>
+                        </NavLink>
+                    </li>
+                    <li v-if="AdjustmentMenu">
+                        <NavLink 
+                            :href="route('admin.adjustments.index')" 
+                            :active="$page.component.startsWith('Admin/adjustments')"
+                        >
+                            <i :class="SidebarIcon.ADJUSTMENT"></i><span>Adjustment</span>
                         </NavLink>
                     </li>
                 </ul>

@@ -32,7 +32,9 @@ export const SidebarIcon = Object.freeze({
     SUGGESTION: "bi bi-chat-left-quote",
     NOTICE: "bi bi-journal-text",
     SURVEY: "bi bi-chat-right-text",
-    ORG_CHART: 'bi bi-diagram-3-fill'
+    ORG_CHART: 'bi bi-diagram-3-fill',
+    ADJUSTMENT_FOR: "bi bi-tags",
+    ADJUSTMENT: "bi bi-chat-left-quote"
 });
 
 </script>

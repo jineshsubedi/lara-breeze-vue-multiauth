@@ -8,6 +8,7 @@
     let SuggestionForMenu = Ziggy.routes['staffs.suggestionfor.index'] ? true : false;
     let SuggestionMenu = Ziggy.routes['staffs.suggestions.index'] ? true : false;
     let SurveyMenu = Ziggy.routes['staffs.surveys.index'] ? true : false;
+    let AdjustmentMenu = Ziggy.routes['staffs.adjustments.index'] ? true : false;
 
 </script>
 <template>
@@ -110,6 +111,15 @@
                             <i :class="SidebarIcon.SURVEY"></i><span>Custom Survey</span>
                         </NavLink>
                     </li>
+                    <li class="nav-heading">Adjustment Configuration</li>
+                    <li v-if="AdjustmentMenu">
+                        <NavLink 
+                            :href="route('staffs.adjustmentreasons.index')" 
+                            :active="$page.component.startsWith('Staff/adjustmentreasons')"
+                        >
+                            <i :class="SidebarIcon.ADJUSTMENT_FOR"></i><span>Adjustment Category</span>
+                        </NavLink>
+                    </li>
                 </ul>
             </li>
             <li class="nav-item" v-if="TaskMenu">
@@ -162,6 +172,14 @@
                             :active="$page.component.startsWith('Staff/Handover')"
                         >
                             <i :class="SidebarIcon.HANDOVER"></i><span>Handover</span>
+                        </NavLink>
+                    </li>
+                    <li v-if="AdjustmentMenu">
+                        <NavLink 
+                            :href="route('staffs.adjustments.index')" 
+                            :active="$page.component.startsWith('Staff/adjustments')"
+                        >
+                            <i :class="SidebarIcon.ADJUSTMENT"></i><span>Adjustment</span>
                         </NavLink>
                     </li>
                 </ul>

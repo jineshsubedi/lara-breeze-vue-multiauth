@@ -199,7 +199,8 @@ return [
         Hris\Attendance\AttendanceServiceProvider::class,
         Hris\Holiday\HolidayServiceProvider::class,
         Hris\Suggestion\SuggestionServiceProvider::class,
-        Hris\Survey\SurveyServiceProvider::class
+        Hris\Survey\SurveyServiceProvider::class,
+        Hris\Adjustment\AdjustmentServiceProvider::class
     ],
 
     /*
