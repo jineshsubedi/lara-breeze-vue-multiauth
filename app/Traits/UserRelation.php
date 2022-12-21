@@ -137,6 +137,10 @@ trait UserRelation {
     {
         return $query->whereStatus(User::CURRENTLY_WORKING);
     }
+    public function scopeResign($query)
+    {
+        return $query->whereStatus(User::RESIGNED);
+    }
     public function scopeBranchId($query)
     {
         return $query->whereBranchId(auth()->user()->branch_id);

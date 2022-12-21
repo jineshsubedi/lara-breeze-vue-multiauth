@@ -127,4 +127,50 @@ class AppConstant
         ['value' => 'file', 'title' => 'File'],
     ];
 
+    const EXIT_INTERVIEW_QUESTION = [
+        [ 
+            'question' => 'What was your main reason for leaving the organization or the job?',
+            'answer' => '',
+        ],
+        [ 
+            'question' => 'What was the quality of the supervision you received? Your thoughts about your immediate supervisors?',
+            'answer' => '',
+        ],
+        [ 
+            'question' => 'Did any company policy or procedure make your job more difficult?',
+            'answer' => '',
+        ],
+        [ 
+            'question' => 'Did your job turn into what was described to you during the job interview process and induction?',
+            'answer' => '',
+        ],
+        [ 
+            'question' => 'Did you receive adequate support to do your job?',
+            'answer' => '',
+        ],
+        [ 
+            'question' => 'Your thoughts about the management?',
+            'answer' => '',
+        ],
+        [ 
+            'question' => 'What did you like most about working for this organization?',
+            'answer' => '',
+        ],
+        [ 
+            'question' => 'What did you like least about working for this organization?',
+            'answer' => '',
+        ],
+        [ 
+            'question' => 'What, if anything, could have been done to keep you with the company?',
+            'answer' => '',
+        ],
+        [ 
+            'question' => 'Provided a chance to change few things in the organization, what would that be?',
+            'answer' => '',
+        ],
+        [
+            'question' => 'Would you recommend others to work for this company?',
+            'answer' => '',
+        ]
+    ];
 }

@@ -4,7 +4,6 @@ namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
 use Illuminate\Support\Str;
-use Illuminate\Support\Facades\File;
 
 class PackageGenerator extends Command
 {
@@ -43,7 +42,6 @@ class PackageGenerator extends Command
         $this->createFiles();
 
         return $this->info("Package Created Successfully!");
-        // return Command::SUCCESS;
     }
     protected function createDirectoryList()
     {
@@ -97,7 +95,6 @@ class PackageGenerator extends Command
         {
             if(!file_exists($file['base_path']))
             {
-                // File::copy($file['app_path'], $file['base_path']);
                 if($this->confirm('Do you wish to create '.$file['name']))
                     $this->createFile($file['app_path'], $file['base_path'], '');
                 continue;

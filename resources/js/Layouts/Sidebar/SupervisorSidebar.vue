@@ -10,6 +10,7 @@
     let SurveyMenu = Ziggy.routes['supervisor.surveys.index'] ? true : false;
     let AdjustmentMenu = Ziggy.routes['supervisor.adjustments.index'] ? true : false;
     let OvertimeMenu = Ziggy.routes['supervisor.overtimes.index'] ? true : false;
+    let ExitInterviewMenu = Ziggy.routes['supervisor.exitinterviews.index'] ? true : false;
 
 </script>
 <template>
@@ -110,6 +111,14 @@
                             :active="$page.component.startsWith('Supervisor/Surveys')"
                         >
                             <i :class="SidebarIcon.SURVEY"></i><span>Custom Survey</span>
+                        </NavLink>
+                    </li>
+                    <li v-if="ExitInterviewMenu">
+                        <NavLink 
+                            :href="route('supervisor.exitinterviews.index')" 
+                            :active="$page.component.startsWith('Supervisor/ExitInterviews')"
+                        >
+                            <i :class="SidebarIcon.EXIT_INTERVIEW"></i><span>Exit Interview</span>
                         </NavLink>
                     </li>
                     <li class="nav-heading">Adjustment Configuration</li>

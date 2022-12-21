@@ -43,7 +43,8 @@
             "Hris\\Suggestion\\" : "packages/hris/suggestion/src",
             "Hris\\Survey\\" : "packages/hris/survey/src",
             "Hris\\Adjustment\\" : "packages/hris/adjustment/src",
-            "Hris\\Overtime\\" : "packages/hris/overtime/src"
+            "Hris\\Overtime\\" : "packages/hris/overtime/src",
+            "Hris\\Interview\\" : "packages/hris/interview/src"
         }
     },
     "scripts": {
