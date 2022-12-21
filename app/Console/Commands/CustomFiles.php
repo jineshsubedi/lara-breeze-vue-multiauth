@@ -72,7 +72,8 @@ class CustomFiles extends Command
         if ($this->confirm('Do you wish to create' .' '. $this->model . ' '. 'Observer?')) {
             $this->call('make:observer', [
                 'name' => $this->model . 'Observer',
-            ], '--model='.$this->model);
+                '--model' => $this->model
+            ]);
         }
         if ($this->confirm('Do you wish to create' .' '. $this->model . ' '. 'Notification?')) {
             $this->call('make:notification', [
