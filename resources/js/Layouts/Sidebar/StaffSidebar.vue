@@ -11,6 +11,7 @@
     let AdjustmentMenu = Ziggy.routes['staffs.adjustments.index'] ? true : false;
     let OvertimeMenu = Ziggy.routes['staffs.overtimes.index'] ? true : false;
     let ExitInterviewMenu = Ziggy.routes['staffs.exitinterviews.index'] ? true : false;
+    let EventMenu = Ziggy.routes['staffs.events.index'] ? true : false;
 
 </script>
 <template>
@@ -103,6 +104,14 @@
                             :active="$page.component.startsWith('Staff/Notices')"
                         >
                             <i :class="SidebarIcon.NOTICE"></i><span>Notice</span>
+                        </NavLink>
+                    </li>
+                    <li v-if="EventMenu">
+                        <NavLink 
+                            :href="route('staffs.events.index')" 
+                            :active="$page.component.startsWith('Staff/Events')"
+                        >
+                            <i :class="SidebarIcon.EVENT"></i><span>Events</span>
                         </NavLink>
                     </li>
                     <li v-if="SurveyMenu">
@@ -246,6 +255,14 @@
                             :active="$page.component.startsWith('Staff/Mysurveys')"
                         >
                             <i :class="SidebarIcon.SURVEY"></i><span>Survey</span>
+                        </NavLink>
+                    </li>
+                    <li v-if="EventMenu">
+                        <NavLink 
+                            :href="route('staffs.events.index')" 
+                            :active="$page.component.startsWith('Staff/Events')"
+                        >
+                            <i :class="SidebarIcon.EVENT"></i><span>Events</span>
                         </NavLink>
                     </li>
                     <li>

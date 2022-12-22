@@ -17,7 +17,8 @@ class Kernel extends ConsoleKernel
     {
         // $schedule->command('inspire')->hourly();
         $schedule->command('notice:dispatch')->dailyAt('01:10');
-        $schedule->command('survey:dispatch')->everyMinute();
+        $schedule->command('survey:dispatch')->dailyAt('02:10');
+        $schedule->command('event:dispatch')->everyMinute();
     }
 
     /**

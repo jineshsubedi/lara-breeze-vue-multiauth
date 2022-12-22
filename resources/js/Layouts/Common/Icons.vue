@@ -18,6 +18,7 @@ export const SidebarIcon = Object.freeze({
     HELP_DESK: "bi bi-pc-horizontal",
     REQUESTS: "bi bi-calendar2-check",
     LEAVE_REQUEST: "bi bi-calendar2-range",
+    EVENT: "bi bi-calendar2-range",
     COMPENSATORY: "bi bi-calendar2-event",
     HANDOVER: "bi bi-send-plus-fill",
     ATTENDANCE_HANDLER: "bi bi-briefcase-fill",

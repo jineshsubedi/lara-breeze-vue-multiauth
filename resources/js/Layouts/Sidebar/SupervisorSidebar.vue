@@ -11,6 +11,7 @@
     let AdjustmentMenu = Ziggy.routes['supervisor.adjustments.index'] ? true : false;
     let OvertimeMenu = Ziggy.routes['supervisor.overtimes.index'] ? true : false;
     let ExitInterviewMenu = Ziggy.routes['supervisor.exitinterviews.index'] ? true : false;
+    let EventMenu = Ziggy.routes['supervisor.events.index'] ? true : false;
 
 </script>
 <template>
@@ -103,6 +104,14 @@
                             :active="$page.component.startsWith('Supervisor/Notices')"
                         >
                             <i :class="SidebarIcon.NOTICE"></i><span>Notice</span>
+                        </NavLink>
+                    </li>
+                    <li v-if="EventMenu">
+                        <NavLink 
+                            :href="route('supervisor.events.index')" 
+                            :active="$page.component.startsWith('Supervisor/Events')"
+                        >
+                            <i :class="SidebarIcon.EVENT"></i><span>Events</span>
                         </NavLink>
                     </li>
                     <li v-if="SurveyMenu">
@@ -238,6 +247,14 @@
                             :active="$page.component.startsWith('Supervisor/Suggestion/Index')"
                         >
                             <i :class="SidebarIcon.SUGGESTION"></i><span>Suggestion</span>
+                        </NavLink>
+                    </li>
+                    <li v-if="EventMenu">
+                        <NavLink 
+                            :href="route('supervisor.events.index')" 
+                            :active="$page.component.startsWith('Supervisor/Events')"
+                        >
+                            <i :class="SidebarIcon.EVENT"></i><span>Events</span>
                         </NavLink>
                     </li>
                     <li v-if="SurveyMenu">

@@ -202,7 +202,8 @@ return [
         Hris\Survey\SurveyServiceProvider::class,
         Hris\Adjustment\AdjustmentServiceProvider::class,
         Hris\Overtime\OvertimeServiceProvider::class,
-        Hris\Interview\InterviewServiceProvider::class
+        Hris\Interview\InterviewServiceProvider::class,
+        Hris\Event\EventServiceProvider::class
     ],
 
     /*
