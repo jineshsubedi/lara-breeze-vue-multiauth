@@ -5,6 +5,7 @@ namespace App\Traits;
 use App\Models\User;
 use Carbon\Carbon;
 use Hris\Attendance\Models\Attendance;
+use Hris\Event\Models\Event;
 use Hris\Holiday\Models\Holiday;
 
 trait PackageManager
@@ -77,6 +78,17 @@ trait PackageManager
                 ];
             }
             return $datas;
+        } catch (\Throwable $th) {
+            return [];
+        }
+    }
+    public function getAllEvents($start, $end)
+    {
+        try {
+            return Event::whereJsonContains('branch', auth()->user()->branch_id)
+            ->whereDate('start_date', '>=', $start)
+            ->whereDate('end_date', '<=', $end)
+            ->get(['id', 'title', 'start_date', 'end_date']);
         } catch (\Throwable $th) {
             return [];
         }

@@ -82,6 +82,15 @@ class CalendarController extends Controller
                 'end' => $notice->end_date,
             ];
         }
+        $eventss = $this->getAllEvents($request->start, $request->end);
+        foreach($eventss as $event)
+        {
+            $events[] = [
+                'title' => '[Event] '.$event->title,
+                'start' => Carbon::parse($event->start_date)->format('Y-m-d'),
+                'end' => Carbon::parse($event->end_date)->format('Y-m-d'),
+            ];
+        }
         return response($events);
     }
 }
