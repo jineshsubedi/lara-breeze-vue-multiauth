@@ -42,6 +42,10 @@ export const SidebarIcon = Object.freeze({
     BOOKING_PLACE: "bi bi-house",
     BOOKING_HALL: "bi bi-house-door",
     BOOKING_PURPOSE: "bi bi-house-fill",
+    BOOKING: "bi bi-calendar-check",
+    BOOKINGTIME: "bi bi-stopwatch",
+
+    
 });
 
 </script>

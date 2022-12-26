@@ -12,6 +12,11 @@ Route::group([
     Route::resource('bookingplaces', 'BookingPlaceController');
     Route::resource('bookinghalls', 'BookingHallController');
 
+    Route::resource('bookings', 'BookingController');
+    Route::get('bookings/{id}/participants', 'BookingController@getParticipants')->name('bookings.getParticipants');
+    Route::post('bookings/{id}/participants', 'BookingController@saveParticipants')->name('bookings.saveParticipants');
+    Route::delete('booking_participant/{id}', 'BookingController@removeParticipants')->name('bookings.removeParticipants');
+    Route::post('booking_participant/{id}/status', 'BookingController@updateStatus')->name('bookings.updateStatus');
 });
 
 Route::group([
@@ -24,7 +29,11 @@ Route::group([
     Route::resource('bookingplaces', 'BookingPlaceController');
     Route::resource('bookinghalls', 'BookingHallController');
 
-    
+    Route::resource('bookings', 'BookingController');
+    Route::get('bookings/{id}/participants', 'BookingController@getParticipants')->name('bookings.getParticipants');
+    Route::post('bookings/{id}/participants', 'BookingController@saveParticipants')->name('bookings.saveParticipants');
+    Route::delete('booking_participant/{id}', 'BookingController@removeParticipants')->name('bookings.removeParticipants');
+    Route::post('booking_participant/{id}/status', 'BookingController@updateStatus')->name('bookings.updateStatus');
 });
 
 Route::group([
@@ -37,5 +46,9 @@ Route::group([
     Route::resource('bookingplaces', 'BookingPlaceController');
     Route::resource('bookinghalls', 'BookingHallController');
 
-    
+    Route::resource('bookings', 'BookingController');
+    Route::get('bookings/{id}/participants', 'BookingController@getParticipants')->name('bookings.getParticipants');
+    Route::post('bookings/{id}/participants', 'BookingController@saveParticipants')->name('bookings.saveParticipants');
+    Route::delete('booking_participant/{id}', 'BookingController@removeParticipants')->name('bookings.removeParticipants');
+    Route::post('booking_participant/{id}/status', 'BookingController@updateStatus')->name('bookings.updateStatus');
 });

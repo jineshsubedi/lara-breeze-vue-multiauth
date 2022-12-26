@@ -15,6 +15,7 @@
     let BookingPlaceMenu = Ziggy.routes['staffs.bookingplaces.index'] ? true : false;
     let BookingHallMenu = Ziggy.routes['staffs.bookinghalls.index'] ? true : false;
     let BookingPurposeMenu = Ziggy.routes['staffs.bookingpurposes.index'] ? true : false;
+    let BookingMenu = Ziggy.routes['staffs.bookings.index'] ? true : false;
 
 </script>
 <template>
@@ -244,6 +245,29 @@
                             :active="$page.component.startsWith('Staff/Overtimes')"
                         >
                             <i :class="SidebarIcon.OVERTIME"></i><span>Overtime</span>
+                        </NavLink>
+                    </li>
+                </ul>
+            </li>
+            <li class="nav-item" v-if="BookingMenu">
+                <a class="nav-link collapsed" data-bs-target="#booking-nav" data-bs-toggle="collapse" href="#">
+                    <i :class="SidebarIcon.BOOKING"></i><span>Booking</span><i class="bi bi-chevron-down ms-auto"></i>
+                </a>
+                <ul id="booking-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
+                    <li>
+                        <NavLink 
+                            :href="route('staffs.bookings.index')" 
+                            :active="$page.component.startsWith('Staff/Bookings')"
+                        >
+                            <i :class="SidebarIcon.BOOKING_HALL"></i><span>Hall Booking</span>
+                        </NavLink>
+                    </li>
+                    <li>
+                        <NavLink 
+                            :href="route('staffs.bookings.index')" 
+                            :active="$page.component.startsWith('Staff/Bookings')"
+                        >
+                            <i :class="SidebarIcon.BOOKINGTIME"></i><span>Time Booking</span>
                         </NavLink>
                     </li>
                 </ul>

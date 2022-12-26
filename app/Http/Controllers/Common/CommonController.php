@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Common;
 
+use Hris\Booking\Models\BookingHall;
 use App\Http\Controllers\Controller;
 use App\Models\Department;
 use App\Models\Designation;
@@ -69,6 +70,13 @@ class CommonController extends Controller
         ]);
         return UserKra::where('user_id', $request->staff)
             ->get(['id', 'user_id', 'title']); 
+    }
+    public function getHallByPlaceId(Request $request)
+    {
+        $this->validate($request, [
+            'place' => 'required|integer'
+        ]);
+        return BookingHall::where('booking_place_id', $request->place)->orderBy('title')->get(['id', 'title']);
     }
     public function markNotification(Request $request)
     {

@@ -49,6 +49,8 @@ Route::prefix('common')->group(function() {
     Route::get('getYear', 'Common\CommonDateController@getYear')->name('getYear');
     Route::get('getMonth', 'Common\CommonDateController@getMonth')->name('getMonth');
     Route::get('getDays', 'Common\CommonDateController@getDays')->name('getDays');
-
+    
     Route::get('calendar/events', 'Common\CalendarController@getEvents')->name('calendar.events');
+
+    Route::post('getHallByPlaceId', 'Common\CommonController@getHallByPlaceId')->name('getHallByPlaceId');
 });

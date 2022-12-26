@@ -2,6 +2,8 @@
 
 namespace Hris\Booking;
 
+use Hris\Booking\Models\Booking;
+use Hris\Booking\Observers\BookingObserver;
 use Illuminate\Support\ServiceProvider;
 
 class BookingServiceProvider extends ServiceProvider
@@ -25,5 +27,7 @@ class BookingServiceProvider extends ServiceProvider
     {
         $this->loadRoutesFrom(__DIR__.'/routes/web.php');
         $this->loadMigrationsFrom(__DIR__.'/database/migrations');
+
+        Booking::observe(BookingObserver::class);
     }
 }
