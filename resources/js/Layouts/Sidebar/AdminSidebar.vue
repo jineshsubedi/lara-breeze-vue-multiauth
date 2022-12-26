@@ -14,6 +14,9 @@
     let OvertimeMenu = Ziggy.routes['admin.overtimes.index'] ? true : false;
     let ExitInterviewMenu = Ziggy.routes['admin.exitinterviews.index'] ? true : false;
     let EventMenu = Ziggy.routes['admin.events.index'] ? true : false;
+    let BookingPlaceMenu = Ziggy.routes['admin.bookingplaces.index'] ? true : false;
+    let BookingHallMenu = Ziggy.routes['admin.bookinghalls.index'] ? true : false;
+    let BookingPurposeMenu = Ziggy.routes['admin.bookingpurposes.index'] ? true : false;
 
 </script>
 <template>
@@ -144,6 +147,30 @@
                         </NavLink>
                     </li>
                     <li class="nav-heading">Booking Configuration</li>
+                    <li v-if="BookingPurposeMenu">
+                        <NavLink 
+                            :href="route('admin.bookingpurposes.index')" 
+                            :active="$page.component.startsWith('Admin/BookingPurposes')"
+                        >
+                            <i :class="SidebarIcon.BOOKING_PURPOSE"></i><span>Purpose</span>
+                        </NavLink>
+                    </li>
+                    <li v-if="BookingPlaceMenu">
+                        <NavLink 
+                            :href="route('admin.bookingplaces.index')" 
+                            :active="$page.component.startsWith('Admin/BookingPlaces')"
+                        >
+                            <i :class="SidebarIcon.BOOKING_PLACE"></i><span>Place</span>
+                        </NavLink>
+                    </li>
+                    <li v-if="BookingHallMenu">
+                        <NavLink 
+                            :href="route('admin.bookinghalls.index')" 
+                            :active="$page.component.startsWith('Admin/BookingHalls')"
+                        >
+                            <i :class="SidebarIcon.BOOKING_HALL"></i><span>Halls</span>
+                        </NavLink>
+                    </li>
                     <li class="nav-heading">Travel Configuration</li>
                     <li class="nav-heading">Survey Configuration</li>
                     <li v-if="SurveyMenu && $page.props.can.includes('SuperAdmin')">

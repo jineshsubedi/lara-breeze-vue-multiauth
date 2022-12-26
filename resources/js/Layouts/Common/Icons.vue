@@ -39,6 +39,9 @@ export const SidebarIcon = Object.freeze({
     OVERTIME_FOR: "bi bi-tags",
     OVERTIME: "bi bi-chat-left-quote",
     EXIT_INTERVIEW: "bi bi-chat-left-quote",
+    BOOKING_PLACE: "bi bi-house",
+    BOOKING_HALL: "bi bi-house-door",
+    BOOKING_PURPOSE: "bi bi-house-fill",
 });
 
 </script>

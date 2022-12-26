@@ -12,6 +12,9 @@
     let OvertimeMenu = Ziggy.routes['supervisor.overtimes.index'] ? true : false;
     let ExitInterviewMenu = Ziggy.routes['supervisor.exitinterviews.index'] ? true : false;
     let EventMenu = Ziggy.routes['supervisor.events.index'] ? true : false;
+    let BookingPlaceMenu = Ziggy.routes['supervisor.bookingplaces.index'] ? true : false;
+    let BookingHallMenu = Ziggy.routes['supervisor.bookinghalls.index'] ? true : false;
+    let BookingPurposeMenu = Ziggy.routes['supervisor.bookingpurposes.index'] ? true : false;
 
 </script>
 <template>
@@ -80,6 +83,31 @@
                             :active="$page.component.startsWith('Supervisor/Users')"
                         >
                             <i :class="SidebarIcon.STAFFS"></i><span>Staffs</span>
+                        </NavLink>
+                    </li>
+                    <li class="nav-heading">Booking Configuration</li>
+                    <li v-if="BookingPurposeMenu">
+                        <NavLink 
+                            :href="route('supervisor.bookingpurposes.index')" 
+                            :active="$page.component.startsWith('Supervisor/BookingPurposes')"
+                        >
+                            <i :class="SidebarIcon.BOOKING_PURPOSE"></i><span>Purpose</span>
+                        </NavLink>
+                    </li>
+                    <li v-if="BookingPlaceMenu">
+                        <NavLink 
+                            :href="route('supervisor.bookingplaces.index')" 
+                            :active="$page.component.startsWith('Supervisor/BookingPlaces')"
+                        >
+                            <i :class="SidebarIcon.BOOKING_PLACE"></i><span>Place</span>
+                        </NavLink>
+                    </li>
+                    <li v-if="BookingHallMenu">
+                        <NavLink 
+                            :href="route('supervisor.bookinghalls.index')" 
+                            :active="$page.component.startsWith('Supervisor/BookingHalls')"
+                        >
+                            <i :class="SidebarIcon.BOOKING_HALL"></i><span>Halls</span>
                         </NavLink>
                     </li>
                     <li v-if="SuggestionForMenu">
