@@ -78,6 +78,14 @@ class BookingController extends Controller
      */
     public function store(BookingRequest $request)
     {
+        $booking = Booking::where('hall_id',$request->hall_id)
+                    ->where('booking_date',$request->booking_date)
+                    ->where('start_time', '<=', $request->start_time)
+                    ->where('end_time', '>=', $request->end_time)
+                    ->count();
+        if ($booking > 0) {
+            return back()->with('danger', 'Sorry This is already booked on this time');
+        }
         Booking::create($request->validated());
         return redirect()->route('staffs.bookings.index')->with('success', 'Record Added!');
     }
@@ -166,8 +174,15 @@ class BookingController extends Controller
             $query->where('booked_by', request()->staff);
         }
         if(request()->filled('type')) {
-            if(request()->type == '1')
+            if(request()->type == '1'){
                 $query->where('booked_by', auth()->id());
+            }else{
+                $booking_ids = BookingStaffs::where('staff_id', auth()->id())->pluck('booking_id');
+                $query->whereIn('id', $booking_ids);
+            }
+        }else{
+            $booking_ids = BookingStaffs::where('staff_id', auth()->id())->pluck('booking_id');
+            $query->whereIn('id', $booking_ids);
         }
         return $query;
     }
@@ -219,14 +234,16 @@ class BookingController extends Controller
     public function updateStatus($id, Request $request)
     {
         $this->validate($request, [
-            'status' => 'required|in:1,2'
+            'status' => 'required|in:0,1'
         ]);
-        if($request->status == 2)
+        if($request->status == 0)
         {
-            return back()->with('warning', 'Remarks Required');
+            $this->validate($request, [
+                'remarks' => 'required|max:200'
+            ]);
         }
         BookingStaffs::findOrFail($id)->update([
-            'status' => $request->status,
+            'status' => $request->status == 1 ? 1 : 2,
             'remarks' => $request->remarks
         ]);
         return back()->with('success', 'Invitation Updated');

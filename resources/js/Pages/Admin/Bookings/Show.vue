@@ -76,13 +76,17 @@ const form = useForm({
                                         <th>Participants</th>
                                         <td>
                                             <ul class="list-group">
-                                                <li 
-                                                class="list-group-item d-flex justify-content-between align-items-center"
-                                                v-for="(staff, index) in booking.staffs" 
+                                                <a 
+                                                class="list-group-item list-group-item-action flex-column align-items-start"
+                                                v-for="(staff, index) in booking.staffs"
                                                 :key="index"
                                                 >
-                                                {{staff.user ? staff.user.name : ''}}
-                                                 <span class="badge " v-html="staff.status_label"></span></li> 
+                                                    <div class="d-flex w-100 justify-content-between">
+                                                    <h5 class="mb-1">{{staff.user ? staff.user.name : ''}}</h5>
+                                                    <small><span class="label" v-html="staff.status_label"></span></small>
+                                                    </div>
+                                                    <p class="mb-1"><p v-if="staff.remarks != ''" class="text-muted">remarks: {{ staff.remarks }}</p></p>
+                                                </a>
                                             </ul>
                                             <br>
                                             <Link :href="route('admin.bookings.getParticipants', booking.id)" class="btn btn-sm btn-outline-primary" v-if="booking.booked_by == $page.props.auth.user.id"> Add Participants </Link>
