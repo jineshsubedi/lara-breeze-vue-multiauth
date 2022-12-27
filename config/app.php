@@ -204,7 +204,8 @@ return [
         Hris\Overtime\OvertimeServiceProvider::class,
         Hris\Interview\InterviewServiceProvider::class,
         Hris\Event\EventServiceProvider::class,
-        Hris\Booking\BookingServiceProvider::class
+        Hris\Booking\BookingServiceProvider::class,
+        Hris\Revenue\RevenueServiceProvider::class
     ],
 
     /*

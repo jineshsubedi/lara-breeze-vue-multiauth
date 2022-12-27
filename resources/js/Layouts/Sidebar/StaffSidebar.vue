@@ -16,6 +16,7 @@
     let BookingHallMenu = Ziggy.routes['staffs.bookinghalls.index'] ? true : false;
     let BookingPurposeMenu = Ziggy.routes['staffs.bookingpurposes.index'] ? true : false;
     let BookingMenu = Ziggy.routes['staffs.bookings.index'] ? true : false;
+    let RevenueMenu = Ziggy.routes['admin.revenues.index'] ? true : false;
 
 </script>
 <template>
@@ -262,14 +263,6 @@
                             <i :class="SidebarIcon.BOOKING_HALL"></i><span>Hall Booking</span>
                         </NavLink>
                     </li>
-                    <li>
-                        <NavLink 
-                            :href="route('staffs.bookings.index')" 
-                            :active="$page.component.startsWith('Staff/Bookings')"
-                        >
-                            <i :class="SidebarIcon.BOOKINGTIME"></i><span>Time Booking</span>
-                        </NavLink>
-                    </li>
                 </ul>
             </li>
             <li class="nav-item">
@@ -323,6 +316,29 @@
                             :active="$page.component.startsWith('Staff/Orgchart')"
                         >
                             <i :class="SidebarIcon.ORG_CHART"></i><span>Organization Chart</span>
+                        </NavLink>
+                    </li>
+                </ul>
+            </li>
+            <li class="nav-item" v-if="RevenueMenu && $page.props.can.includes('RevenueHandler')">
+                <a class="nav-link collapsed" data-bs-target="#revenue-nav" data-bs-toggle="collapse" href="#">
+                    <i :class="SidebarIcon.REVENUE"></i><span>Revenue</span><i class="bi bi-chevron-down ms-auto"></i>
+                </a>
+                <ul id="revenue-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
+                    <li>
+                        <NavLink 
+                            :href="route('staffs.divisions.index')" 
+                            :active="$page.component.startsWith('Staff/Divisions')"
+                        >
+                            <i :class="SidebarIcon.DIVISION"></i><span>Divisions</span>
+                        </NavLink>
+                    </li>
+                    <li>
+                        <NavLink 
+                            :href="route('staffs.revenues.index')" 
+                            :active="$page.component.startsWith('Staff/Revenues')"
+                        >
+                            <i :class="SidebarIcon.REVENUE"></i><span>Revenue Upload</span>
                         </NavLink>
                     </li>
                 </ul>

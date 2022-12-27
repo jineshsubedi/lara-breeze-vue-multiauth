@@ -1,6 +1,9 @@
 <script setup>
-import AdminLayout from "@/Layouts/AdminLayout.vue";
+import SupervisorLayout from "@/Layouts/SupervisorLayout.vue";
 import { Head, Link, useForm } from "@inertiajs/inertia-vue3";
+
+const props = defineProps({
+})
 
 const form = useForm({
     category: [{'title' : ''}],
@@ -13,26 +16,27 @@ function removeCategory(index)
 {
     form.category.splice(index, 1)
 }
+
 </script>
 <template>
-    <Head title="Overtime Category Create" />
+    <Head title="Division Create" />
 
-    <AdminLayout>
+    <SupervisorLayout>
         <template #header>
             <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-                Overtime Category Create
+                Division Create
             </h2>
         </template>
         <template #breadcrum>
             <ol class="breadcrumb float-sm-right">
                 <li class="breadcrumb-item">
-                    <Link :href="route('admin.dashboard')"> Home </Link>
+                    <Link :href="route('supervisor.dashboard')"> Home </Link>
                 </li>
                 <li class="breadcrumb-item">
-                    <Link :href="route('admin.overtimereasons.index')"> Overtime Category </Link>
+                    <Link :href="route('supervisor.divisions.index')"> Division </Link>
                 </li>
                 <li class="breadcrumb-item active">
-                    <Link :href="route('admin.overtimereasons.create')"> Create </Link>
+                    <Link :href="route('supervisor.divisions.create')"> Create </Link>
                 </li>
             </ol>
         </template>
@@ -41,11 +45,11 @@ function removeCategory(index)
                 <div class="col-md-12">
                     <div class="card">
                         <div class="card-body">
-                            <h5 class="card-title">New Category</h5>
+                            <h5 class="card-title">New Division</h5>
                             <form
                                 class="form-horizontal"
                                 @submit.prevent="
-                                    form.post(route('admin.overtimereasons.store'))
+                                    form.post(route('supervisor.divisions.store'))
                                 "
                             >
                                 <table class="table table-bordered">
@@ -94,5 +98,5 @@ function removeCategory(index)
                 </div>
             </div>
         </div>
-    </AdminLayout>
+    </SupervisorLayout>
 </template>

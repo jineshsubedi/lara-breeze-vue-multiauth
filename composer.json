@@ -46,7 +46,8 @@
             "Hris\\Overtime\\" : "packages/hris/overtime/src",
             "Hris\\Interview\\" : "packages/hris/interview/src",
             "Hris\\Event\\" : "packages/hris/event/src",
-            "Hris\\Booking\\" : "packages/hris/booking/src"
+            "Hris\\Booking\\" : "packages/hris/booking/src",
+            "Hris\\Revenue\\" : "packages/hris/revenue/src"
         }
     },
     "scripts": {

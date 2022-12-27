@@ -1,0 +1,25 @@
+{
+    "name": "hris/revenue",
+    "description": "hris revenue request",
+    "type": "project",
+    "license": "MIT",
+    "autoload": {
+        "psr-4": {
+            "Hris\\Revenue\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "jinesh subedi",
+            "email": "jinesh1094@gmail.com"
+        }
+    ],
+    "require": {},
+    "extra": {
+        "Laravel": {
+            "Providers" : [
+                "Hris\\Revenue\\RevenueServiceProvider"
+            ]
+        }
+    }
+}

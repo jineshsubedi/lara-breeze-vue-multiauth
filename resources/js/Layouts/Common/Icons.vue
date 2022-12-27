@@ -44,6 +44,8 @@ export const SidebarIcon = Object.freeze({
     BOOKING_PURPOSE: "bi bi-house-fill",
     BOOKING: "bi bi-calendar-check",
     BOOKINGTIME: "bi bi-stopwatch",
+    DIVISION: "bi bi-arrow-left-right",
+    REVENUE: "bi bi-bookshelf",
 
     
 });

@@ -18,6 +18,7 @@
     let BookingHallMenu = Ziggy.routes['admin.bookinghalls.index'] ? true : false;
     let BookingPurposeMenu = Ziggy.routes['admin.bookingpurposes.index'] ? true : false;
     let BookingMenu = Ziggy.routes['admin.bookings.index'] ? true : false;
+    let RevenueMenu = Ziggy.routes['admin.revenues.index'] ? true : false;
 
 </script>
 <template>
@@ -173,6 +174,15 @@
                         </NavLink>
                     </li>
                     <li class="nav-heading">Travel Configuration</li>
+                    <li class="nav-heading">Division Configuration</li>
+                    <li v-if="RevenueMenu">
+                        <NavLink 
+                            :href="route('admin.divisions.index')" 
+                            :active="$page.component.startsWith('Admin/Divisions')"
+                        >
+                            <i :class="SidebarIcon.DIVISION"></i><span>Divisions</span>
+                        </NavLink>
+                    </li>
                     <li class="nav-heading">Survey Configuration</li>
                     <li v-if="SurveyMenu && $page.props.can.includes('SuperAdmin')">
                         <NavLink 
@@ -422,6 +432,14 @@
                         </NavLink>
                     </li>
                 </ul>
+            </li>
+            <li v-if="RevenueMenu && $page.props.can.includes('RevenueHandler') || $page.props.can.includes('SuperAdmin')">
+                <NavLink 
+                    :href="route('admin.revenues.index')" 
+                    :active="$page.component.startsWith('Admin/Revenues')"
+                >
+                    <i :class="SidebarIcon.REVENUE"></i><span>Revenue</span>
+                </NavLink>
             </li>
             <li class="nav-item">
                 <NavLink

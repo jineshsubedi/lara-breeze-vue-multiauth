@@ -1,38 +1,43 @@
 <script setup>
-import AdminLayout from "@/Layouts/AdminLayout.vue";
+import SupervisorLayout from "@/Layouts/SupervisorLayout.vue";
 import { Head, Link, useForm } from "@inertiajs/inertia-vue3";
 
+const props = defineProps({
+    divisions: Object
+})
+
 const form = useForm({
-    category: [{'title' : ''}],
+    category: [{'revenue' : '', 'direct_expenses': '', 'indirect_expenses': '', 'net_profit': '', 'division_id': ''}],
 });
 function addCategory()
 {
-    form.category.push({'title' : ''});
+    form.category.push({'revenue' : '', 'direct_expenses': '', 'indirect_expenses': '', 'net_profit': '', 'division_id': ''});
 }
 function removeCategory(index)
 {
     form.category.splice(index, 1)
 }
+
 </script>
 <template>
-    <Head title="Overtime Category Create" />
+    <Head title="Revenue Create" />
 
-    <AdminLayout>
+    <SupervisorLayout>
         <template #header>
             <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-                Overtime Category Create
+                Revenue Create
             </h2>
         </template>
         <template #breadcrum>
             <ol class="breadcrumb float-sm-right">
                 <li class="breadcrumb-item">
-                    <Link :href="route('admin.dashboard')"> Home </Link>
+                    <Link :href="route('supervisor.dashboard')"> Home </Link>
                 </li>
                 <li class="breadcrumb-item">
-                    <Link :href="route('admin.overtimereasons.index')"> Overtime Category </Link>
+                    <Link :href="route('supervisor.revenues.index')"> Revenue </Link>
                 </li>
                 <li class="breadcrumb-item active">
-                    <Link :href="route('admin.overtimereasons.create')"> Create </Link>
+                    <Link :href="route('supervisor.revenues.create')"> Create </Link>
                 </li>
             </ol>
         </template>
@@ -41,24 +46,42 @@ function removeCategory(index)
                 <div class="col-md-12">
                     <div class="card">
                         <div class="card-body">
-                            <h5 class="card-title">New Category</h5>
+                            <h5 class="card-title">New Revenue</h5>
                             <form
                                 class="form-horizontal"
                                 @submit.prevent="
-                                    form.post(route('admin.overtimereasons.store'))
+                                    form.post(route('supervisor.revenues.store'))
                                 "
                             >
                                 <table class="table table-bordered">
                                     <thead>
                                         <tr>
-                                            <th>Title</th>
+                                            <th>Division</th>
+                                            <th>Revenue</th>
+                                            <th>Direct Expenses</th>
+                                            <th>InDirect Expenses</th>
+                                            <th>Net Profit</th>
                                             <th>Action</th>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         <tr v-for="(st, index) in form.category" :key="index">
                                             <td>
-                                                <input type="text" v-model="form.category[index].title" class="form-control" placeholder="Category title" required>
+                                                <select v-model="form.category[index].division_id" class="form-control" @change="loadFilter" required>
+                                                <option v-for="(division, dindex) in divisions" :key="dindex" :value="division.id">{{division.title}}</option>
+                                            </select>
+                                            </td>
+                                            <td>
+                                                <input type="text" v-model="form.category[index].revenue" class="form-control" placeholder="Revenue" required>
+                                            </td>
+                                            <td>
+                                                <input type="text" v-model="form.category[index].direct_expenses" class="form-control" placeholder="Direct Expenses" required>
+                                            </td>
+                                            <td>
+                                                <input type="text" v-model="form.category[index].indirect_expenses" class="form-control" placeholder="Indirect Expenses" required>
+                                            </td>
+                                            <td>
+                                                <input type="text" v-model="form.category[index].net_profit" class="form-control" placeholder="Net Profit" required>
                                             </td>
                                             <td>
                                                 <button type="button" class="btn btn-sm btn-outline-danger" @click="removeCategory(index)"><i class="bi bi-trash"></i></button>
@@ -67,8 +90,8 @@ function removeCategory(index)
                                     </tbody>
                                     <tfoot>
                                         <tr>
-                                            <td>
-                                                <div colspan="3" class="text-danger" v-for="(form) in form.errors">
+                                            <td colspan="5">
+                                                <div class="text-danger" v-for="(form) in form.errors">
                                                     {{form}}
                                                 </div>
                                             </td>
@@ -94,5 +117,5 @@ function removeCategory(index)
                 </div>
             </div>
         </div>
-    </AdminLayout>
+    </SupervisorLayout>
 </template>

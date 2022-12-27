@@ -2,6 +2,9 @@
 import AdminLayout from "@/Layouts/AdminLayout.vue";
 import { Head, Link, useForm } from "@inertiajs/inertia-vue3";
 
+const props = defineProps({
+})
+
 const form = useForm({
     category: [{'title' : ''}],
 });
@@ -13,14 +16,15 @@ function removeCategory(index)
 {
     form.category.splice(index, 1)
 }
+
 </script>
 <template>
-    <Head title="Overtime Category Create" />
+    <Head title="Division Create" />
 
     <AdminLayout>
         <template #header>
             <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-                Overtime Category Create
+                Division Create
             </h2>
         </template>
         <template #breadcrum>
@@ -29,10 +33,10 @@ function removeCategory(index)
                     <Link :href="route('admin.dashboard')"> Home </Link>
                 </li>
                 <li class="breadcrumb-item">
-                    <Link :href="route('admin.overtimereasons.index')"> Overtime Category </Link>
+                    <Link :href="route('admin.divisions.index')"> Division </Link>
                 </li>
                 <li class="breadcrumb-item active">
-                    <Link :href="route('admin.overtimereasons.create')"> Create </Link>
+                    <Link :href="route('admin.divisions.create')"> Create </Link>
                 </li>
             </ol>
         </template>
@@ -41,11 +45,11 @@ function removeCategory(index)
                 <div class="col-md-12">
                     <div class="card">
                         <div class="card-body">
-                            <h5 class="card-title">New Category</h5>
+                            <h5 class="card-title">New Division</h5>
                             <form
                                 class="form-horizontal"
                                 @submit.prevent="
-                                    form.post(route('admin.overtimereasons.store'))
+                                    form.post(route('admin.divisions.store'))
                                 "
                             >
                                 <table class="table table-bordered">

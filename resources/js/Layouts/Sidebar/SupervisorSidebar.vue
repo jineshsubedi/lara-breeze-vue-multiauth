@@ -16,6 +16,7 @@
     let BookingHallMenu = Ziggy.routes['supervisor.bookinghalls.index'] ? true : false;
     let BookingPurposeMenu = Ziggy.routes['supervisor.bookingpurposes.index'] ? true : false;
     let BookingMenu = Ziggy.routes['supervisor.bookings.index'] ? true : false;
+    let RevenueMenu = Ziggy.routes['admin.revenues.index'] ? true : false;
 
 </script>
 <template>
@@ -323,6 +324,29 @@
                             :active="$page.component.startsWith('Supervisor/Orgchart')"
                         >
                             <i :class="SidebarIcon.ORG_CHART"></i><span>Organization Chart</span>
+                        </NavLink>
+                    </li>
+                </ul>
+            </li>
+            <li class="nav-item" v-if="RevenueMenu && $page.props.can.includes('RevenueHandler')">
+                <a class="nav-link collapsed" data-bs-target="#revenue-nav" data-bs-toggle="collapse" href="#">
+                    <i :class="SidebarIcon.REVENUE"></i><span>Revenue</span><i class="bi bi-chevron-down ms-auto"></i>
+                </a>
+                <ul id="revenue-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
+                    <li>
+                        <NavLink 
+                            :href="route('supervisor.divisions.index')" 
+                            :active="$page.component.startsWith('Supervisor/Divisions')"
+                        >
+                            <i :class="SidebarIcon.DIVISION"></i><span>Divisions</span>
+                        </NavLink>
+                    </li>
+                    <li>
+                        <NavLink 
+                            :href="route('supervisor.revenues.index')" 
+                            :active="$page.component.startsWith('Supervisor/Revenues')"
+                        >
+                            <i :class="SidebarIcon.REVENUE"></i><span>Revenue Upload</span>
                         </NavLink>
                     </li>
                 </ul>

@@ -1,10 +1,10 @@
 <?php
 
-namespace Hris\Overtime\Requests;
+namespace Hris\Revenue\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class OvertimereasonRequest extends FormRequest
+class RevenueRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -27,13 +27,21 @@ class OvertimereasonRequest extends FormRequest
 
         if($this->getMethod() =='POST') {
             $rules += [
-                'category.*.title' => 'required|unique:overtimereasons',
+                'revenue.*.revenue' => 'required',
+                'revenue.*.division_id' => 'required',
+                'revenue.*.direct_expenses' => 'required',
+                'revenue.*.indirect_expenses' => 'required',
+                'revenue.*.net_profit' => 'required',
             ];
         }
 
         if($this->getMethod() == 'PUT') {
             $rules += [
-                'title' => 'required|unique:overtimereasons,title,'.$this->overtimereason->id.',id',
+                'revenue' => 'required',
+                'division_id' => 'required',
+                'direct_expenses' => 'required',
+                'indirect_expenses' => 'required',
+                'net_profit' => 'required',
             ];
         }
 
