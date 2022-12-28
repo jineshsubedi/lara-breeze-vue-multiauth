@@ -178,6 +178,23 @@
                             <i :class="SidebarIcon.OVERTIME_FOR"></i><span>Overtime Category</span>
                         </NavLink>
                     </li>
+                    <li class="nav-heading">Qualification Configuration</li>
+                    <li>
+                        <NavLink 
+                            :href="route('supervisor.education.index')" 
+                            :active="$page.component.startsWith('Supervisor/Education')"
+                        >
+                            <i :class="SidebarIcon.EDUCATION"></i><span>Education</span>
+                        </NavLink>
+                    </li>
+                    <li>
+                        <NavLink 
+                            :href="route('supervisor.faculties.index')" 
+                            :active="$page.component.startsWith('Supervisor/Faculties')"
+                        >
+                            <i :class="SidebarIcon.FACULTY"></i><span>Faculty</span>
+                        </NavLink>
+                    </li>
                 </ul>
             </li>
             <li class="nav-item" v-if="TaskMenu">

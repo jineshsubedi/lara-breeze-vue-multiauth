@@ -46,6 +46,8 @@ export const SidebarIcon = Object.freeze({
     BOOKINGTIME: "bi bi-stopwatch",
     DIVISION: "bi bi-arrow-left-right",
     REVENUE: "bi bi-bookshelf",
+    EDUCATION: "bi bi-book",
+    FACULTY: "bi bi-journal",
 
     
 });

@@ -192,6 +192,23 @@
                             <i :class="SidebarIcon.SURVEY"></i><span>Custom Survey</span>
                         </NavLink>
                     </li>
+                    <li class="nav-heading">Qualification Configuration</li>
+                    <li>
+                        <NavLink 
+                            :href="route('admin.education.index')" 
+                            :active="$page.component.startsWith('Admin/Education')"
+                        >
+                            <i :class="SidebarIcon.EDUCATION"></i><span>Education</span>
+                        </NavLink>
+                    </li>
+                    <li>
+                        <NavLink 
+                            :href="route('admin.faculties.index')" 
+                            :active="$page.component.startsWith('Admin/Faculties')"
+                        >
+                            <i :class="SidebarIcon.FACULTY"></i><span>Faculty</span>
+                        </NavLink>
+                    </li>
                 </ul>
             </li>
 
@@ -335,6 +352,23 @@
                             :active="$page.component.startsWith('Admin/ExitInterviews')"
                         >
                             <i :class="SidebarIcon.EXIT_INTERVIEW"></i><span>Exit Interview</span>
+                        </NavLink>
+                    </li>
+                    <li class="nav-heading">Qualification Configuration</li>
+                    <li>
+                        <NavLink 
+                            :href="route('admin.education.index')" 
+                            :active="$page.component.startsWith('Admin/Education')"
+                        >
+                            <i :class="SidebarIcon.EDUCATION"></i><span>Education</span>
+                        </NavLink>
+                    </li>
+                    <li>
+                        <NavLink 
+                            :href="route('admin.faculties.index')" 
+                            :active="$page.component.startsWith('Admin/Faculties')"
+                        >
+                            <i :class="SidebarIcon.FACULTY"></i><span>Faculty</span>
                         </NavLink>
                     </li>
                 </ul>
