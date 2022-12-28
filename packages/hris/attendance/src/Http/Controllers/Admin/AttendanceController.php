@@ -26,7 +26,7 @@ class AttendanceController extends Controller
         $filter = $this->filterQuery($query);
         $attendances = $filter->latest()->paginate(50)->withQueryString();
         $staffs = User::active()
-                    ->branch()
+                    ->branchId()
                     ->where(function ($q) {
                         $q->where('supervisor_id', auth()->id())
                             ->orWhere('id', auth()->id());

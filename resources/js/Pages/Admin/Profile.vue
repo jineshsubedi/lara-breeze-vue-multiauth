@@ -408,7 +408,7 @@ function markAsRead(id = '', url = '')
                                                 <td>{{doc.title}}</td>
                                                 <td><Link :href="doc.document_path" target="_blank">Document</Link></td>
                                                 <td>
-                                                    <button type="button" class="btn btn-sm btn-outline-danger" @click="removeDocument(doc.id)"><i class="bi bi-trash"></i></button>
+                                                    
                                                 </td>
                                             </tr>
                                             <tr v-for="(fdoc, findex) in form.document" :key="findex">

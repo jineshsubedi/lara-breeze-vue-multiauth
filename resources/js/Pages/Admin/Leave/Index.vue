@@ -105,14 +105,14 @@ function approvalLeaveRequest(id, supervisor, hr, manager) {
                         </li>
                     </ul>
                     <div class="table-responsive">
-                        <table class="table table-striped">
+                        <table class="table table-bordered table-striped">
                             <thead>
                                 <tr>
                                     <th scope="col">#</th>
                                     <th scope="col" v-if="SuperAdmin">Branch</th>
                                     <th scope="col">Requested By</th>
                                     <th scope="col">Leave Type</th>
-                                    <th scope="col">Request Date</th>
+                                    <!-- <th scope="col">Request Date</th> -->
                                     <th scope="col">Start Date</th>
                                     <th scope="col">End Date</th>
                                     <th scope="col">Duration</th>
@@ -133,7 +133,7 @@ function approvalLeaveRequest(id, supervisor, hr, manager) {
                                             <option v-for="(staff, sindex) in staffs" :key="sindex" :value="staff.id">{{staff.name}}</option>
                                         </select>
                                     </th>
-                                    <th></th>
+                                    <!-- <th></th> -->
                                     <th></th>
                                     <th>
                                         <input
@@ -165,7 +165,7 @@ function approvalLeaveRequest(id, supervisor, hr, manager) {
                                     <td scope="row" v-if="SuperAdmin">{{ leave.branch ? leave.branch.name : '' }}</td>
                                     <td scope="row">{{ leave.user ? leave.user.name : '' }}</td>
                                     <td scope="row">{{ leave.leave_type.title }}</td>
-                                    <td scope="row">{{ leave.request_date }}</td>
+                                    <!-- <td scope="row">{{ leave.request_date }}</td> -->
                                     <td scope="row">{{ leave.start_date }}</td>
                                     <td scope="row">{{ leave.end_date }}</td>
                                     <td scope="row">{{ leave.duration }} Days</td>

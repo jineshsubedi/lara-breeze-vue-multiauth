@@ -40,13 +40,14 @@ const generateForm = useForm({
 });
 const form2 = useForm({
     position: { lat: 51.093048, lng: 6.84212 },
+    title: 'Attendance Map'
 });
 function showModal(path, location) {
     var data = location.split(",");
-    form2.position.lat = data[0];
-    form2.position.lng = data[1];
-
-    $("#" + path).modal("show");
+    form2.position.lat = parseFloat(data[0]);
+    form2.position.lng = parseFloat(data[1]);
+    form2.title = path
+    $("#jineshsubedi").modal("show");
 }
 let staff = ref(props.filters.staff);
 let from = ref(props.filters.from);
@@ -377,8 +378,7 @@ function selectAllAttendance() {
                                                         "
                                                         @click="
                                                             showModal(
-                                                                'duty-In' +
-                                                                    index,
+                                                                'duty-In',
                                                                 attendance.in_location
                                                             )
                                                         "
@@ -393,7 +393,7 @@ function selectAllAttendance() {
                                                             attendance.in_time_distance
                                                         }}
                                                     </button>
-                                                    <MapModal
+                                                    <!-- <MapModal
                                                         :path="
                                                             'duty-In' + index
                                                         "
@@ -405,7 +405,7 @@ function selectAllAttendance() {
                                                             attendance.in_location
                                                         "
                                                         :key="'duty-In' + index"
-                                                    />
+                                                    /> -->
                                                 </div>
                                             </td>
                                             <td scope="row">
@@ -421,8 +421,7 @@ function selectAllAttendance() {
                                                         "
                                                         @click="
                                                             showModal(
-                                                                'lunch-In' +
-                                                                    index,
+                                                                'lunch-In',
                                                                 attendance.lunch_start_location
                                                             )
                                                         "
@@ -437,7 +436,7 @@ function selectAllAttendance() {
                                                             attendance.lunch_start_distance
                                                         }}
                                                     </button>
-                                                    <MapModal
+                                                    <!-- <MapModal
                                                         :path="
                                                             'lunch-In' + index
                                                         "
@@ -451,7 +450,7 @@ function selectAllAttendance() {
                                                         :key="
                                                             'Lunch-In' + index
                                                         "
-                                                    />
+                                                    /> -->
                                                 </div>
                                             </td>
                                             <td scope="row">
@@ -467,8 +466,7 @@ function selectAllAttendance() {
                                                         "
                                                         @click="
                                                             showModal(
-                                                                'lunch-Out' +
-                                                                    index,
+                                                                'lunch-Out',
                                                                 attendance.lunch_end_location
                                                             )
                                                         "
@@ -483,7 +481,7 @@ function selectAllAttendance() {
                                                             attendance.lunch_end_distance
                                                         }}
                                                     </button>
-                                                    <MapModal
+                                                    <!-- <MapModal
                                                         :path="
                                                             'lunch-Out' + index
                                                         "
@@ -497,7 +495,7 @@ function selectAllAttendance() {
                                                         :key="
                                                             'Lunch-Out' + index
                                                         "
-                                                    />
+                                                    /> -->
                                                 </div>
                                             </td>
                                             <td scope="row">
@@ -513,8 +511,7 @@ function selectAllAttendance() {
                                                         "
                                                         @click="
                                                             showModal(
-                                                                'Duty-Out' +
-                                                                    index,
+                                                                'Duty-Out',
                                                                 attendance.out_location
                                                             )
                                                         "
@@ -529,7 +526,7 @@ function selectAllAttendance() {
                                                             attendance.out_time_distance
                                                         }}
                                                     </button>
-                                                    <MapModal
+                                                    <!-- <MapModal
                                                         :path="
                                                             'Duty-Out' + index
                                                         "
@@ -541,7 +538,7 @@ function selectAllAttendance() {
                                                             attendance.out_location
                                                         "
                                                         :key="'Duty-In' + index"
-                                                    />
+                                                    /> -->
                                                 </div>
                                             </td>
                                             <td scope="row">
@@ -994,6 +991,32 @@ function selectAllAttendance() {
                                 </form>
                             </CenterModal1>
                         </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal fade" id="jineshsubedi" tabindex="-1" style="display: none;" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header">
+                    <h5 class="modal-title">{{form2.title}}</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">X</button>
+                    </div>
+                    <div class="modal-body">
+                        <GMapMap
+                            :center="form2.position"
+                            :zoom="16"
+                            style="width: 100%; height: 20rem"
+                        >
+                            <GMapMarker
+                                key="apple"
+                                :icon="'/images/user-location.png'"
+                                :position="form2.position"
+                            />
+                        </GMapMap>
+                    </div>
+                    <div class="modal-footer">
+                    <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Close</button>
                     </div>
                 </div>
             </div>

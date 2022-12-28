@@ -35,14 +35,15 @@ function loadFilter()
 }
 const form2 = useForm({
     position: {lat: 51.093048, lng: 6.842120},
+    title: 'Attendance Map'
 });
 function showModal(path, location)
 {
     var data = location.split(',');
-    form2.position.lat = data[0];
-    form2.position.lng = data[1];
-
-    $('#'+path).modal('show');
+    form2.position.lat = parseFloat(data[0]);
+    form2.position.lng = parseFloat(data[1]);
+    form2.title = path
+    $('#jineshsubedi').modal('show');
 }
 </script>
 <template>
@@ -120,26 +121,26 @@ function showModal(path, location)
                                     <td scope="row">{{ attendance.attendance_date }}</td>
                                     <td scope="row">
                                         <div v-if="attendance.in_time != null">
-                                            <button :class="attendance.in_time_class"  @click="showModal('duty-In'+index, attendance.in_location)"><i class="bi bi-geo-alt"></i> {{attendance.in_time}} {{attendance.in_time_distance}}</button>
-                                            <MapModal :path="'duty-In'+index" :title="'Duty Start At: '+attendance.in_time" :location="attendance.in_location" :key="'duty-In'+index" />
+                                            <button :class="attendance.in_time_class"  @click="showModal('duty-In', attendance.in_location)"><i class="bi bi-geo-alt"></i> {{attendance.in_time}} {{attendance.in_time_distance}}</button>
+                                            <!-- <MapModal :path="'duty-In'+index" :title="'Duty Start At: '+attendance.in_time" :location="attendance.in_location" :key="'duty-In'+index" /> -->
                                         </div>
                                     </td>
                                     <td scope="row">
                                         <div v-if="attendance.lunch_start != null">
-                                            <button :class="attendance.lunch_start_class" @click="showModal('lunch-In'+index, attendance.lunch_start_location)"><i class="bi bi-geo-alt"></i> {{attendance.lunch_start}} {{attendance.lunch_start_distance}}</button>
-                                            <MapModal :path="'lunch-In'+index" :title="'Lunch Start At: '+attendance.in_time" :location="attendance.in_location" :key="'Lunch-In'+index"/>
+                                            <button :class="attendance.lunch_start_class" @click="showModal('lunch-In', attendance.lunch_start_location)"><i class="bi bi-geo-alt"></i> {{attendance.lunch_start}} {{attendance.lunch_start_distance}}</button>
+                                            <!-- <MapModal :path="'lunch-In'+index" :title="'Lunch Start At: '+attendance.in_time" :location="attendance.in_location" :key="'Lunch-In'+index"/> -->
                                         </div>
                                     </td>
                                     <td scope="row">
                                         <div v-if="attendance.lunch_end != null">
-                                            <button :class="attendance.lunch_end_class" @click="showModal('lunch-Out'+index, attendance.lunch_end_location)"><i class="bi bi-geo-alt"></i> {{attendance.lunch_end}} {{attendance.lunch_end_distance}}</button>
-                                            <MapModal :path="'lunch-Out'+index" :title="'Lunch End At: '+attendance.lunch_end" :location="attendance.lunch_end_location" :key="'Lunch-Out'+index"/>
+                                            <button :class="attendance.lunch_end_class" @click="showModal('lunch-Out', attendance.lunch_end_location)"><i class="bi bi-geo-alt"></i> {{attendance.lunch_end}} {{attendance.lunch_end_distance}}</button>
+                                            <!-- <MapModal :path="'lunch-Out'+index" :title="'Lunch End At: '+attendance.lunch_end" :location="attendance.lunch_end_location" :key="'Lunch-Out'+index"/> -->
                                         </div>
                                     </td>
                                     <td scope="row">
                                         <div v-if="attendance.out_time != null">
-                                            <button :class="attendance.out_time_class" @click="showModal('Duty-Out'+index, attendance.out_location)"><i class="bi bi-geo-alt"></i> {{attendance.out_time}} {{attendance.out_time_distance}}</button>
-                                            <MapModal :path="'Duty-Out'+index" :title="'Duty End At: '+attendance.out_time" :location="attendance.out_location" :key="'Duty-In'+index"/>
+                                            <button :class="attendance.out_time_class" @click="showModal('Duty-Out', attendance.out_location)"><i class="bi bi-geo-alt"></i> {{attendance.out_time}} {{attendance.out_time_distance}}</button>
+                                            <!-- <MapModal :path="'Duty-Out'+index" :title="'Duty End At: '+attendance.out_time" :location="attendance.out_location" :key="'Duty-In'+index"/> -->
                                         </div>
                                     </td>
                                     <td scope="row">{{ attendance.attendance_duration }}</td>
@@ -154,6 +155,32 @@ function showModal(path, location)
                                 </tr>
                             </tfoot>
                         </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal fade" id="jineshsubedi" tabindex="-1" style="display: none;" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header">
+                    <h5 class="modal-title">{{form2.title}}</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">X</button>
+                    </div>
+                    <div class="modal-body">
+                        <GMapMap
+                            :center="form2.position"
+                            :zoom="16"
+                            style="width: 100%; height: 20rem"
+                        >
+                            <GMapMarker
+                                key="apple"
+                                :icon="'/images/user-location.png'"
+                                :position="form2.position"
+                            />
+                        </GMapMap>
+                    </div>
+                    <div class="modal-footer">
+                    <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Close</button>
                     </div>
                 </div>
             </div>
