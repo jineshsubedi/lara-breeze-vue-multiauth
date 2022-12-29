@@ -6,6 +6,7 @@ use App\Http\Requests\Admin\UsersRequest;
 use App\Http\Controllers\Controller;
 use App\Enums\EmploymentType;
 use Illuminate\Http\Request;
+use App\Models\UserDocument;
 use App\Enums\AppConstant;
 use App\Enums\StaffType;
 use App\Models\Branch;
@@ -14,6 +15,8 @@ use Inertia\Inertia;
 
 class UsersController extends Controller
 {
+    protected $disk = 'public';
+    protected $path = 'user';
     /**
      * Display a listing of the resource.
      *
@@ -73,6 +76,24 @@ class UsersController extends Controller
         $user = User::create($request->validated() + [
             'password' => bcrypt($request->user_password)
         ]);
+        if ($request->document)
+        {
+            foreach ($request->document as $key => $document)
+            {
+                $doc = '';
+                if (isset($request->File('document')[$key]['document']))
+                {
+                    $directory = 'user/'.$user->id.'/document';
+                    $file = $request->File('document')[$key]['document'];
+                    $doc = $file->store($directory, $this->disk);
+                    UserDocument::create([
+                        'user_id' => $user->id,
+                        'title' => $document['title'],
+                        'document' => $doc
+                    ]);
+                }
+            }
+        }
         return redirect()->route('admin.users.index')->with('success', 'User Added Successfully');
     }
 
@@ -95,10 +116,20 @@ class UsersController extends Controller
      */
     public function edit(User $user)
     {
+        $user->load(['documents']);
         $datas = $this->getData();
+        $document = [];
+        foreach($user->documents as $k=>$doc)
+        {
+            $document[$k]['id'] = $doc->id;
+            $document[$k]['title'] = $doc->title;
+            $document[$k]['document'] = $doc->document;
+            $document[$k]['document_path'] = $doc->document_path;
+        }
         return Inertia::render('Admin/Users/Edit', [
             'user' => $user,
             'datas' => $datas,
+            'document' => $document,
         ]);
     }
 
@@ -112,6 +143,24 @@ class UsersController extends Controller
     public function update(UsersRequest $request, User $user)
     {
         $user->update($request->validated());
+        if ($request->document)
+        {
+            foreach ($request->document as $key => $document)
+            {
+                $doc = '';
+                if (isset($request->File('document')[$key]['document']))
+                {
+                    $directory = 'user/'.$user->id.'/document';
+                    $file = $request->File('document')[$key]['document'];
+                    $doc = $file->store($directory, $this->disk);
+                    UserDocument::create([
+                        'user_id' => $user->id,
+                        'title' => $document['title'],
+                        'document' => $doc
+                    ]);
+                }
+            }
+        }
         return redirect()->route('admin.users.index')->with('success', 'User Detail Updated Successfully!');
     }
 

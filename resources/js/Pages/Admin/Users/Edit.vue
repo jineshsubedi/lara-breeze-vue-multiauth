@@ -3,10 +3,12 @@ import AdminLayout from "@/Layouts/AdminLayout.vue";
 import { Head, Link, useForm } from "@inertiajs/inertia-vue3";
 import axios from "axios";
 import { ref } from "vue";
+import { Inertia } from "@inertiajs/inertia";
 
 const props = defineProps({
     user : Object,
     datas : Object,
+    document : Object,
 })
 
 const form = useForm({
@@ -27,6 +29,8 @@ const form = useForm({
     primary_location: props.user.primary_location,
     status: props.user.status,
     employment_type: props.user.employment_type,
+
+    document: []
 });
 
 let shifts = ref([]);
@@ -89,7 +93,54 @@ function getDesignations()
         console.log(err)
     })
 }
+function addMoreDocument()
+{
+    form.document.push({
+        title: '',
+        document: ''
+    })
+}
+function removeFormDocument(index)
+{
+    form.document.splice(index, 1)
+}
+function removeDocument(id)
+{
+    if (confirm("Are you sure you want to Delete")) {
+        form.delete(route("admin.deleteProfileDocument", id));
+    }
+}
+function submitProfileUpdateForm()
+{
+    Inertia.post(route('admin.users.update', props.user.id), {
+        _method: 'put',
+        title: form.title,
+        description: form.description,
+        department_id: form.department_id,
+        branch_id: form.branch_id,
+        docfile: form.docfile,
 
+        name: form.name,
+        branch_id: form.branch_id,
+        supervisor_id: form.supervisor_id,
+        employee_code: form.employee_code,
+        email: form.email,
+        user_password: form.user_password,
+        confirm_password: form.confirm_password,
+        staff_type: form.staff_type,
+        department_id: form.department_id,
+        designation_id: form.designation_id,
+        shift_time_id: form.shift_time_id,
+        status: form.status,
+        join_date: form.join_date,
+        weekend: form.weekend,
+        primary_location: form.primary_location,
+        status: form.status,
+        employment_type: form.employment_type,
+
+        document: form.document
+    })
+}
 </script>
 <template>
     <Head title="Edit Staff" />
@@ -122,8 +173,9 @@ function getDesignations()
                             <form
                                 class="form-horizontal"
                                 @submit.prevent="
-                                    form.put(route('admin.users.update', user.id))
+                                    submitProfileUpdateForm
                                 "
+                                enctype="multipart/form-data"
                             >
                                 <div class="row">
                                     <div class="col-md-6 row">
@@ -402,6 +454,48 @@ function getDesignations()
                                                 </div>
                                         </div>
                                     </div>
+                                    <table class="table table-striped">
+                                        <thead>
+                                            <tr>
+                                                <th>Title</th>
+                                                <th>Document</th>
+                                                <th>Action</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr v-for="(doc, index) in document" :key="index">
+                                                <td>{{doc.title}}</td>
+                                                <td><Link :href="doc.document_path" target="_blank">Document</Link></td>
+                                                <td>
+                                                    <button type="button" class="btn btn-sm btn-outline-danger" @click="removeDocument(index)"><i class="bi bi-trash"></i></button>
+                                                </td>
+                                            </tr>
+                                            <tr v-for="(fdoc, findex) in form.document" :key="findex">
+                                                <td>
+                                                    <input type="text" v-model="fdoc.title" class="form-control">
+                                                    <div class="text-red-400 text-sm" v-if="form.errors.document">
+                                                        {{ form.errors.document.findex.title }}
+                                                    </div>
+                                                </td>
+                                                <td>
+                                                    <input type="file" class="form-control" @input="fdoc.document = $event.target.files[0]" />
+                                                    <div class="text-red-400 text-sm" v-if="form.errors.document">
+                                                        {{ form.errors.document.findex.document }}
+                                                    </div>
+                                                </td>
+                                                <td>
+                                                    <button type="button" class="btn btn-sm btn-outline-danger" @click="removeFormDocument(findex)"><i class="bi bi-trash"></i></button>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                        <tfoot>
+                                            <tr>
+                                                <td colspan="3" class="text-right">
+                                                    <button type="button" class="btn btn-sm btn-outline-info" @click="addMoreDocument"><i class="bi bi-plus"></i> Add More</button>
+                                                </td>
+                                            </tr>
+                                        </tfoot>
+                                    </table>
                                 </div>
                                 <div class="form-group row mb-3">
                                     <div class="offset-sm-2 col-sm-10">

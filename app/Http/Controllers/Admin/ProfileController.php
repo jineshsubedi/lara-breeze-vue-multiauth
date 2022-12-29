@@ -39,7 +39,7 @@ class ProfileController extends Controller
             $document[$k]['document'] = $doc->document;
             $document[$k]['document_path'] = $doc->document_path;
         }
-            $detail = [
+        $detail = [
             'marital_status' => $user->detail ? $user->detail->marital_status : '',
             'citizenship_no' => $user->detail ? $user->detail->citizenship_no : '',
             'blood_group' => $user->detail ? $user->detail->blood_group : '',

@@ -27,6 +27,8 @@ const form = useForm({
     primary_location: null,
     status: 1,
     employment_type: null,
+
+    document: []
 });
 
 let shifts = ref([]);
@@ -87,6 +89,17 @@ function getDesignations()
     }).catch(err => {
         console.log(err)
     })
+}
+function addMoreDocument()
+{
+    form.document.push({
+        title: '',
+        document: ''
+    })
+}
+function removeFormDocument(index)
+{
+    form.document.splice(index, 1)
 }
 
 </script>
@@ -415,6 +428,41 @@ function getDesignations()
                                                 </div>
                                         </div>
                                     </div>
+                                    <table class="table table-striped">
+                                        <thead>
+                                            <tr>
+                                                <th>Title</th>
+                                                <th>Document</th>
+                                                <th>Action</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr v-for="(fdoc, findex) in form.document" :key="findex">
+                                                <td>
+                                                    <input type="text" v-model="fdoc.title" class="form-control">
+                                                    <div class="text-red-400 text-sm" v-if="form.errors.document">
+                                                        {{ form.errors.document.findex.title }}
+                                                    </div>
+                                                </td>
+                                                <td>
+                                                    <input type="file" class="form-control" @input="fdoc.document = $event.target.files[0]" />
+                                                    <div class="text-red-400 text-sm" v-if="form.errors.document">
+                                                        {{ form.errors.document.findex.document }}
+                                                    </div>
+                                                </td>
+                                                <td>
+                                                    <button type="button" class="btn btn-sm btn-outline-danger" @click="removeFormDocument(findex)"><i class="bi bi-trash"></i></button>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                        <tfoot>
+                                            <tr>
+                                                <td colspan="3" class="text-right">
+                                                    <button type="button" class="btn btn-sm btn-outline-info" @click="addMoreDocument"><i class="bi bi-plus"></i> Add More</button>
+                                                </td>
+                                            </tr>
+                                        </tfoot>
+                                    </table>
                                 </div>
                                 <div class="form-group row mb-3">
                                     <div class="offset-sm-2 col-sm-10">
