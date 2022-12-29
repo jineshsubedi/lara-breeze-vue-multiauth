@@ -22,6 +22,7 @@ return new class extends Migration
             $table->string('year',10)->nullable();
             $table->string('board',80)->nullable();
             $table->enum('marksystem',['percentage','gpa'])->nullable();
+            $table->string('mark',80)->nullable();
             $table->foreignId('user_id')
                   ->constrained()
                   ->onUpdate('cascade')

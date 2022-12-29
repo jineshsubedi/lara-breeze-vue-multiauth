@@ -8,6 +8,7 @@ use App\Models\Department;
 use App\Models\Designation;
 use Illuminate\Http\Request;
 use App\Models\District;
+use App\Models\Faculty;
 use App\Models\ShiftTime;
 use App\Models\User;
 use App\Models\UserKra;
@@ -77,6 +78,13 @@ class CommonController extends Controller
             'place' => 'required|integer'
         ]);
         return BookingHall::where('booking_place_id', $request->place)->orderBy('title')->get(['id', 'title']);
+    }
+    public function getFacultyByEducationId(Request $request)
+    {
+        $this->validate($request, [
+            'education' => 'required|integer'
+        ]);
+        return Faculty::where('education_id', $request->education)->orderBy('title')->get(['id', 'title']);
     }
     public function markNotification(Request $request)
     {

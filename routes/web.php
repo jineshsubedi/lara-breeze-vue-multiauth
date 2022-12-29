@@ -53,4 +53,5 @@ Route::prefix('common')->group(function() {
     Route::get('calendar/events', 'Common\CalendarController@getEvents')->name('calendar.events');
 
     Route::post('getHallByPlaceId', 'Common\CommonController@getHallByPlaceId')->name('getHallByPlaceId');
+    Route::post('getFacultyByEducationId', 'Common\CommonController@getFacultyByEducationId')->name('getFacultyByEducationId');
 });

@@ -173,4 +173,6 @@ class AppConstant
             'answer' => '',
         ]
     ];
+
+    const MARK_SYSTEM = ['percentage','gpa'];
 }

@@ -2,7 +2,9 @@
 import AdminLayout from "@/Layouts/AdminLayout.vue";
 import { Head, Link, useForm  } from "@inertiajs/inertia-vue3";
 import moment from 'moment';
-import { Inertia } from '@inertiajs/inertia'
+import { ref } from "vue";
+import { Inertia } from "@inertiajs/inertia";
+import axios from "axios";
 import Pagination from "@/Components/Pagination.vue";
 
 const props = defineProps({
@@ -13,7 +15,8 @@ const props = defineProps({
     'address' : Object,
     'bank' : Object,
     'document' : Object,
-    'notification': Object
+    'notification': Object,
+    'educated': Object
 });
 
 const form = useForm({
@@ -48,6 +51,15 @@ const form = useForm({
     account_number: props.bank.account_number,
     bank_name: props.bank.bank_name,
     pan_number: props.bank.pan_number, 
+
+    education_level_id: props.educated.education_level_id, 
+    faculty_id: props.educated.faculty_id, 
+    specialization: props.educated.specialization, 
+    institution: props.educated.institution, 
+    year: props.educated.year, 
+    board: props.educated.board, 
+    marksystem: props.educated.marksystem, 
+    mark: props.educated.mark, 
 
     document: []
 
@@ -129,6 +141,22 @@ function markAsRead(id = '', url = '')
         console.log(err)
     })
 }
+
+let faculties = ref([]);
+getFacultyByEducationId()
+function getFacultyByEducationId()
+{
+    axios
+        .post(route("getFacultyByEducationId"), {
+            education: form.education_level_id
+        })
+        .then((res) => {
+            faculties.value = res.data;
+        })
+        .catch((err) => {
+            console.log(err);
+        });
+}
 </script>
 <template>
     <Head title="Profile" />
@@ -193,6 +221,9 @@ function markAsRead(id = '', url = '')
                                 </li>
                                 <li class="nav-item">
                                     <button class="nav-link" data-bs-toggle="tab" data-bs-target="#profile-settings">Documents</button>
+                                </li>
+                                <li class="nav-item">
+                                    <button class="nav-link" data-bs-toggle="tab" data-bs-target="#education">Qualification/Education</button>
                                 </li>
                                 <li class="nav-item">
                                     <button class="nav-link" data-bs-toggle="tab" data-bs-target="#bank">Bank Information</button>
@@ -437,6 +468,86 @@ function markAsRead(id = '', url = '')
                                             </tr>
                                         </tfoot>
                                     </table>
+                                </div>
+                                <div class="tab-pane fade pt-3" id="education">
+                                    <div class="row mb-3">
+                                        <label for="education_level_id" class="col-md-4 col-lg-3 col-form-label">Education Level</label>
+                                        <div class="col-md-8 col-lg-9">
+                                            <select v-model="form.education_level_id" class="form-control" id="education_level_id" @change="getFacultyByEducationId">
+                                                <option v-for="(edu, eduindex) in datas.education" :key="eduindex" :value="edu.id">{{ edu.title }}</option>
+                                            </select>
+                                            <div class="text-red-400 text-sm" v-if="form.errors.education_level_id">
+                                                {{ form.errors.education_level_id }}
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row mb-3">
+                                        <label for="faculty_id" class="col-md-4 col-lg-3 col-form-label">Faculty</label>
+                                        <div class="col-md-8 col-lg-9">
+                                            <select v-model="form.faculty_id" class="form-control" id="faculty_id" @change="getFacultyByEducationId">
+                                                <option v-for="(fac, facindex) in faculties" :key="facindex" :value="fac.id">{{ fac.title }}</option>
+                                            </select>
+                                            <div class="text-red-400 text-sm" v-if="form.errors.faculty_id">
+                                                {{ form.errors.faculty_id }}
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row mb-3">
+                                        <label for="specialization" class="col-md-4 col-lg-3 col-form-label">Specialization</label>
+                                        <div class="col-md-8 col-lg-9">
+                                            <input v-model="form.specialization" type="text" class="form-control" id="specialization">
+                                            <div class="text-red-400 text-sm" v-if="form.errors.specialization">
+                                                {{ form.errors.specialization }}
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row mb-3">
+                                        <label for="institution" class="col-md-4 col-lg-3 col-form-label">Institute</label>
+                                        <div class="col-md-8 col-lg-9">
+                                            <input v-model="form.institution" type="text" class="form-control" id="institution">
+                                            <div class="text-red-400 text-sm" v-if="form.errors.institution">
+                                                {{ form.errors.institution }}
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row mb-3">
+                                        <label for="year" class="col-md-4 col-lg-3 col-form-label">Year</label>
+                                        <div class="col-md-8 col-lg-9">
+                                            <input v-model="form.year" type="text" class="form-control" id="year">
+                                            <div class="text-red-400 text-sm" v-if="form.errors.year">
+                                                {{ form.errors.year }}
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row mb-3">
+                                        <label for="board" class="col-md-4 col-lg-3 col-form-label">Borad</label>
+                                        <div class="col-md-8 col-lg-9">
+                                            <input v-model="form.board" type="text" class="form-control" id="board">
+                                            <div class="text-red-400 text-sm" v-if="form.errors.board">
+                                                {{ form.errors.board }}
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row mb-3">
+                                        <label for="marksystem" class="col-md-4 col-lg-3 col-form-label">Mark System</label>
+                                        <div class="col-md-8 col-lg-9">
+                                            <select v-model="form.marksystem" class="form-control" id="education_level_id" @change="getFacultyByEducationId">
+                                                <option v-for="(mark, markindex) in datas.mark_system" :key="markindex" :value="mark">{{ mark }}</option>
+                                            </select>
+                                            <div class="text-red-400 text-sm" v-if="form.errors.marksystem">
+                                                {{ form.errors.marksystem }}
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row mb-3">
+                                        <label for="mark" class="col-md-4 col-lg-3 col-form-label">Obtain Marks</label>
+                                        <div class="col-md-8 col-lg-9">
+                                            <input v-model="form.mark" type="text" class="form-control" id="mark" autocomplete="off">
+                                            <div class="text-red-400 text-sm" v-if="form.errors.mark">
+                                                {{ form.errors.mark }}
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
                                 <div class="tab-pane fade pt-3" id="bank">
                                     <div class="row mb-3">

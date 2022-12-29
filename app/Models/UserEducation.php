@@ -23,9 +23,9 @@ class UserEducation extends Model
         'mark'
     ];
 
-    public function level()
+    public function education()
     {
-        return $this->belongsTo(EducationLevel::class,'education_level_id');
+        return $this->belongsTo(Education::class,'education_level_id');
     }
 
     public function faculty()

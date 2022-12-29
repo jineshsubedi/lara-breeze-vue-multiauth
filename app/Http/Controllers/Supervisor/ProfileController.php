@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Supervisor;
 
+use App\Enums\AppConstant;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rules\Password;
 use Illuminate\Support\Facades\Redirect;
@@ -14,9 +15,12 @@ use App\Models\UserAddress;
 use Illuminate\Support\Str;
 use App\Models\UserDetail;
 use App\Models\District;
+use App\Models\Education;
+use App\Models\Faculty;
 use App\Models\UserBank;
 use Inertia\Inertia;
 use App\Models\User;
+use App\Models\UserEducation;
 
 class ProfileController extends Controller
 {
@@ -25,7 +29,7 @@ class ProfileController extends Controller
 
     public function index()
     {
-        $user = User::with(['documents','address','detail','bank'])->find(auth()->id());
+        $user = User::with(['documents','address','detail','bank', 'leducation'])->find(auth()->id());
         $user = request()->user();
         $document = [];
         foreach($user->documents as $k=>$doc)
@@ -57,11 +61,25 @@ class ProfileController extends Controller
             'bank_name' => $user->bank ? $user->bank->bank_name : '',
             'pan_number' => $user->bank ? $user->bank->pan_number : '',
         ];
+        $educated = [
+            'education_level_id' => $user->leducation ? $user->leducation->education_level_id : '',
+            'faculty_id' => $user->leducation ? $user->leducation->faculty_id : '',
+            'specialization' => $user->leducation ? $user->leducation->specialization : '',
+            'institution' => $user->leducation ? $user->leducation->institution : '',
+            'year' => $user->leducation ? $user->leducation->year : '',
+            'board' => $user->leducation ? $user->leducation->board : '',
+            'marksystem' => $user->leducation ? $user->leducation->marksystem : '',
+            'mark' => $user->leducation ? $user->leducation->mark : '',
+        ];
         
         $user->avatarpath = $user->avatar_path;
         // return $user;
-        $datas['genders'] = ['Male','Female'];
-        $datas['marital_status'] = ['Married','Unmarried'];
+        $datas['genders'] = AppConstant::GENDER;
+        $datas['marital_status'] = AppConstant::MARITAL_STATUS;
+        $datas['education'] = Education::orderBy('title')->get(['id', 'title']);
+        $datas['faculty'] = Faculty::orderBy('title')->get(['id', 'title']);
+        $datas['mark_system'] = AppConstant::MARK_SYSTEM;
+
         $districts = District::get(['id', 'title']);
         $notification = request()->user()->notifications()->paginate(10);
 
@@ -74,6 +92,7 @@ class ProfileController extends Controller
             'bank' => $bank,
             'document' => $document,
             'notification' => $notification,
+            'educated' => $educated
         ]);
     }
     public function updateProfile(ProfileRequest $request)
@@ -116,6 +135,17 @@ class ProfileController extends Controller
             'account_number' => $request->account_number,
             'bank_name' => $request->bank_name,
             'pan_number' => $request->pan_number,
+        ]);
+        UserEducation::updateOrCreate(['user_id' => auth()->id()],[
+            'user_id' => auth()->id(),
+            'education_level_id' => $request->education_level_id,
+            'faculty_id' => $request->faculty_id,
+            'specialization' => $request->specialization,
+            'institution' => $request->institution,
+            'year' => $request->year,
+            'board' => $request->board,
+            'marksystem' => $request->marksystem,
+            'mark' => $request->mark,
         ]);
         if ($request->document)
         {
