@@ -248,4 +248,16 @@ trait UserRelation {
               }
         }
     }
+
+    public function getEmploymentNatureAttribute()
+    {
+        if($this->provision_end_date != NULL)
+        {
+            if($this->provision_end_date >= date('Y-m-d'))
+            {
+                return '<span class="badge bg-warning">Provision</span>';
+            }
+        }
+        return '<span class="badge bg-success">Permanent</span>';
+    }
 }

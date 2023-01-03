@@ -136,9 +136,9 @@ function destroy(id) {
                                 <td scope="row"><p v-html="user.status_label"></p></td>
                                 <td scope="row">
                                     <div class="btn-group">
-                                        <Link :href="route('admin.users.show', user.id)"
-                                            class="btn btn-sm btn-outline-info">
-                                            <i class="bi bi-eye"></i>
+                                        <Link :href="route('admin.reports.index', user.id)"
+                                            class="btn btn-sm btn-outline-success">
+                                            <i class="bi bi-card-text"></i>
                                         </Link>
                                         <Link :href="route('admin.users.edit', user.id)"
                                             class="btn btn-sm btn-outline-warning">

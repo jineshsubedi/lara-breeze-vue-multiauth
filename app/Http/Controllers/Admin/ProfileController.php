@@ -20,6 +20,8 @@ use App\Models\UserBank;
 use Inertia\Inertia;
 use App\Models\User;
 use App\Models\UserEducation;
+use App\Models\UserKpi;
+use App\Models\UserKra;
 use Carbon\Carbon;
 
 class ProfileController extends Controller
@@ -191,5 +193,46 @@ class ProfileController extends Controller
         }
         $doc->delete();
         return back()->with('success', 'Document Deletd!');
+    }
+
+    public function saveKpi($id, Request $request)
+    {
+        $this->validate($request, [
+            'category.*.title' => 'required|string'
+        ]);
+        foreach($request->category as $category)
+        {
+            UserKpi::create([
+                'user_id' => $id,
+                'title' => $category['title']
+            ]);
+        }
+        return back();
+    }
+    public function deleteKpi($id)
+    {
+        UserKpi::findOrFail($id)->delete();
+        return back();
+    }
+    public function saveKra($id, Request $request)
+    {
+        $this->validate($request, [
+            'category.*.title' => 'required|string',
+            'category.*.weightage' => 'required|integer',
+        ]);
+        foreach($request->category as $category)
+        {
+            UserKra::create([
+                'user_id' => $id,
+                'title' => $category['title'],
+                'weightage' => $category['weightage']
+            ]);
+        }
+        return back();
+    }
+    public function deleteKra($id)
+    {
+        UserKra::findOrFail($id)->delete();
+        return back();
     }
 }

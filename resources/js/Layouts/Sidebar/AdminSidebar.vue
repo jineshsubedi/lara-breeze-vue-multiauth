@@ -388,8 +388,8 @@
                     </li>
                     <li>
                         <NavLink 
-                            :href="route('admin.setting.index')" 
-                            :active="route().current('admin.setting.index')"
+                            :href="route('admin.reports.index', $page.props.auth.user.id)" 
+                            :active="$page.component.startsWith('Admin/Reports')"
                         >
                             <i :class="SidebarIcon.REPORT"></i><span>Report</span>
                         </NavLink>

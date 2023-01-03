@@ -7,6 +7,8 @@ use Carbon\Carbon;
 use Hris\Attendance\Models\Attendance;
 use Hris\Event\Models\Event;
 use Hris\Holiday\Models\Holiday;
+use Hris\Task\Models\HelpDesk;
+use Hris\Task\Models\Task;
 
 trait PackageManager
 {
@@ -92,5 +94,23 @@ trait PackageManager
         } catch (\Throwable $th) {
             return [];
         }
+    }
+    public function getStaffTasks($id): Array
+    {
+        try {
+            $tasks = Task::with(['kra:id,title', 'fromUser:id,name'])->where('task_to', $id)->latest()->limit(10)->get(['id', 'title', 'description', 'weightage', 'finish_time', 'complete_status', 'project', 'task_from','kra_id'])->toArray();
+        } catch (\Throwable $th) {
+            $tasks = [];
+        }
+        return count($tasks) > 0 ? $tasks : [];
+    }
+    public function getStaffHelpDesks($id): Array
+    {
+        try {
+            $tasks = HelpDesk::with(['fromUser:id,name', 'kra:id,title'])->where('task_to', $id)->latest()->limit(10)->get(['id', 'title', 'task_from', 'start_time', 'finish_time', 'kra_id', 'complete_status'])->toArray();
+        } catch (\Throwable $th) {
+            $tasks = [];
+        }
+        return count($tasks) > 0 ? $tasks : [];
     }
 }
