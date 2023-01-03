@@ -48,6 +48,7 @@ Route::resource('education', 'EducationController');
 Route::resource('faculties', 'FacultyController');
 
 Route::get('reports/{id}', 'ReportController@index')->name('reports.index');
+Route::get('reports/calendar/{id}', 'ReportController@calendar')->name('calendar.index');
 
 Route::post('kpis/{id}', 'ProfileController@saveKpi')->name('kpis.store');
 Route::delete('kpis/{id}', 'ProfileController@deleteKpi')->name('kpis.destroy');

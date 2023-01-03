@@ -282,6 +282,14 @@
                 <ul id="hrm-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
                     <li>
                         <NavLink 
+                            :href="route('supervisor.reports.index', $page.props.auth.user.id)" 
+                            :active="$page.component.startsWith('Supervisor/Reports')"
+                        >
+                            <i :class="SidebarIcon.REPORT"></i><span>Report</span>
+                        </NavLink>
+                    </li>
+                    <li>
+                        <NavLink 
                             :href="route('supervisor.attendances.index')" 
                             :active="route().current('supervisor.attendances.index')"
                         >

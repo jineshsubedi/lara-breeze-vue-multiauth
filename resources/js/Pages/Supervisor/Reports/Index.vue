@@ -1,5 +1,5 @@
 <script setup>
-import AdminLayout from "@/Layouts/AdminLayout.vue";
+import SupervisorLayout from "@/Layouts/SupervisorLayout.vue";
 import { Head, Link, useForm } from "@inertiajs/inertia-vue3";
 import ReportLink from "@/Components/ReportLink.vue";
 import KPI from "./Kpi.vue"
@@ -7,13 +7,13 @@ import KRA from "./Kra.vue"
 
 import TASK from "./Task.vue"
 import HELPDESK from "./Helpdesk.vue"
-let TaskMenu = Ziggy.routes['admin.tasks.index'] ? true : false;
+let TaskMenu = Ziggy.routes['supervisor.tasks.index'] ? true : false;
 import LEAVE from "./Leave.vue"
-let LeaveMenu = Ziggy.routes['admin.leaves.index'] ? true : false;
+let LeaveMenu = Ziggy.routes['supervisor.leaves.index'] ? true : false;
 import ATTENDANCE from "./Attendance.vue"
-let AttendanceMenu = Ziggy.routes['admin.attendances.index'] ? true : false;
+let AttendanceMenu = Ziggy.routes['supervisor.attendances.index'] ? true : false;
 import CALENDAR from "./Calendar.vue"
-let SurveyMenu = Ziggy.routes['admin.surveys.index'] ? true : false;
+let SurveyMenu = Ziggy.routes['supervisor.surveys.index'] ? true : false;
 import SURVEY from "./Survey.vue"
 
 const form = useForm();
@@ -40,7 +40,7 @@ let SuperAdmin = props.can.includes("SuperAdmin");
 <template>
     <Head title="Report Page" />
 
-    <AdminLayout>
+    <SupervisorLayout>
         <template #header>
             <h2 class="font-semibold text-xl text-gray-800 leading-tight">
                 Report
@@ -49,11 +49,11 @@ let SuperAdmin = props.can.includes("SuperAdmin");
         <template #breadcrum>
             <ol class="breadcrumb">
                 <li class="breadcrumb-item">
-                    <Link :href="route('admin.dashboard')"> Home </Link>
+                    <Link :href="route('supervisor.dashboard')"> Home </Link>
                 </li>
                 <li class="breadcrumb-item active">
                     <Link
-                        :href="route('admin.reports.index', user.id)"
+                        :href="route('supervisor.reports.index', user.id)"
                         :only="['user']"
                     >
                         Staff Report
@@ -212,7 +212,7 @@ let SuperAdmin = props.can.includes("SuperAdmin");
                                             filters.type == null
                                         "
                                         :href="
-                                            route('admin.reports.index', [
+                                            route('supervisor.reports.index', [
                                                 user.id,
                                                 { type: 'profile' },
                                             ])
@@ -227,7 +227,7 @@ let SuperAdmin = props.can.includes("SuperAdmin");
                                             filters.type == 'kpis'
                                         "
                                         :href="
-                                            route('admin.reports.index', [
+                                            route('supervisor.reports.index', [
                                                 user.id,
                                                 { type: 'kpis' },
                                             ])
@@ -242,7 +242,7 @@ let SuperAdmin = props.can.includes("SuperAdmin");
                                             filters.type == 'kras'
                                         "
                                         :href="
-                                            route('admin.reports.index', [
+                                            route('supervisor.reports.index', [
                                                 user.id,
                                                 { type: 'kras' },
                                             ])
@@ -257,7 +257,7 @@ let SuperAdmin = props.can.includes("SuperAdmin");
                                             filters.type == 'tasks'
                                         "
                                         :href="
-                                            route('admin.reports.index', [
+                                            route('supervisor.reports.index', [
                                                 user.id,
                                                 { type: 'tasks' },
                                             ])
@@ -272,7 +272,7 @@ let SuperAdmin = props.can.includes("SuperAdmin");
                                             filters.type == 'helpdesks'
                                         "
                                         :href="
-                                            route('admin.reports.index', [
+                                            route('supervisor.reports.index', [
                                                 user.id,
                                                 { type: 'helpdesks' },
                                             ])
@@ -287,7 +287,7 @@ let SuperAdmin = props.can.includes("SuperAdmin");
                                             filters.type == 'leaves'
                                         "
                                         :href="
-                                            route('admin.reports.index', [
+                                            route('supervisor.reports.index', [
                                                 user.id,
                                                 { type: 'leaves' },
                                             ])
@@ -302,7 +302,7 @@ let SuperAdmin = props.can.includes("SuperAdmin");
                                             filters.type == 'attendances'
                                         "
                                         :href="
-                                            route('admin.reports.index', [
+                                            route('supervisor.reports.index', [
                                                 user.id,
                                                 { type: 'attendances' },
                                             ])
@@ -317,7 +317,7 @@ let SuperAdmin = props.can.includes("SuperAdmin");
                                             filters.type == 'calendar'
                                         "
                                         :href="
-                                            route('admin.reports.index', [
+                                            route('supervisor.reports.index', [
                                                 user.id,
                                                 { type: 'calendar' },
                                             ])
@@ -332,7 +332,7 @@ let SuperAdmin = props.can.includes("SuperAdmin");
                                             filters.type == 'surveys'
                                         "
                                         :href="
-                                            route('admin.reports.index', [
+                                            route('supervisor.reports.index', [
                                                 user.id,
                                                 { type: 'surveys' },
                                             ])
@@ -594,7 +594,7 @@ let SuperAdmin = props.can.includes("SuperAdmin");
                 </div>
             </div>
         </section>
-    </AdminLayout>
+    </SupervisorLayout>
 </template>
 <style scoped>
 thead,

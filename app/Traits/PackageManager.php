@@ -2,11 +2,14 @@
 
 namespace App\Traits;
 
+use App\Models\Leave;
 use App\Models\User;
 use Carbon\Carbon;
 use Hris\Attendance\Models\Attendance;
 use Hris\Event\Models\Event;
 use Hris\Holiday\Models\Holiday;
+use Hris\Survey\Models\Survey;
+use Hris\Survey\Models\SurveyAnswer;
 use Hris\Task\Models\HelpDesk;
 use Hris\Task\Models\Task;
 
@@ -112,5 +115,41 @@ trait PackageManager
             $tasks = [];
         }
         return count($tasks) > 0 ? $tasks : [];
+    }
+    public function getStaffApprovedLeaves($id): Array
+    {
+        try {
+            $leaves = Leave::with(['user:id,name','branch:id,name', 'leaveType:id,title'])->where('user_id', $id)->latest('id')->limit(10)->get(['id', 'user_id', 'leave_type_id', 'type', 'start_date', 'end_date', 'duration', 'paid', 's_approve', 'h_approve', 'm_approve'])->map(function($q){
+                if($q->type == 1)
+                    $q->type_label = 'Full';
+                elseif($q->type == 2)
+                    $q->type_label = 'Half';
+                elseif($q->type == 3)
+                    $q->type_label = 'Quarter';
+                return $q;
+            })->toArray();
+        } catch (\Throwable $th) {
+            $leaves = [];
+        }
+        return count($leaves) > 0 ? $leaves : [];
+    }
+    public function getStaffAttendances($id): Array
+    {
+        try {
+            $attendances = Attendance::where('user_id', $id)->latest('id')->limit(30)->get(['id', 'attendance_date', 'in_time', 'in_location', 'out_time', 'out_location', 'approve'])->toArray();
+        } catch (\Throwable $th) {
+            $attendances = [];
+        }
+        return count($attendances) > 0 ? $attendances : [];
+    }
+    public function getStaffDynamicSurvey($id):Array 
+    {
+        try {
+            $surveyIds = SurveyAnswer::where('user_id', $id)->groupBy('survey_id', 'user_id')->pluck('survey_id');
+            $surveys = Survey::whereIn('id', $surveyIds)->where('status', 1)->latest('id')->limit(10)->get(['id', 'title', 'start_date', 'end_date', 'status'])->toArray();
+        } catch (\Throwable $th) {
+            $surveys = [];
+        }
+        return count($surveys) > 0 ? $surveys : [];
     }
 }

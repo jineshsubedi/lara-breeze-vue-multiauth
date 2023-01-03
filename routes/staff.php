@@ -33,3 +33,11 @@ Route::get('/organization_chart', 'OrgChartController@index')->name('organizatio
 
 Route::resource('education', 'EducationController');
 Route::resource('faculties', 'FacultyController');
+
+Route::get('reports/{id}', 'ReportController@index')->name('reports.index');
+Route::get('reports/calendar/{id}', 'ReportController@calendar')->name('calendar.index');
+
+Route::post('kpis/{id}', 'ProfileController@saveKpi')->name('kpis.store');
+Route::delete('kpis/{id}', 'ProfileController@deleteKpi')->name('kpis.destroy');
+Route::post('kras/{id}', 'ProfileController@saveKra')->name('kras.store');
+Route::delete('kras/{id}', 'ProfileController@deleteKra')->name('kras.destroy');

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Admin;
+namespace App\Http\Controllers\Supervisor;
 
 use App\Http\Controllers\Controller;
 use App\Models\DailyTask;
@@ -55,7 +55,7 @@ class ReportController extends Controller
             $attendances = request()->type == 'attendances' ? $this->getStaffAttendances($id) : [];
             $surveys = request()->type == 'surveys' ? $this->getStaffDynamicSurvey($id) : [];
         }
-        return Inertia::render('Admin/Reports/Index', [
+        return Inertia::render('Supervisor/Reports/Index', [
             'user' => $user,
             'owner' => $owner,
             'kpis' => $kpis,
