@@ -16,7 +16,8 @@
     let BookingHallMenu = Ziggy.routes['supervisor.bookinghalls.index'] ? true : false;
     let BookingPurposeMenu = Ziggy.routes['supervisor.bookingpurposes.index'] ? true : false;
     let BookingMenu = Ziggy.routes['supervisor.bookings.index'] ? true : false;
-    let RevenueMenu = Ziggy.routes['admin.revenues.index'] ? true : false;
+    let RevenueMenu = Ziggy.routes['supervisor.revenues.index'] ? true : false;
+    let SubordinateMenu = Ziggy.routes['supervisor.subordinates.index'] ? true : false;
 
 </script>
 <template>
@@ -326,6 +327,14 @@
                             :active="$page.component.startsWith('Supervisor/Mysurveys')"
                         >
                             <i :class="SidebarIcon.SURVEY"></i><span>Survey</span>
+                        </NavLink>
+                    </li>
+                    <li v-if="SubordinateMenu">
+                        <NavLink 
+                            :href="route('supervisor.subordinates.index')" 
+                            :active="$page.component.startsWith('Supervisor/Subordinates/Index')"
+                        >
+                            <i :class="SidebarIcon.SUBORDINATE"></i><span>Subordinate Note</span>
                         </NavLink>
                     </li>
                     <li>

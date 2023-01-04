@@ -16,7 +16,8 @@
     let BookingHallMenu = Ziggy.routes['staffs.bookinghalls.index'] ? true : false;
     let BookingPurposeMenu = Ziggy.routes['staffs.bookingpurposes.index'] ? true : false;
     let BookingMenu = Ziggy.routes['staffs.bookings.index'] ? true : false;
-    let RevenueMenu = Ziggy.routes['admin.revenues.index'] ? true : false;
+    let RevenueMenu = Ziggy.routes['staffs.revenues.index'] ? true : false;
+    let SubordinateMenu = Ziggy.routes['staffs.subordinates.index'] ? true : false;
 
 </script>
 <template>
@@ -326,6 +327,14 @@
                             :active="$page.component.startsWith('Staff/Events')"
                         >
                             <i :class="SidebarIcon.EVENT"></i><span>Events</span>
+                        </NavLink>
+                    </li>
+                    <li v-if="SubordinateMenu">
+                        <NavLink 
+                            :href="route('staffs.subordinates.index')" 
+                            :active="$page.component.startsWith('Staff/Subordinates/Index')"
+                        >
+                            <i :class="SidebarIcon.SUBORDINATE"></i><span>Subordinate Note</span>
                         </NavLink>
                     </li>
                     <li>
