@@ -19,7 +19,7 @@ class ReportController extends Controller
     public function index($id)
     {
         $owner = false;
-        if($id === auth()->id())
+        if($id == auth()->id())
             $owner = true;
         $user = User::findOrFail($id);
         $user->avatarpath = $user->avatar_path;

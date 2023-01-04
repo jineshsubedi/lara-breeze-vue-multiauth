@@ -427,11 +427,11 @@ let SuperAdmin = props.can.includes("SuperAdmin");
                                                         </tr>
                                                         <tr>
                                                             <th>Permanent Address</th>
-                                                            <th>{{ user.address.pdistrict ? user.address.pdistrict.title : '' }} {{ user.address.p_address }}</th>
+                                                            <th>{{ user.address ? (user.address.pdistrict ? user.address.pdistrict.title : '') : '' }} {{ user.address ? user.address.p_address : '' }}</th>
                                                         </tr>
                                                         <tr>
                                                             <th>Temporary Address</th>
-                                                            <th>{{ user.address.pdistrict ? user.address.tdistrict.title : '' }} {{ user.address.t_address }}</th>
+                                                            <th>{{ user.address ? (user.address.pdistrict ? user.address.tdistrict.title : '') : '' }} {{ user.address ? user.address.t_address : '' }}</th>
                                                         </tr>
                                                     </tbody>
                                                 </table>
@@ -461,35 +461,35 @@ let SuperAdmin = props.can.includes("SuperAdmin");
                                                     <tbody>
                                                         <tr>
                                                             <th>Education Level</th>
-                                                            <th>{{ user.leducation.education ? user.leducation.education.title : '' }}</th>
+                                                            <th>{{ user.leducation ? (user.leducation.education ? user.leducation.education.title : '') : '' }}</th>
                                                         </tr>
                                                         <tr>
                                                             <th>Faculty</th>
-                                                            <th>{{ user.leducation.faculty ? user.leducation.faculty.title : '' }}</th>
+                                                            <th>{{ user.leducation ? (user.leducation.faculty ? user.leducation.faculty.title : '') : '' }}</th>
                                                         </tr>
                                                         <tr>
                                                             <th>Specialization</th>
-                                                            <th>{{user.leducation ? user.leducation.specialization : ''}}</th>
+                                                            <th>{{user.leducation ? (user.leducation ? user.leducation.specialization : '') : ''}}</th>
                                                         </tr>
                                                         <tr>
                                                             <th>Institute</th>
-                                                            <th>{{user.leducation ? user.leducation.institution : ''}}</th>
+                                                            <th>{{user.leducation ? (user.leducation ? user.leducation.institution : '') : ''}}</th>
                                                         </tr>
                                                         <tr>
                                                             <th>Year</th>
-                                                            <th>{{user.leducation ? user.leducation.year : ''}}</th>
+                                                            <th>{{user.leducation ? (user.leducation ? user.leducation.year : '') : ''}}</th>
                                                         </tr>
                                                         <tr>
                                                             <th>Board</th>
-                                                            <th>{{user.leducation ? user.leducation.board : ''}}</th>
+                                                            <th>{{user.leducation ? (user.leducation ? user.leducation.board : '') : ''}}</th>
                                                         </tr>
                                                         <tr>
                                                             <th>Marksystem</th>
-                                                            <th>{{user.leducation ? user.leducation.marksystem : ''}}</th>
+                                                            <th>{{user.leducation ? (user.leducation ? user.leducation.marksystem : '') : ''}}</th>
                                                         </tr>
                                                         <tr>
                                                             <th>Mark</th>
-                                                            <th>{{user.leducation ? user.leducation.mark : ''}}</th>
+                                                            <th>{{user.leducation ? (user.leducation ? user.leducation.mark : '') : ''}}</th>
                                                         </tr>
                                                     </tbody>
                                                 </table>
