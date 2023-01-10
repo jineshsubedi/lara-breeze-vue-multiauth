@@ -8,6 +8,7 @@ use Hris\Document\Models\Document;
 use Illuminate\Http\Request;
 use App\Models\Branch;
 use App\Models\Department;
+use Illuminate\Support\Facades\Storage;
 use Inertia\Inertia;
 
 class DocumentController extends Controller
@@ -84,7 +85,8 @@ class DocumentController extends Controller
         $document_path = $document->getRawOriginal('document');
         if($request->hasFile('docfile'))
         {
-            $this->deleteFile($document_path);
+            if(Storage::exists($document_path))
+                Storage::delete($document_path);
             $document_path = $request->file('docfile')->store($this->path, $this->disk);
         }
         $document->update($request->validated() + [

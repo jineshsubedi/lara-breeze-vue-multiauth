@@ -31,6 +31,22 @@ class CommonController extends Controller
         return User::where('branch_id', $request->branch)
             ->get(['id', 'name']); 
     }
+    public function getDepartmentByBranch(Request $request)
+    {
+        $this->validate($request, [
+            'branch' => ['required','integer'],
+        ]);
+        return Department::where('branch_id', $request->branch)
+            ->get(['id', 'title']); 
+    }
+    public function getStaffByDepartment(Request $request)
+    {
+        $this->validate($request, [
+            'department' => ['required','integer'],
+        ]);
+        return User::where('department_id', $request->department)
+            ->get(['id', 'name']); 
+    }
     public function getShiftsByBranch(Request $request)
     {
         $this->validate($request, [

@@ -20,6 +20,7 @@
     let BookingMenu = Ziggy.routes['admin.bookings.index'] ? true : false;
     let RevenueMenu = Ziggy.routes['admin.revenues.index'] ? true : false;
     let SubordinateMenu = Ziggy.routes['admin.subordinates.index'] ? true : false;
+    let LetterMenu = Ziggy.routes['admin.letters.index'] ? true : false;
 
 </script>
 <template>
@@ -210,6 +211,23 @@
                             <i :class="SidebarIcon.FACULTY"></i><span>Faculty</span>
                         </NavLink>
                     </li>
+                    <li class="nav-heading" v-if="$page.props.can.includes('SuperAdmin')">HR Letter</li>
+                    <li v-if="LetterMenu">
+                        <NavLink 
+                            :href="route('admin.lettertypes.index')" 
+                            :active="$page.component.startsWith('Admin/LetterTypes')"
+                        >
+                            <i :class="SidebarIcon.LETTER"></i><span>Letter Type</span>
+                        </NavLink>
+                    </li>
+                    <li v-if="LetterMenu">
+                        <NavLink 
+                            :href="route('admin.letters.index')" 
+                            :active="$page.component.startsWith('Admin/Letters')"
+                        >
+                            <i :class="SidebarIcon.LETTER"></i><span>Letters</span>
+                        </NavLink>
+                    </li>
                 </ul>
             </li>
 
@@ -370,6 +388,23 @@
                             :active="$page.component.startsWith('Admin/Faculties')"
                         >
                             <i :class="SidebarIcon.FACULTY"></i><span>Faculty</span>
+                        </NavLink>
+                    </li>
+                    <li class="nav-heading">HR Letter</li>
+                    <li v-if="LetterMenu">
+                        <NavLink 
+                            :href="route('admin.lettertypes.index')" 
+                            :active="$page.component.startsWith('Admin/LetterTypes')"
+                        >
+                            <i :class="SidebarIcon.LETTER"></i><span>Letter Type</span>
+                        </NavLink>
+                    </li>
+                    <li v-if="LetterMenu">
+                        <NavLink 
+                            :href="route('admin.letters.index')" 
+                            :active="$page.component.startsWith('Admin/Letters')"
+                        >
+                            <i :class="SidebarIcon.LETTER"></i><span>Letters</span>
                         </NavLink>
                     </li>
                 </ul>

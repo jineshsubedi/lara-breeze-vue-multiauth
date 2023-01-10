@@ -1,18 +1,14 @@
 <?php
 
-namespace Hris\Overtime\Http\Controllers\Admin;
+namespace Hris\Hrletter\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use Hris\Overtime\Models\Overtimereason;
-use Hris\Overtime\Requests\OvertimereasonRequest;
+use Hris\Hrletter\Models\LetterType;
+use Hris\Hrletter\Requests\LetterTypeRequest;
 use Inertia\Inertia;
 
-class OvertimereasonController extends Controller
+class LetterTypeController extends Controller
 {
-    public function __construct()
-    {
-        $this->middleware('role:HrHandler');
-    }
     /**
      * Display a listing of the resource.
      *
@@ -20,14 +16,14 @@ class OvertimereasonController extends Controller
      */
     public function index()
     {
-        $query = Overtimereason::query();
+        $query = LetterType::query();
         $filter = $this->filterQuery($query);
-        $overtimereasons = $filter->latest('id', 'desc')
+        $lettertypes = $filter->latest('id', 'desc')
                           ->paginate(20)
                           ->withQueryString();
 
-        return Inertia::render('Admin/Overtimereasons/Index', [
-            'overtimereasons' => $overtimereasons,
+        return Inertia::render('Admin/LetterTypes/Index', [
+            'lettertypes' => $lettertypes
         ]);
 
     }
@@ -39,37 +35,37 @@ class OvertimereasonController extends Controller
      */
     public function create()
     {
-        return Inertia::render('Admin/Overtimereasons/Create');
+        return Inertia::render('Admin/LetterTypes/Create');
     }
 
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \App\Http\Requests\Overtimereason\OvertimereasonRequest $request
+     * @param  \App\Http\Requests\LetterType\LetterTypeRequest $request
      *
      * @return \Illuminate\Http\Response
      */
-    public function store(OvertimereasonRequest $request)
+    public function store(LetterTypeRequest $request)
     {
         foreach($request->category as $st)
         {
             $data = [
                 'title' => $st['title'],
             ];
-            Overtimereason::create($data);
+            LetterType::create($data);
         }
-        return redirect()->route('admin.overtimereasons.index')->with('success', 'Record Added!');
+        return redirect()->route('admin.lettertypes.index')->with('success', 'Record Added!');
     }
 
 
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\Overtimereason  $overtimereason
+     * @param  \App\Models\LetterType  $lettertype
      * @return \Illuminate\Http\Response
      */
-    public function show(Overtimereason $overtimereason)
+    public function show(LetterType $lettertype)
     {
         //
     }
@@ -77,7 +73,7 @@ class OvertimereasonController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \App\Http\Requests\OvertimereasonRequest $request
+     * @param  \App\Http\Requests\LetterTypeRequest $request
      *
      * @return \Illuminate\Http\Response
      */
@@ -86,31 +82,31 @@ class OvertimereasonController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Overtimereason  $overtimereason
+     * @param  \App\LetterType  $lettertype
      * @return \Illuminate\Http\Response
      */
-    public function edit(Overtimereason $overtimereason)
+    public function edit(LetterType $lettertype)
     {
-        return Inertia::render('Admin/Overtimereasons/Edit', [
-            'overtimereason' => $overtimereason
+        return Inertia::render('Admin/LetterTypes/Edit', [
+            'lettertype' => $lettertype
         ]);
     }
 
-    public function update(OvertimereasonRequest $request, Overtimereason $overtimereason)
+    public function update(LetterTypeRequest $request, LetterType $lettertype)
     {
-        $overtimereason->update($request->validated());
-        return redirect()->route('admin.overtimereasons.index')->with('success', 'Record Updated');
+        $lettertype->update($request->validated());
+        return redirect()->route('admin.lettertypes.index')->with('success', 'Record Updated');
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\Overtimereason  $overtimereason
+     * @param  \App\Models\LetterType  $lettertype
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Overtimereason $overtimereason)
+    public function destroy(LetterType $lettertype)
     {
-        $overtimereason->delete();
+        $lettertype->delete();
         return back()->with('success', 'Record Deleted');
     }
 

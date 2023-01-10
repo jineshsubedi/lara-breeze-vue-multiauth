@@ -206,7 +206,8 @@ return [
         Hris\Event\EventServiceProvider::class,
         Hris\Booking\BookingServiceProvider::class,
         Hris\Revenue\RevenueServiceProvider::class,
-        Hris\Subordinate\SubordinateServiceProvider::class
+        Hris\Subordinate\SubordinateServiceProvider::class,
+        Hris\Hrletter\HrletterServiceProvider::class
     ],
 
     /*
