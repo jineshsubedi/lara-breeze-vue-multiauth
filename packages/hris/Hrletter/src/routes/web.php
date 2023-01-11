@@ -10,7 +10,9 @@ Route::group([
 ], function() {
     Route::resource('lettertypes', 'LetterTypeController');
     Route::resource('letters', 'LetterController');
-    Route::post('letter/{id}/generate', 'LetterController@generate');
+    Route::get('letter/generate', 'LetterController@generate')->name('letters.generate');
+    Route::post('letter_generation', 'LetterController@letter_generation')->name('letters.generation');
+    Route::post('letter/generate', 'LetterController@saveGenerate')->name('letters.saveGenerate');
 
 });
 

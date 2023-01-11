@@ -3,7 +3,6 @@ import AdminLayout from "@/Layouts/AdminLayout.vue";
 import { Head, Link, useForm } from "@inertiajs/inertia-vue3";
 import axios from "axios";
 import { ref } from "vue";
-import CenterModal from "@/Components/CenterModal.vue";
 
 const props = defineProps({
     defBranch: Number,
@@ -22,7 +21,6 @@ const form = useForm({
 
     template: null,
 });
-let title = ref('Template');
 let departments = ref([]);
 let staffs = ref([]);
 loadDepartmentByBranch()
@@ -60,7 +58,6 @@ function selectTemplate(event)
     var options = event.target.options
     if (options.selectedIndex > -1) {
         form.description = options[options.selectedIndex].getAttribute('description');
-        // $('#templateDescription').modal('show');
         quill.value.setHTML(form.description)
     }
 }
@@ -233,14 +230,6 @@ function selectTemplate(event)
                     </div>
                 </div>
             </div>
-            <CenterModal
-                :id="'templateDescription'"
-                :title="title"
-            >
-                <div class="alert alert-info">
-                    click to copy template
-                </div>
-            </CenterModal>
         </div>
     </AdminLayout>
 </template>

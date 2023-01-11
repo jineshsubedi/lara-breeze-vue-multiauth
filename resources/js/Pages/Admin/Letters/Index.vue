@@ -69,6 +69,9 @@ function loadFilter()
                 <Link :href="route('admin.letters.create')" class="btn btn-sm btn-outline-info">
                     <i class="bi bi-plus"></i> New Letter
                 </Link>
+                <Link :href="route('admin.letters.generate')" class="btn btn-sm btn-outline-primary">
+                    <i class="bi bi-gear"></i> Generate Staff Letter
+                </Link>
             </div>
             <div class="card">
                 <div class="card-body">

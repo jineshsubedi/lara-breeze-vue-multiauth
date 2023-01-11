@@ -29,5 +29,6 @@ class HrletterServiceProvider extends ServiceProvider
         $this->mergeConfigFrom(
             __DIR__.'/config/Constant.php', 'letterConstant'
         );
+        $this->loadViewsFrom(__DIR__.'/views', 'letter');
     }
 }

@@ -5,11 +5,15 @@ namespace Hris\Hrletter\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Branch;
 use App\Models\Department;
+use App\Models\Setting;
+use App\Models\User;
 use Hris\Hrletter\Models\Letter;
 use Hris\Hrletter\Models\LetterType;
 use Hris\Hrletter\Requests\LetterRequest;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Inertia\Inertia;
+use PDF;
 
 class LetterController extends Controller
 {
@@ -163,5 +167,81 @@ class LetterController extends Controller
         return $query;
     }
 
+    public function generate()
+    {
+        $user = auth()->user();
+        return Inertia::render('Admin/Letters/Generate', [
+            'letters' => Letter::with(['type:id,title'])->where('branch_id', $user->branch_id)->where('department_id', $user->department_id)->get(),
+            'staffs' => User::active()->where('branch_id', $user->branch_id)->get(['id', 'name'])
+        ]);
+    }
+    public function letter_generation(Request $request)
+    {
+        $this->validate($request, [
+            'staff_id' => 'required',
+            'letter_id' => 'required',
+        ]);
+        $letter = Letter::with(['type:id,title'])->findOrFail($request->letter_id);
+        $handler = User::with(['designation:id,title'])->select('id', 'name', 'designation_id')->find($letter->handler);
+        $description = $letter->description;
+        $letterTitle = $letter->type ? $letter->type->title : 'Letter Type';
+        $user = User::select('id', 'name', 'email', 'gender')->findOrFail($request->staff_id);
+        $setting = Setting::first();
+
+        $description = str_replace(
+            [
+                '*letter-type*', 
+                '*today*',
+                '*employee-name*',
+                '*title*',
+
+                '*signature*',
+                '*stamp*',
+                '*letter-handler*',
+                '*letter-handler-designation*',
+
+                '*employer-name*',
+                '*employer-address*'
+            ], 
+            [
+                $letterTitle,
+                date('d M, Y'),
+                $user->name,
+                $user->gender == 'Male' ? 'Mr.' : ($user->gender == 'Female' ? 'Mrs.' : ''),
+
+                $letter->signature_path ? '<img src="'.$letter->signature_path.'" style="width: 100px;"/>' : '',
+                '<img src="/images/stamp.png" style="width:100px; position: absolute; bottom: 80px; opacity: .7; left: 100px;" />',
+
+                $handler->name,
+                $handler->designation ? $handler->designation->title : '',
+
+                $setting->name,
+                $setting->address
+            ], 
+            $description
+        );
+
+        return $description;
+    }
+
+    public function saveGenerate(Request $request)
+    {
+        return $request->all();
+        $this->validate($request, [
+            'staff_id' => 'required',
+            'description' => 'required',
+        ]);
+        $data = [
+            'description' => $request->description
+        ];
+        $pdf = app('dompdf.wrapper');
+        $pdf->getDomPDF()->set_option("enable_php", true);
+        $pdf->loadView('letter::staff_letter', $data);
+        return $pdf->stream('pdf_file.pdf');
+
+
+        return back()->with('success', 'Letter Generated');
+
+    }
 }
 

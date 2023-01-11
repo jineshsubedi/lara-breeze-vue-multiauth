@@ -43,6 +43,8 @@
         <script src="{{asset('assets/vendor/php-email-form/validate.js')}}"></script>
 
         <script src="{{asset('assets/vendor/fullcalendar/main.min.js')}}"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.3.1/jspdf.umd.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.2.1/html2canvas.min.js"></script>
         <!-- Template Main JS File -->
         <script src="{{asset('assets/js/main.js')}}"></script>
     </body>
