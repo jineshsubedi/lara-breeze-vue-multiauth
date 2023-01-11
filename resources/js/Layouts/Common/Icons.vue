@@ -52,6 +52,7 @@ export const SidebarIcon = Object.freeze({
     LETTER: "bi bi-chat-left-text",
     TRAINING: "bi bi-easel",
     TRAINER: "bi bi-person-badge-fill",
+    TRAINING_PROGRAM: "bi bi-book"
 
     
 });

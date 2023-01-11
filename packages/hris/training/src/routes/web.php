@@ -9,6 +9,7 @@ Route::group([
     'middleware' => ['web', 'auth', 'verified', 'isAdmin']
 ], function() {
     Route::resource('trainers', 'TrainerController');
+    Route::resource('trainingprograms', 'TrainingProgramController');
 
 });
 

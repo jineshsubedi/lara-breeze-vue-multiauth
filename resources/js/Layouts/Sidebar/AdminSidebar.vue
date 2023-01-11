@@ -327,6 +327,14 @@
                 <ul id="training-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
                     <li>
                         <NavLink 
+                            :href="route('admin.trainingprograms.index')" 
+                            :active="$page.component.startsWith('Admin/TrainingPrograms')"
+                        >
+                            <i :class="SidebarIcon.TRAINING_PROGRAM"></i><span>Programs/Course</span>
+                        </NavLink>
+                    </li>
+                    <li>
+                        <NavLink 
                             :href="route('admin.trainers.index')" 
                             :active="$page.component.startsWith('Admin/Trainers')"
                         >
