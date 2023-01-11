@@ -207,6 +207,7 @@ return [
         Hris\Booking\BookingServiceProvider::class,
         Hris\Revenue\RevenueServiceProvider::class,
         Hris\Subordinate\SubordinateServiceProvider::class,
+        Hris\Training\TrainingServiceProvider::class,
         Hris\Hrletter\HrletterServiceProvider::class,
         Barryvdh\DomPDF\ServiceProvider::class,
     ],

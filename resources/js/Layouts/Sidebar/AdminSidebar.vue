@@ -20,6 +20,7 @@
     let BookingMenu = Ziggy.routes['admin.bookings.index'] ? true : false;
     let RevenueMenu = Ziggy.routes['admin.revenues.index'] ? true : false;
     let SubordinateMenu = Ziggy.routes['admin.subordinates.index'] ? true : false;
+    let TrainingMenu = Ziggy.routes['admin.trainers.index'] ? true : false;
     let LetterMenu = Ziggy.routes['admin.letters.index'] ? true : false;
 
 </script>
@@ -318,6 +319,21 @@
                     <i :class="SidebarIcon.ATTENDANCE_HANDLER"></i>
                     Attendance Handler
                 </NavLink>
+            </li>
+            <li class="nav-item" v-if="TrainingMenu">
+                <a class="nav-link collapsed" data-bs-target="#training-nav" data-bs-toggle="collapse" href="#">
+                    <i :class="SidebarIcon.TRAINING"></i><span>Training</span><i class="bi bi-chevron-down ms-auto"></i>
+                </a>
+                <ul id="training-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
+                    <li>
+                        <NavLink 
+                            :href="route('admin.trainers.index')" 
+                            :active="$page.component.startsWith('Admin/Trainers')"
+                        >
+                            <i :class="SidebarIcon.TRAINER"></i><span>Trainer</span>
+                        </NavLink>
+                    </li>
+                </ul>
             </li>
             <li class="nav-item" v-if="$page.props.can.includes('HrHandler')">
                 <a class="nav-link collapsed" data-bs-target="#hr-handler-nav" data-bs-toggle="collapse" href="#">

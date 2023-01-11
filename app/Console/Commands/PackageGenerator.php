@@ -35,7 +35,7 @@ class PackageGenerator extends Command
      */
     public function handle()
     {
-        $this->package = ucfirst($this->argument('package'));
+        $this->package = strtolower($this->argument('package'));
 
         $this->createDirectoryList();
         
