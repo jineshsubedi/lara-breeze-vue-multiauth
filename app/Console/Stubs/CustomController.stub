@@ -1,0 +1,121 @@
+<?php
+
+namespace App\Http\Controllers\Admin;
+
+use App\Http\Requests\Admin\DummyRequest;
+use App\Http\Controllers\Controller;
+use App\Models\Dummy;
+use Inertia\Inertia;
+
+class DummyController extends Controller
+{
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function index()
+    {
+        $query = Dummy::query();
+        $filter = $this->filterQuery($query);
+        $dummies = $filter->latest('id', 'desc')
+                          ->paginate(20)
+                          ->withQueryString();
+
+        return Inertia::render('Admin/Dummies/Index', [
+            'dummies' => $dummies
+        ]);
+
+    }
+
+    /**
+     * Show the form for creating a new resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function create()
+    {
+        return Inertia::render('Admin/Dummies/Create');
+    }
+
+
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param  \App\Http\Requests\Dummy\DummyRequest $request
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function store(DummyRequest $request)
+    {
+        Dummy::create($request->validated());
+        return redirect()->route('admin.dummies.index')->with('success', 'Record Added!');
+    }
+
+
+    /**
+     * Display the specified resource.
+     *
+     * @param  \App\Models\Dummy  $dummy
+     * @return \Illuminate\Http\Response
+     */
+    public function show(Dummy $dummy)
+    {
+        //
+    }
+
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param  \App\Http\Requests\DummyRequest $request
+     *
+     * @return \Illuminate\Http\Response
+     */
+
+
+    /**
+     * Show the form for editing the specified resource.
+     *
+     * @param  \App\Dummy  $dummy
+     * @return \Illuminate\Http\Response
+     */
+    public function edit(Dummy $dummy)
+    {
+        return Inertia::render('Admin/Dummies/Edit', [
+            'dummy' => $dummy
+        ]);
+    }
+
+    public function update(DummyRequest $request, Dummy $dummy)
+    {
+        $dummy->update($request->validated());
+        return redirect()->route('admin.dummies.index')->with('success', 'Record Updated');
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param  \App\Models\Dummy  $dummy
+     * @return \Illuminate\Http\Response
+     */
+    public function destroy(Dummy $dummy)
+    {
+        $dummy->delete();
+        return back()->with('success', 'Record Deleted');
+    }
+
+    private function filterQuery($query)
+    {
+        if(!auth()->user()->roles->where('name', 'SuperAdmin')->first())
+        {
+            $query->where('branch_id', auth()->user()->branch_id);
+        }else{
+            if(request()->filled('branch')) {
+                $query->where('branch_id', request()->branch);
+            }
+        }
+        return $query;
+    }
+
+}
+

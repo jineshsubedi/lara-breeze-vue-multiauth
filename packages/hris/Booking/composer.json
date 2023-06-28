@@ -1,0 +1,25 @@
+{
+    "name": "hris/booking",
+    "description": "hris booking request",
+    "type": "project",
+    "license": "MIT",
+    "autoload": {
+        "psr-4": {
+            "Hris\\Booking\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "jinesh subedi",
+            "email": "jinesh1094@gmail.com"
+        }
+    ],
+    "require": {},
+    "extra": {
+        "Laravel": {
+            "Providers" : [
+                "Hris\\Booking\\BookingServiceProvider"
+            ]
+        }
+    }
+}

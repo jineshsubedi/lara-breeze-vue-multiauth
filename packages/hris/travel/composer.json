@@ -1,0 +1,25 @@
+{
+    "name": "hris/travel",
+    "description": "hris travel request",
+    "type": "project",
+    "license": "MIT",
+    "autoload": {
+        "psr-4": {
+            "Hris\\Travel\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "jinesh subedi",
+            "email": "jinesh1094@gmail.com"
+        }
+    ],
+    "require": {},
+    "extra": {
+        "Laravel": {
+            "Providers" : [
+                "Hris\\Travel\\TravelServiceProvider"
+            ]
+        }
+    }
+}

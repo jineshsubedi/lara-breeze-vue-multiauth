@@ -1,0 +1,25 @@
+{
+    "name": "hris/task",
+    "description": "this is hris task lara-breeze-vue",
+    "type": "project",
+    "license": "MIT",
+    "autoload": {
+        "psr-4": {
+            "Hris\\Task\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "jinesh subedi",
+            "email": "jinesh1094@gmail.com"
+        }
+    ],
+    "require": {},
+    "extra": {
+        "Laravel": {
+            "Providers" : [
+                "Hris\\Task\\TaskServiceProvider"
+            ]
+        }
+    }
+}

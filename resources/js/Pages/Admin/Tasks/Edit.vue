@@ -1,0 +1,327 @@
+<script setup>
+import AdminLayout from "@/Layouts/AdminLayout.vue";
+import { Head, Link, useForm } from "@inertiajs/inertia-vue3";
+import axios from "axios";
+import { ref } from "vue";
+
+const props = defineProps({
+    data : Object,
+    task : Object,
+    defBranch: Number, 
+})
+
+const form = useForm({
+    title: props.task.title,
+    task_to: props.task.task_to,
+    branch_id: props.defBranch,
+    kra_id: props.task.kra_id,
+    weightage: props.task.weightage,
+    finish_time: props.task.finish_time,
+    num_task: props.task.num_task,
+    project: props.task.project,
+    personal: props.task.personal,
+    priority: props.task.old_priority,
+    description: props.task.description
+});
+let staffs = ref([]);
+let kras = ref([]);
+function getStaffs()
+{
+    axios.post(route('getStaffsByBranch'), 
+    {
+        branch: form.branch_id
+    }
+    )
+    .then(res => {
+        staffs.value = ref(res.data)
+    }).catch(err => {
+        console.log(err)
+    })
+}
+function getStaffKra()
+{
+    axios.post(route('getStaffsKra'), 
+        {
+            staff: form.task_to
+        }
+    )
+    .then(res => {
+        kras.value = ref(res.data)
+    }).catch(err => {
+        console.log(err)
+    })
+}
+getStaffs()
+getStaffKra()
+</script>
+<template>
+    <Head title="Task Edit" />
+
+    <AdminLayout>
+        <template #header>
+            <h2 class="font-semibold text-xl text-gray-800 leading-tight">
+                Task Edit
+            </h2>
+        </template>
+        <template #breadcrum>
+            <ol class="breadcrumb float-sm-right">
+                <li class="breadcrumb-item">
+                    <Link :href="route('admin.dashboard')"> Home </Link>
+                </li>
+                <li class="breadcrumb-item">
+                    <Link :href="route('admin.tasks.index')"> Task </Link>
+                </li>
+                <li class="breadcrumb-item active">
+                    <Link :href="route('admin.tasks.edit', task.id)"> Edit </Link>
+                </li>
+            </ol>
+        </template>
+        <div class="">
+            <div class="row mb-3">
+                <div class="col-md-12">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title">Edit Task</h5>
+                            <form
+                                class="form-horizontal"
+                                @submit.prevent="
+                                    form.put(route('admin.tasks.update', task.id))
+                                "
+                            >
+                                <!-- <div class="form-group row mb-3">
+                                    <label
+                                        for="branch_id"
+                                        class="col-sm-2 col-form-label"
+                                        >Branch</label
+                                    >
+                                    <div class="col-sm-10">
+                                        <select v-model="form.branch_id" id="branch_id" class="form-control" @change="getStaffs">
+                                            <option v-for="(branch, index) in data.branches" :key="index" :value="branch.id">{{branch.name}}</option>
+                                        </select>
+                                        <div
+                                            class="text-red-400 text-sm"
+                                            v-if="form.errors.branch_id"
+                                        >
+                                            {{ form.errors.branch_id }}
+                                        </div>
+                                    </div>
+                                </div> -->
+                                <div class="form-group row mb-3">
+                                    <label
+                                        for="task_to"
+                                        class="col-sm-2 col-form-label"
+                                        >Task To</label
+                                    >
+                                    <div class="col-sm-10">
+                                        <select v-model="form.task_to" id="task_to" class="form-control" @change="getStaffKra">
+                                            <option v-for="(staff, index) in staffs.value" :key="index" :value="staff.id">{{staff.name}}</option>
+                                        </select>
+                                        <div
+                                            class="text-red-400 text-sm"
+                                            v-if="form.errors.task_to"
+                                        >
+                                            {{ form.errors.task_to }}
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group row mb-3">
+                                    <label
+                                        for="kra_id"
+                                        class="col-sm-2 col-form-label"
+                                        >KRA</label
+                                    >
+                                    <div class="col-sm-10">
+                                        <select v-model="form.kra_id" id="kra_id" class="form-control">
+                                            <option v-for="(kra, index) in kras.value" :key="index" :value="kra.id">{{kra.title}}</option>
+                                        </select>
+                                        <div
+                                            class="text-red-400 text-sm"
+                                            v-if="form.errors.kra_id"
+                                        >
+                                            {{ form.errors.kra_id }}
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group row mb-3">
+                                    <label
+                                        for="title"
+                                        class="col-sm-2 col-form-label"
+                                        >Title</label
+                                    >
+                                    <div class="col-sm-10">
+                                        <input
+                                            type="text"
+                                            class="form-control"
+                                            id="title"
+                                            placeholder="Title"
+                                            v-model="form.title"
+                                        />
+                                        <div
+                                            class="text-red-400 text-sm"
+                                            v-if="form.errors.title"
+                                        >
+                                            {{ form.errors.title }}
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group row mb-3">
+                                    <label
+                                        for="weightage"
+                                        class="col-sm-2 col-form-label"
+                                        >Weightage</label
+                                    >
+                                    <div class="col-sm-10">
+                                        <input
+                                            type="number"
+                                            min="0"
+                                            max="10"
+                                            class="form-control"
+                                            id="weightage"
+                                            placeholder="weightage"
+                                            v-model="form.weightage"
+                                        />
+                                        <div
+                                            class="text-red-400 text-sm"
+                                            v-if="form.errors.weightage"
+                                        >
+                                            {{ form.errors.weightage }}
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group row mb-3">
+                                    <label
+                                        for="finish_time"
+                                        class="col-sm-2 col-form-label"
+                                        >Finish Date</label
+                                    >
+                                    <div class="col-sm-10">
+                                        <input
+                                            type="date"
+                                            class="form-control"
+                                            id="finish_time"
+                                            placeholder="finish_time"
+                                            v-model="form.finish_time"
+                                        />
+                                        <div
+                                            class="text-red-400 text-sm"
+                                            v-if="form.errors.finish_time"
+                                        >
+                                            {{ form.errors.finish_time }}
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group row mb-3">
+                                    <label
+                                        for="num_task"
+                                        class="col-sm-2 col-form-label"
+                                        >Task No</label
+                                    >
+                                    <div class="col-sm-10">
+                                        <input
+                                            type="number"
+                                            min="0"
+                                            class="form-control"
+                                            id="num_task"
+                                            placeholder="num_task"
+                                            v-model="form.num_task"
+                                        />
+                                        <div
+                                            class="text-red-400 text-sm"
+                                            v-if="form.errors.num_task"
+                                        >
+                                            {{ form.errors.num_task }}
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group row mb-3">
+                                    <label
+                                        for="project"
+                                        class="col-sm-2 col-form-label"
+                                        >Project</label
+                                    >
+                                    <div class="col-sm-10">
+                                        <input
+                                            type="text"
+                                            class="form-control"
+                                            id="project"
+                                            placeholder="project"
+                                            v-model="form.project"
+                                        />
+                                        <div
+                                            class="text-red-400 text-sm"
+                                            v-if="form.errors.project"
+                                        >
+                                            {{ form.errors.project }}
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group row mb-3">
+                                    <label
+                                        for="personal"
+                                        class="col-sm-2 col-form-label"
+                                        >Personal</label
+                                    >
+                                    <div class="col-sm-10">
+                                        <select v-model="form.personal" id="personal" class="form-control">
+                                            <option v-for="(type, index) in data.taskTypes" :key="index" :value="type.value">{{type.title}}</option>
+                                        </select>
+                                        <div
+                                            class="text-red-400 text-sm"
+                                            v-if="form.errors.personal"
+                                        >
+                                            {{ form.errors.personal }}
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group row mb-3">
+                                    <label
+                                        for="priority"
+                                        class="col-sm-2 col-form-label"
+                                        >priority</label
+                                    >
+                                    <div class="col-sm-10">
+                                        <select v-model="form.priority" id="priority" class="form-control">
+                                            <option v-for="(priority, index) in data.priorities" :key="index" :value="priority.value">{{priority.title}}</option>
+                                        </select>
+                                        <div
+                                            class="text-red-400 text-sm"
+                                            v-if="form.errors.priority"
+                                        >
+                                            {{ form.errors.priority }}
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group row mb-3">
+                                    <label
+                                        for="description"
+                                        class="col-sm-2 col-form-label"
+                                        >Description</label
+                                    >
+                                    <div class="col-sm-10 mb-5">
+                                        <QuillEditor v-model:content="form.description" id="description" class="form-control" contentType="html" theme="snow" />
+                                        <div
+                                            class="text-red-400 text-sm"
+                                            v-if="form.errors.description"
+                                        >
+                                            {{ form.errors.description }}
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group row mb-3">
+                                    <div class="offset-sm-2 col-sm-10">
+                                        <button
+                                            type="submit"
+                                            class="btn btn-outline-primary btn-sm"
+                                        >
+                                            Submit
+                                        </button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </AdminLayout>
+</template>

@@ -1,0 +1,25 @@
+{
+    "name": "hris/attendance",
+    "description": "this is hris attendance lara-breeze-vue",
+    "type": "project",
+    "license": "MIT",
+    "autoload": {
+        "psr-4": {
+            "Hris\\Attendance\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "jinesh subedi",
+            "email": "jinesh1094@gmail.com"
+        }
+    ],
+    "require": {},
+    "extra": {
+        "Laravel": {
+            "Providers" : [
+                "Hris\\Attendance\\AttendanceServiceProvider"
+            ]
+        }
+    }
+}

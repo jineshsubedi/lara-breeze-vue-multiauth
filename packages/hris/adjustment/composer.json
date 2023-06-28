@@ -1,0 +1,25 @@
+{
+    "name": "hris/adjustment",
+    "description": "hris adjuestment request",
+    "type": "project",
+    "license": "MIT",
+    "autoload": {
+        "psr-4": {
+            "Hris\\Adjustment\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "jinesh subedi",
+            "email": "jinesh1094@gmail.com"
+        }
+    ],
+    "require": {},
+    "extra": {
+        "Laravel": {
+            "Providers" : [
+                "Hris\\Adjustment\\AdjustmentServiceProvider"
+            ]
+        }
+    }
+}

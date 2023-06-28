@@ -1,0 +1,25 @@
+{
+    "name": "hris/Hrletter",
+    "description": "hris hrletter request",
+    "type": "project",
+    "license": "MIT",
+    "autoload": {
+        "psr-4": {
+            "Hris\\Hrletter\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "jinesh subedi",
+            "email": "jinesh1094@gmail.com"
+        }
+    ],
+    "require": {},
+    "extra": {
+        "Laravel": {
+            "Providers" : [
+                "Hris\\Hrletter\\HrletterServiceProvider"
+            ]
+        }
+    }
+}
